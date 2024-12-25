@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crusher",
+  "category": "misc",
+  "cookingtime": 10,
+  "experience": 1.0,
+  "group": "crushing",
+  "ingredient": "minecraft:red_sand",
+  "result": {
+    "id": "minecraft:red_sand"
+  }
+}

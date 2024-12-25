@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crusher",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "group": "crushing",
+  "ingredient": "#crusher:gravel_sources",
+  "result": {
+    "id": "minecraft:gravel"
+  }
+}

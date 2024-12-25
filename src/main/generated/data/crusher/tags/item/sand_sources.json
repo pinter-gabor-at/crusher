@@ -1,0 +1,27 @@
+{
+  "values": [
+    "#c:sandstone/uncolored_blocks",
+    "#c:sandstone/uncolored_slabs",
+    "#c:sandstone/uncolored_stairs",
+    "minecraft:gravel",
+    "minecraft:quartz",
+    "minecraft:quartz_block",
+    "minecraft:quartz_bricks",
+    "minecraft:quartz_pillar",
+    "minecraft:quartz_slab",
+    "minecraft:quartz_stairs",
+    "minecraft:smooth_quartz",
+    "minecraft:smooth_quartz_slab",
+    "minecraft:smooth_quartz_stairs",
+    "minecraft:chiseled_quartz_block",
+    "minecraft:nether_quartz_ore",
+    "minecraft:glass",
+    "minecraft:glass_pane",
+    "minecraft:glass_bottle",
+    "minecraft:white_stained_glass",
+    "minecraft:white_stained_glass_pane",
+    "minecraft:terracotta",
+    "minecraft:white_terracotta",
+    "minecraft:white_glazed_terracotta"
+  ]
+}

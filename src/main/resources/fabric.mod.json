@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "crusher",
+  "version": "${version}",
+  "name": "Crusher and Compressor",
+  "description": "Crush anything that is crushable and then compress them to make new things.",
+  "authors": [
+    "Pintér Gábor <pinter.gabor@gmx.at>"
+  ],
+  "contact": {
+    "homepage": "https://pintergabor.eu/en/minecraft/mods/crusher/",
+    "sources": "https://gitlab.com/pintergabor/crusher"
+  },
+  "license": "MIT",
+  "icon": "eu.pintergabor.crusher.icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "eu.pintergabor.crusher.Mod"
+    ],
+    "client": [
+      "eu.pintergabor.crusher.ModClient"
+    ],
+    "fabric-datagen": [
+      "eu.pintergabor.crusher.Datagen"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.9",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
