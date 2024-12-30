@@ -15,7 +15,7 @@ public final class Global {
 
 	/**
 	 * Create a mod specific identifier
-	 * @param path Name, as in lang/*.json files without "*.modid." prefix
+	 * @param path Name, without the "modid:" prefix
 	 */
 	public static Identifier ModIdentifier(String path) {
 		return Identifier.of(MODID, path);

@@ -19,6 +19,6 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     protected void configure(RegistryWrapper.WrapperLookup arg) {
         // Mineable with pickaxe
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-                .add(ModBlocks.CRUSHER);
+                .add(ModBlocks.CRUSHER_BLOCK);
     }
 }

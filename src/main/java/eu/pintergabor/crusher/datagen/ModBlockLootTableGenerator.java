@@ -16,6 +16,6 @@ public class ModBlockLootTableGenerator extends FabricBlockLootTableProvider {
     @Override
     public void generate() {
         // Drops itself
-        addDrop(ModBlocks.CRUSHER);
+        addDrop(ModBlocks.CRUSHER_BLOCK);
     }
 }

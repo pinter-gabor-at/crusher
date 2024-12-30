@@ -17,7 +17,7 @@ public class ModRecipeGenerator extends CrusherRecipeGenerator {
     @Override
     public void generate() {
         // The crusher
-        createShaped(RecipeCategory.DECORATIONS, ModBlocks.CRUSHER)
+        createShaped(RecipeCategory.DECORATIONS, ModBlocks.CRUSHER_BLOCK)
                 .pattern("###")
                 .pattern("#P#")
                 .pattern("###")

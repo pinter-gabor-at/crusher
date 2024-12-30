@@ -19,6 +19,9 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * <h3>A machine, similar to a furnace, but for crushing
+ */
 public class Crusher extends AbstractFurnaceBlock {
     public static final MapCodec<Crusher> CODEC = createCodec(Crusher::new);
 
@@ -36,7 +39,7 @@ public class Crusher extends AbstractFurnaceBlock {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof CrusherBlockEntity) {
             player.openHandledScreen(((NamedScreenHandlerFactory) blockEntity));
-            // TODO: Create and resister stats
+            // TODO: Create and register stats
             // player.incrementStat(Stats.INTERACT_WITH_CRUSHER);
         }
     }

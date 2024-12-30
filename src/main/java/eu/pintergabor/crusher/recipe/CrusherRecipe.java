@@ -44,7 +44,12 @@ public class CrusherRecipe extends AbstractCookingRecipe {
 
     @Override
     protected Item getCookerItem() {
-        return ModBlocks.CRUSHER.asItem();
+        return ModBlocks.CRUSHER_ITEM;
+    }
+
+    @Override
+    public ItemStack result() {
+        return super.result();
     }
 
     public static void register() {
