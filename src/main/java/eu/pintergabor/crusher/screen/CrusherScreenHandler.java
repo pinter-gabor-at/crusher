@@ -1,6 +1,6 @@
 package eu.pintergabor.crusher.screen;
 
-import eu.pintergabor.crusher.blocks.entity.CrusherBlockEntity;
+import eu.pintergabor.crusher.blocks.CrusherBlockEntity;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.recipe.RecipePropertySet;

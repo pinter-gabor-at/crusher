@@ -6,6 +6,7 @@
   "group": "crushing",
   "ingredient": "minecraft:red_sand",
   "result": {
+    "count": 1,
     "id": "minecraft:red_sand"
   }
 }

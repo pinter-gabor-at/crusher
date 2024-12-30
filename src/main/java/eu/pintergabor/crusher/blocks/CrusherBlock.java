@@ -1,9 +1,8 @@
-package eu.pintergabor.crusher.blocks.custom;
+package eu.pintergabor.crusher.blocks;
 
 import com.mojang.serialization.MapCodec;
-import eu.pintergabor.crusher.blocks.ModBlocks;
-import eu.pintergabor.crusher.blocks.entity.CrusherBlockEntity;
 import net.minecraft.block.AbstractFurnaceBlock;
+import net.minecraft.block.BlastFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -20,17 +19,17 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * <h3>A machine, similar to a furnace, but for crushing
+ * A machine, similar to a furnace, but for crushing
  */
-public class Crusher extends AbstractFurnaceBlock {
-    public static final MapCodec<Crusher> CODEC = createCodec(Crusher::new);
+public class CrusherBlock extends AbstractFurnaceBlock {
+    public static final MapCodec<CrusherBlock> CODEC = createCodec(CrusherBlock::new);
 
     @Override
-    public MapCodec<Crusher> getCodec() {
+    public MapCodec<CrusherBlock> getCodec() {
         return CODEC;
     }
 
-    public Crusher(Settings settings) {
+    public CrusherBlock(Settings settings) {
         super(settings);
     }
 
@@ -50,25 +49,36 @@ public class Crusher extends AbstractFurnaceBlock {
         return new CrusherBlockEntity(pos, state);
     }
 
+    /**
+     * Based on {@link BlastFurnaceBlock#randomDisplayTick(BlockState, World, BlockPos, Random)}
+     */
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (!state.get(LIT)) {
-            return;
+        if (state.get(LIT)) {
+            // Sound comes from the center-bottom of the block.
+            double x = (double) pos.getX() + 0.5;
+            double y = pos.getY();
+            double z = (double) pos.getZ() + 0.5;
+            if (random.nextDouble() < 0.2) {
+                world.playSound(
+                        x, y, z,
+                        SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS,
+                        1.0f, 1.0f, false);
+            }
+            // Particles come from the front of the block
+            Direction direction = state.get(FACING);
+            Direction.Axis axis = direction.getAxis();
+            double distance = 0.6;
+            double spread = random.nextDouble() * 0.6 - 0.3;
+            double offsetx = axis == Direction.Axis.X ?
+                    (double) direction.getOffsetX() * distance : spread;
+            double offsety = random.nextDouble() * 0.6;
+            double offsetz = axis == Direction.Axis.Z ?
+                    (double) direction.getOffsetZ() * distance : spread;
+            world.addParticle(ParticleTypes.DUST_PLUME,
+                    x + offsetx, y + offsety, z + offsetz,
+                    0.0, 0.05, 0.0);
         }
-        double d = (double) pos.getX() + 0.5;
-        double e = pos.getY();
-        double f = (double) pos.getZ() + 0.5;
-        if (random.nextDouble() < 0.1) {
-            world.playSound(d, e, f, SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
-        }
-        Direction direction = state.get(FACING);
-        Direction.Axis axis = direction.getAxis();
-        double g = 0.52;
-        double h = random.nextDouble() * 0.6 - 0.3;
-        double i = axis == Direction.Axis.X ? (double) direction.getOffsetX() * g : h;
-        double j = random.nextDouble() * 9.0 / 16.0;
-        double k = axis == Direction.Axis.Z ? (double) direction.getOffsetZ() * g : h;
-        world.addParticle(ParticleTypes.SMOKE, d + i, e + j, f + k, 0.0, 0.0, 0.0);
     }
 
     @Nullable

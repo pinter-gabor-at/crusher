@@ -6,6 +6,7 @@ import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryKeys;
@@ -21,10 +22,15 @@ public abstract class CrusherRecipeGenerator extends RecipeGenerator {
         super(registries, exporter);
     }
 
+    /**
+     * Create crushing recipe from input item
+     * @param input Input item
+     * @param output Output item
+     */
     @SuppressWarnings({"unused", "SameParameterValue"})
     public void createCrushingItem(
             ItemConvertible input,
-            ItemConvertible output
+            ItemStack output
     ) {
         CrusherRecipeJsonBuilder.create(
                         Ingredient.ofItem(input),
@@ -35,13 +41,18 @@ public abstract class CrusherRecipeGenerator extends RecipeGenerator {
                         CrusherRecipe::new)
                 .group("crushing")
                 .criterion(hasItem(input), conditionsFromItem(input))
-                .offerTo(exporter, getItemPath(output) + "_from_crushing_" + getItemPath(input));
+                .offerTo(exporter, getItemPath(output.getItem()) + "_from_crushing_" + getItemPath(input));
     }
 
+    /**
+     * Create crushing recipe from input item tag
+     * @param tag Input item tag
+     * @param output Output item
+     */
     @SuppressWarnings({"unused", "SameParameterValue"})
     public void createCrushingTag(
             TagKey<Item> tag,
-            ItemConvertible output
+            ItemStack output
     ) {
         try {
             RegistryWrapper.Impl<Item> registryLookup = registries.getOrThrow(RegistryKeys.ITEM);
@@ -55,7 +66,7 @@ public abstract class CrusherRecipeGenerator extends RecipeGenerator {
                             CrusherRecipe::new)
                     .group("crushing")
                     .criterion("has_" + tag.id().getPath(), conditionsFromTag(tag))
-                    .offerTo(exporter, getItemPath(output) + "_from_crushing_" + tag.id().getPath());
+                    .offerTo(exporter, getItemPath(output.getItem()) + "_from_crushing_" + tag.id().getPath());
         } catch (IllegalStateException e) {
             // If tag does not exist, then do not generate the recipe.
         }

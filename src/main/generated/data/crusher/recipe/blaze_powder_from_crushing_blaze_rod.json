@@ -4,9 +4,9 @@
   "cookingtime": 100,
   "experience": 0.1,
   "group": "crushing",
-  "ingredient": "#crusher:red_sand_sources",
+  "ingredient": "minecraft:blaze_rod",
   "result": {
-    "count": 1,
-    "id": "minecraft:red_sand"
+    "count": 2,
+    "id": "minecraft:blaze_powder"
   }
 }

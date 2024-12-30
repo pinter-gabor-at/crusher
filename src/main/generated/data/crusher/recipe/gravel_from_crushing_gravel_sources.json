@@ -6,6 +6,7 @@
   "group": "crushing",
   "ingredient": "#crusher:gravel_sources",
   "result": {
+    "count": 1,
     "id": "minecraft:gravel"
   }
 }

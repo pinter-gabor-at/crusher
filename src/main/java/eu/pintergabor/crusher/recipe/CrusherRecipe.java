@@ -1,12 +1,15 @@
 package eu.pintergabor.crusher.recipe;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.AbstractCookingRecipe;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.CookingRecipeCategory;
 import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.registry.Registries;
@@ -52,11 +55,55 @@ public class CrusherRecipe extends AbstractCookingRecipe {
         return super.result();
     }
 
+    public static class Serializer<T extends CrusherRecipe> implements RecipeSerializer<T> {
+        private final MapCodec<T> codec;
+        private final PacketCodec<RegistryByteBuf, T> packetCodec;
+
+        public Serializer(AbstractCookingRecipe.RecipeFactory<T> factory, int defaultCookingTime) {
+            this.codec = RecordCodecBuilder.mapCodec(
+                    instance -> instance.group(
+                                    Codec.STRING.optionalFieldOf("group", "").forGetter(SingleStackRecipe::getGroup),
+                                    CookingRecipeCategory.CODEC.fieldOf("category").orElse(CookingRecipeCategory.MISC).forGetter(AbstractCookingRecipe::getCategory),
+                                    Ingredient.CODEC.fieldOf("ingredient").forGetter(SingleStackRecipe::ingredient),
+                                    ItemStack.VALIDATED_CODEC.fieldOf("result").forGetter(CrusherRecipe::result),
+                                    Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(AbstractCookingRecipe::getExperience),
+                                    Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(AbstractCookingRecipe::getCookingTime)
+                            )
+                            .apply(instance, factory::create)
+            );
+            this.packetCodec = PacketCodec.tuple(
+                    PacketCodecs.STRING,
+                    SingleStackRecipe::getGroup,
+                    CookingRecipeCategory.PACKET_CODEC,
+                    AbstractCookingRecipe::getCategory,
+                    Ingredient.PACKET_CODEC,
+                    SingleStackRecipe::ingredient,
+                    ItemStack.PACKET_CODEC,
+                    CrusherRecipe::result,
+                    PacketCodecs.FLOAT,
+                    AbstractCookingRecipe::getExperience,
+                    PacketCodecs.INTEGER,
+                    AbstractCookingRecipe::getCookingTime,
+                    factory::create
+            );
+        }
+
+        @Override
+        public MapCodec<T> codec() {
+            return this.codec;
+        }
+
+        @Override
+        public PacketCodec<RegistryByteBuf, T> packetCodec() {
+            return this.packetCodec;
+        }
+    }
+
     public static void register() {
         CRUSHER_SERIALIZER =
                 RecipeSerializer.register(
                         "crusher",
-                        new AbstractCookingRecipe.Serializer<>(CrusherRecipe::new, 100));
+                        new Serializer<>(CrusherRecipe::new, 100));
         CRUSHER_TYPE =
                 RecipeType.register("crusher");
         CRUSHER_CATEGORY =

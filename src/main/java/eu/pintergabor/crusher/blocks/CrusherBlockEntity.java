@@ -1,6 +1,5 @@
-package eu.pintergabor.crusher.blocks.entity;
+package eu.pintergabor.crusher.blocks;
 
-import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 import eu.pintergabor.crusher.screen.CrusherScreenHandler;
 import net.minecraft.block.BlockState;
@@ -10,6 +9,9 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
+/**
+ * See {@link CrusherBlock}
+ */
 public class CrusherBlockEntity extends AbstractFurnaceBlockEntity {
     public CrusherBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.CRUSHER_ENTITY, pos, state, CrusherRecipe.CRUSHER_TYPE);

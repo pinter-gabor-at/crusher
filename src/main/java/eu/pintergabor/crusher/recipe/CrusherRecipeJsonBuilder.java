@@ -23,7 +23,7 @@ import java.util.Objects;
 public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     private final RecipeCategory category;
     private final CookingRecipeCategory cookingCategory;
-    private final Item output;
+    private final ItemStack output;
     private final Ingredient input;
     private final float experience;
     private final int cookingTime;
@@ -35,7 +35,7 @@ public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     private CrusherRecipeJsonBuilder(
             RecipeCategory category,
             CookingRecipeCategory cookingCategory,
-            ItemConvertible output,
+            ItemStack output,
             Ingredient input,
             float experience,
             int cookingTime,
@@ -43,7 +43,7 @@ public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     ) {
         this.category = category;
         this.cookingCategory = cookingCategory;
-        this.output = output.asItem();
+        this.output = output;
         this.input = input;
         this.experience = experience;
         this.cookingTime = cookingTime;
@@ -53,7 +53,7 @@ public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     public static <T extends AbstractCookingRecipe> CrusherRecipeJsonBuilder create(
             Ingredient input,
             RecipeCategory category,
-            ItemConvertible output,
+            ItemStack output,
             float experience,
             int cookingTime,
             AbstractCookingRecipe.RecipeFactory<T> recipeFactory
@@ -73,7 +73,7 @@ public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 
     @Override
     public Item getOutputItem() {
-        return output;
+        return output.getItem();
     }
 
     @Override
@@ -84,7 +84,7 @@ public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
                 .criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
         criteria.forEach(builder::criterion);
         AbstractCookingRecipe abstractCookingRecipe = recipeFactory
-                .create(Objects.requireNonNullElse(group, ""), cookingCategory, input, new ItemStack(output), experience, cookingTime);
+                .create(Objects.requireNonNullElse(group, ""), cookingCategory, input, output, experience, cookingTime);
         exporter.accept(recipeKey, abstractCookingRecipe, builder.build(recipeKey.getValue().withPrefixedPath("recipes/" + category.getName() + "/")));
     }
 }

@@ -1,8 +1,6 @@
 package eu.pintergabor.crusher.blocks;
 
 import eu.pintergabor.crusher.Global;
-import eu.pintergabor.crusher.blocks.custom.Crusher;
-import eu.pintergabor.crusher.blocks.entity.CrusherBlockEntity;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.AbstractBlock;
@@ -26,7 +24,7 @@ public class ModBlocks {
         // Block
         CRUSHER_BLOCK = Blocks.register(
                 RegistryKey.of(RegistryKeys.BLOCK, Global.ModIdentifier("crusher")),
-                Crusher::new,
+                CrusherBlock::new,
                 AbstractBlock.Settings.create()
                         .solid().noCollision().strength(0.5f, 6.0f).requiresTool());
         // Item
