@@ -1,6 +1,7 @@
 package eu.pintergabor.crusher.blocks;
 
 import com.mojang.serialization.MapCodec;
+import eu.pintergabor.crusher.blocks.base.AbstractProcessingBlock;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlastFurnaceBlock;
 import net.minecraft.block.BlockState;
@@ -21,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * A machine, similar to a furnace, but for crushing
  */
-public class CrusherBlock extends AbstractFurnaceBlock {
+public class CrusherBlock extends AbstractProcessingBlock {
     public static final MapCodec<CrusherBlock> CODEC = createCodec(CrusherBlock::new);
 
     @Override
