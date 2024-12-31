@@ -1,11 +1,11 @@
 package eu.pintergabor.crusher.screen;
 
 import eu.pintergabor.crusher.Global;
-import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 import eu.pintergabor.crusher.screen.base.AbstractProcessingScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -22,7 +22,7 @@ public class CrusherScreen extends AbstractProcessingScreen<CrusherScreenHandler
     private static final Text TOGGLE_TEXT = Text.translatable("gui.recipebook.toggleRecipes.crushable");
     // Recipe book tabs
     private static final List<RecipeBookWidget.Tab> TABS = List.of(
-            new RecipeBookWidget.Tab(ModBlocks.CRUSHER_ITEM, CrusherRecipe.CRUSHER_CATEGORY)
+            new RecipeBookWidget.Tab(Items.COMPASS, CrusherRecipe.CRUSHER_CATEGORY)
     );
 
     public CrusherScreen(CrusherScreenHandler handler, PlayerInventory inventory, Text title) {

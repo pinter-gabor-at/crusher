@@ -39,9 +39,9 @@ import java.util.List;
 public abstract class AbstractProcessingBlockEntity
         extends LockableContainerBlockEntity
         implements SidedInventory, RecipeUnlocker, RecipeInputProvider {
-    protected static final int INPUT_SLOT_INDEX = 0;
-    protected static final int FUEL_SLOT_INDEX = 1;
-    protected static final int OUTPUT_SLOT_INDEX = 2;
+    public static final int INPUT_SLOT_INDEX = 0;
+    public static final int FUEL_SLOT_INDEX = 1;
+    public static final int OUTPUT_SLOT_INDEX = 2;
     private static final int[] TOP_SLOTS = new int[]{INPUT_SLOT_INDEX};
     private static final int[] BOTTOM_SLOTS = new int[]{OUTPUT_SLOT_INDEX, FUEL_SLOT_INDEX};
     private static final int[] SIDE_SLOTS = new int[]{FUEL_SLOT_INDEX};
