@@ -30,7 +30,7 @@ public class AbstractProcessingRecipeBookWidget extends RecipeBookWidget<Abstrac
 
     @Override
     protected void setBookButtonTexture() {
-        this.toggleCraftableButton.setTextures(TEXTURES);
+        toggleCraftableButton.setTextures(TEXTURES);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class AbstractProcessingRecipeBookWidget extends RecipeBookWidget<Abstrac
 
     @Override
     protected Text getToggleCraftableButtonText() {
-        return this.toggleCraftableButtonText;
+        return toggleCraftableButtonText;
     }
 
     @Override

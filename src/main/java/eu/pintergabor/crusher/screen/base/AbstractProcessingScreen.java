@@ -46,17 +46,20 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingScree
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        int i = this.x;
-        int j = this.y;
-        context.drawTexture(RenderLayer::getGuiTextured, this.background, i, j, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
+        int x = this.x;
+        int y = this.y;
+        context.drawTexture(RenderLayer::getGuiTextured, this.background, x, y, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
         if (this.handler.isBurning()) {
-            int k = 14;
-            int l = MathHelper.ceil(this.handler.getFuelProgress() * 13.0F) + 1;
-            context.drawGuiTexture(RenderLayer::getGuiTextured, this.litProgressTexture, 14, 14, 0, 14 - l, i + 56, j + 36 + 14 - l, 14, l);
+            int h = MathHelper.ceil(this.handler.getFuelProgress() * 13.0f) + 1;
+            context.drawGuiTexture(RenderLayer::getGuiTextured,
+                    this.litProgressTexture, 14, 14,
+                    0, 14 - h,
+                    x + 56, y + 36 + 14 - h, 14, h);
         }
-
-        int k = 24;
-        int l = MathHelper.ceil(this.handler.getCookProgress() * 24.0F);
-        context.drawGuiTexture(RenderLayer::getGuiTextured, this.burnProgressTexture, 24, 16, 0, 0, i + 79, j + 34, l, 16);
+        int w = MathHelper.ceil(this.handler.getCookProgress() * 24.0f);
+        context.drawGuiTexture(RenderLayer::getGuiTextured,
+                this.burnProgressTexture, 24, 16,
+                0, 0,
+                x + 79, y + 34, w, 16);
     }
 }

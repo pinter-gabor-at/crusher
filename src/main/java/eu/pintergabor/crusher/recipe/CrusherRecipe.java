@@ -60,42 +60,45 @@ public class CrusherRecipe extends AbstractCookingRecipe {
         private final PacketCodec<RegistryByteBuf, T> packetCodec;
 
         public Serializer(AbstractCookingRecipe.RecipeFactory<T> factory, int defaultCookingTime) {
-            this.codec = RecordCodecBuilder.mapCodec(
+            codec = RecordCodecBuilder.mapCodec(
                     instance -> instance.group(
-                                    Codec.STRING.optionalFieldOf("group", "").forGetter(SingleStackRecipe::getGroup),
-                                    CookingRecipeCategory.CODEC.fieldOf("category").orElse(CookingRecipeCategory.MISC).forGetter(AbstractCookingRecipe::getCategory),
-                                    Ingredient.CODEC.fieldOf("ingredient").forGetter(SingleStackRecipe::ingredient),
-                                    ItemStack.VALIDATED_CODEC.fieldOf("result").forGetter(CrusherRecipe::result),
-                                    Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(AbstractCookingRecipe::getExperience),
-                                    Codec.INT.fieldOf("cookingtime").orElse(defaultCookingTime).forGetter(AbstractCookingRecipe::getCookingTime)
+                                    Codec.STRING.optionalFieldOf("group", "")
+                                            .forGetter(SingleStackRecipe::getGroup),
+                                    CookingRecipeCategory.CODEC.fieldOf("category")
+                                            .orElse(CookingRecipeCategory.MISC)
+                                            .forGetter(AbstractCookingRecipe::getCategory),
+                                    Ingredient.CODEC.fieldOf("ingredient")
+                                            .forGetter(SingleStackRecipe::ingredient),
+                                    ItemStack.VALIDATED_CODEC.fieldOf("result")
+                                            .forGetter(CrusherRecipe::result),
+                                    Codec.FLOAT.fieldOf("experience")
+                                            .orElse(0.0f)
+                                            .forGetter(AbstractCookingRecipe::getExperience),
+                                    Codec.INT.fieldOf("cookingtime")
+                                            .orElse(defaultCookingTime)
+                                            .forGetter(AbstractCookingRecipe::getCookingTime)
                             )
                             .apply(instance, factory::create)
             );
-            this.packetCodec = PacketCodec.tuple(
-                    PacketCodecs.STRING,
-                    SingleStackRecipe::getGroup,
-                    CookingRecipeCategory.PACKET_CODEC,
-                    AbstractCookingRecipe::getCategory,
-                    Ingredient.PACKET_CODEC,
-                    SingleStackRecipe::ingredient,
-                    ItemStack.PACKET_CODEC,
-                    CrusherRecipe::result,
-                    PacketCodecs.FLOAT,
-                    AbstractCookingRecipe::getExperience,
-                    PacketCodecs.INTEGER,
-                    AbstractCookingRecipe::getCookingTime,
+            packetCodec = PacketCodec.tuple(
+                    PacketCodecs.STRING, SingleStackRecipe::getGroup,
+                    CookingRecipeCategory.PACKET_CODEC, AbstractCookingRecipe::getCategory,
+                    Ingredient.PACKET_CODEC, SingleStackRecipe::ingredient,
+                    ItemStack.PACKET_CODEC, CrusherRecipe::result,
+                    PacketCodecs.FLOAT, AbstractCookingRecipe::getExperience,
+                    PacketCodecs.INTEGER, AbstractCookingRecipe::getCookingTime,
                     factory::create
             );
         }
 
         @Override
         public MapCodec<T> codec() {
-            return this.codec;
+            return codec;
         }
 
         @Override
         public PacketCodec<RegistryByteBuf, T> packetCodec() {
-            return this.packetCodec;
+            return packetCodec;
         }
     }
 

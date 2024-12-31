@@ -80,8 +80,8 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
 
     @Override
     public void populateRecipeFinder(RecipeFinder finder) {
-        if (this.inventory instanceof RecipeInputProvider) {
-            ((RecipeInputProvider) this.inventory).provideRecipeInputs(finder);
+        if (inventory instanceof RecipeInputProvider inputProvider) {
+            inputProvider.provideRecipeInputs(finder);
         }
     }
 
