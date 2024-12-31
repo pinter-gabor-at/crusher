@@ -3,7 +3,7 @@ package eu.pintergabor.crusher.screen;
 import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
-import net.minecraft.client.gui.screen.ingame.AbstractFurnaceScreen;
+import eu.pintergabor.crusher.screen.base.AbstractProcessingScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-public class CrusherScreen extends AbstractFurnaceScreen<CrusherScreenHandler> {
+public class CrusherScreen extends AbstractProcessingScreen<CrusherScreenHandler> {
     // The entire GUI (256x256)
     private static final Identifier TEXTURE = Global.ModIdentifier("textures/gui/crusher_gui.png");
     // The fire sprite in the middle (14x14) (textures/gui/sprites/...)

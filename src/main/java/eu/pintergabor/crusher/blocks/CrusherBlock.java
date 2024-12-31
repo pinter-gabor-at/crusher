@@ -84,7 +84,8 @@ public class CrusherBlock extends AbstractProcessingBlock {
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            World world, BlockState state, BlockEntityType<T> type) {
         return validateTicker(world, type, ModBlocks.CRUSHER_ENTITY);
     }
 }
