@@ -3,7 +3,6 @@ package eu.pintergabor.crusher.screen.base;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.screen.AbstractFurnaceScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
 public class ProcessingFuelSlot extends Slot {

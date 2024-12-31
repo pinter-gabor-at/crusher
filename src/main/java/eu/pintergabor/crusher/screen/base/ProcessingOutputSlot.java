@@ -1,6 +1,6 @@
 package eu.pintergabor.crusher.screen.base;
 
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import eu.pintergabor.crusher.blocks.base.AbstractProcessingBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -43,9 +43,10 @@ public class ProcessingOutputSlot extends Slot {
 
     @Override
     protected void onCrafted(ItemStack stack) {
-        stack.onCraftByPlayer(this.player.getWorld(), this.player, this.amount);
-        if (this.player instanceof ServerPlayerEntity serverPlayerEntity && this.inventory instanceof AbstractFurnaceBlockEntity abstractFurnaceBlockEntity) {
-            abstractFurnaceBlockEntity.dropExperienceForRecipesUsed(serverPlayerEntity);
+        stack.onCraftByPlayer(player.getWorld(), player, amount);
+        if (player instanceof ServerPlayerEntity serverPlayerEntity &&
+                inventory instanceof AbstractProcessingBlockEntity abstractProcessingBlockEntity) {
+            abstractProcessingBlockEntity.dropExperienceForRecipesUsed(serverPlayerEntity);
         }
         this.amount = 0;
     }
