@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeBookType;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
@@ -26,22 +25,16 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
     final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
     protected final World world;
-    private final RecipeType<? extends AbstractCookingRecipe> recipeType;
-    private final RecipePropertySet recipePropertySet;
     private final RecipeBookType category;
 
     protected AbstractProcessingScreenHandler(
             ScreenHandlerType<?> type,
-            RecipeType<? extends AbstractCookingRecipe> recipeType,
-            RegistryKey<RecipePropertySet> recipePropertySetKey,
             RecipeBookType category,
             int syncId,
             PlayerInventory playerInventory
     ) {
         this(
                 type,
-                recipeType,
-                recipePropertySetKey,
                 category,
                 syncId,
                 playerInventory,
@@ -51,8 +44,6 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
 
     protected AbstractProcessingScreenHandler(
             ScreenHandlerType<?> type,
-            RecipeType<? extends AbstractCookingRecipe> recipeType,
-            RegistryKey<RecipePropertySet> recipePropertySetKey,
             RecipeBookType category,
             int syncId,
             PlayerInventory playerInventory,
@@ -60,14 +51,12 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
             PropertyDelegate propertyDelegate
     ) {
         super(type, syncId);
-        this.recipeType = recipeType;
         this.category = category;
         checkSize(inventory, 3);
         checkDataCount(propertyDelegate, PROPERTY_COUNT);
         this.inventory = inventory;
         this.propertyDelegate = propertyDelegate;
         this.world = playerInventory.player.getWorld();
-        this.recipePropertySet = this.world.getRecipeManager().getPropertySet(recipePropertySetKey);
         this.addSlot(new Slot(inventory,
                 INPUT_SLOT_INDEX, 56, 17));
         this.addSlot(new ProcessingFuelSlot(this, inventory,
@@ -96,55 +85,53 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
 
     @Override
     public ItemStack quickMove(PlayerEntity player, int slot) {
-        ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot2 = slots.get(slot);
-        if (slot2.hasStack()) {
-            ItemStack itemStack2 = slot2.getStack();
-            itemStack = itemStack2.copy();
+        final Slot clickSlot = slots.get(slot);
+        if (clickSlot.hasStack()) {
+            final ItemStack clickItemStack = clickSlot.getStack();
+            final ItemStack returnItemStack = clickItemStack.copy();
             if (slot == OUTPUT_SLOT_INDEX) {
-                if (!this.insertItem(itemStack2, 3, 39, true)) {
+                // From output slot to inventory
+                if (!this.insertItem(clickItemStack, 3, 39, true)) {
                     return ItemStack.EMPTY;
                 }
-
-                slot2.onQuickTransfer(itemStack2, itemStack);
-            } else if (slot != FUEL_SLOT_INDEX && slot != INPUT_SLOT_INDEX) {
-                if (this.isProcessable(itemStack2)) {
-                    if (!this.insertItem(itemStack2, 0, 1, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                } else if (this.isFuel(itemStack2)) {
-                    if (!this.insertItem(itemStack2, 1, 2, false)) {
+                clickSlot.onQuickTransfer(clickItemStack, returnItemStack);
+            } else if (slot == FUEL_SLOT_INDEX || slot == INPUT_SLOT_INDEX) {
+                // From fuel, or input slot to inventory
+                if (!this.insertItem(clickItemStack, 3, 39, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else {
+                // From elsewhere, if it is fuel, to the fuel slot
+                if (this.isFuel(clickItemStack)) {
+                    if (!this.insertItem(clickItemStack, 1, 2, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (3 <= slot && slot < 30) {
-                    if (!this.insertItem(itemStack2, 30, 39, false)) {
+                    // From the inventory to the hotbar
+                    if (!this.insertItem(clickItemStack, 30, 39, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (30 <= slot && slot < 39 && !this.insertItem(itemStack2, 3, 30, false)) {
+                } else if (30 <= slot && slot < 39) {
+                    // From the hotbar to the inventory
+                    if (!this.insertItem(clickItemStack, 3, 30, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(itemStack2, 3, 39, false)) {
-                return ItemStack.EMPTY;
             }
-
-            if (itemStack2.isEmpty()) {
-                slot2.setStack(ItemStack.EMPTY);
+            if (clickItemStack.isEmpty()) {
+                clickSlot.setStack(ItemStack.EMPTY);
             } else {
-                slot2.markDirty();
+                clickSlot.markDirty();
             }
-
-            if (itemStack2.getCount() == itemStack.getCount()) {
+            if (clickItemStack.getCount() == returnItemStack.getCount()) {
                 return ItemStack.EMPTY;
             }
-
-            slot2.onTakeItem(player, itemStack2);
+            clickSlot.onTakeItem(player, clickItemStack);
+            return returnItemStack;
         }
-
-        return itemStack;
-    }
-
-    protected boolean isProcessable(ItemStack itemStack) {
-        return recipePropertySet.canUse(itemStack);
+        return ItemStack.EMPTY;
     }
 
     protected boolean isFuel(ItemStack item) {
@@ -195,7 +182,7 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
             RecipeEntry<?> recipe,
             ServerWorld world,
             PlayerInventory inventory) {
-        final List<Slot> list = List.of(this.getSlot(INPUT_SLOT_INDEX), this.getSlot(OUTPUT_SLOT_INDEX));
+        final List<Slot> list = List.of(getSlot(INPUT_SLOT_INDEX), getSlot(OUTPUT_SLOT_INDEX));
         AbstractProcessingScreenHandler parent = this;
         return InputSlotFiller.fill(
                 new InputSlotFiller.Handler<>() {
@@ -217,7 +204,7 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
                 },
                 1,
                 1,
-                List.of(this.getSlot(INPUT_SLOT_INDEX)),
+                List.of(getSlot(INPUT_SLOT_INDEX)),
                 list,
                 inventory,
                 (RecipeEntry<AbstractCookingRecipe>) recipe,
