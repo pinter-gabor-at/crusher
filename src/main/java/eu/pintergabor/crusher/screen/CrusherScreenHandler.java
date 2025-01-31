@@ -3,7 +3,6 @@ package eu.pintergabor.crusher.screen;
 import eu.pintergabor.crusher.screen.base.AbstractProcessingScreenHandler;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.recipe.book.RecipeBookType;
 import net.minecraft.screen.PropertyDelegate;
 
 public class CrusherScreenHandler extends AbstractProcessingScreenHandler {
@@ -11,7 +10,6 @@ public class CrusherScreenHandler extends AbstractProcessingScreenHandler {
             int syncId, PlayerInventory playerInventory) {
         super(
                 ModScreenHandlers.CRUSHER_SCREEN_HANDLER,
-                RecipeBookType.FURNACE,
                 syncId,
                 playerInventory);
     }
@@ -21,7 +19,6 @@ public class CrusherScreenHandler extends AbstractProcessingScreenHandler {
             Inventory inventory, PropertyDelegate propertyDelegate) {
         super(
                 ModScreenHandlers.CRUSHER_SCREEN_HANDLER,
-                RecipeBookType.FURNACE,
                 syncId,
                 playerInventory,
                 inventory,

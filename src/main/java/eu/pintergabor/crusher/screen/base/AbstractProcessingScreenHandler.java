@@ -25,17 +25,14 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
     final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
     protected final World world;
-    private final RecipeBookType category;
 
     protected AbstractProcessingScreenHandler(
             ScreenHandlerType<?> type,
-            RecipeBookType category,
             int syncId,
             PlayerInventory playerInventory
     ) {
         this(
                 type,
-                category,
                 syncId,
                 playerInventory,
                 new SimpleInventory(3),
@@ -44,14 +41,12 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
 
     protected AbstractProcessingScreenHandler(
             ScreenHandlerType<?> type,
-            RecipeBookType category,
             int syncId,
             PlayerInventory playerInventory,
             Inventory inventory,
             PropertyDelegate propertyDelegate
     ) {
         super(type, syncId);
-        this.category = category;
         checkSize(inventory, 3);
         checkDataCount(propertyDelegate, PROPERTY_COUNT);
         this.inventory = inventory;
@@ -171,7 +166,7 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
 
     @Override
     public RecipeBookType getCategory() {
-        return category;
+        return RecipeBookType.FURNACE;
     }
 
     @Override
