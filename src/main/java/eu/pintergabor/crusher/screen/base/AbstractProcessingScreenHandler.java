@@ -86,33 +86,30 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
             final ItemStack returnItemStack = clickItemStack.copy();
             if (slot == OUTPUT_SLOT_INDEX) {
                 // From output slot to inventory
-                if (!this.insertItem(clickItemStack, 3, 39, true)) {
+                if (!this.insertItem(clickItemStack,
+                        3, 39, true)) {
                     return ItemStack.EMPTY;
                 }
                 clickSlot.onQuickTransfer(clickItemStack, returnItemStack);
             } else if (slot == FUEL_SLOT_INDEX || slot == INPUT_SLOT_INDEX) {
                 // From fuel, or input slot to inventory
-                if (!this.insertItem(clickItemStack, 3, 39, false)) {
+                if (!this.insertItem(clickItemStack,
+                        3, 39, false)) {
                     return ItemStack.EMPTY;
                 }
             } else {
                 // From elsewhere, if it is fuel, to the fuel slot
                 if (this.isFuel(clickItemStack)) {
-                    if (!this.insertItem(clickItemStack, 1, 2, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                } else if (3 <= slot && slot < 30) {
-                    // From the inventory to the hotbar
-                    if (!this.insertItem(clickItemStack, 30, 39, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                } else if (30 <= slot && slot < 39) {
-                    // From the hotbar to the inventory
-                    if (!this.insertItem(clickItemStack, 3, 30, false)) {
+                    if (!this.insertItem(clickItemStack,
+                            FUEL_SLOT_INDEX, FUEL_SLOT_INDEX + 1, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else {
-                    return ItemStack.EMPTY;
+                    // From elsewhere to the input slot
+                    if (!this.insertItem(clickItemStack,
+                            INPUT_SLOT_INDEX, INPUT_SLOT_INDEX + 1, false)) {
+                        return ItemStack.EMPTY;
+                    }
                 }
             }
             if (clickItemStack.isEmpty()) {
