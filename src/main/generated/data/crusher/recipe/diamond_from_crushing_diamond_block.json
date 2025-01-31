@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "group": "crushing",
+  "ingredient": "minecraft:diamond_block",
+  "result": {
+    "count": 9,
+    "id": "minecraft:diamond"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "group": "crushing",
+  "ingredient": "minecraft:iron_chestplate",
+  "result": {
+    "count": 8,
+    "id": "minecraft:iron_ingot"
+  }
+}
