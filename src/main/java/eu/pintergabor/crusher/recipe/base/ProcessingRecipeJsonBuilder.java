@@ -1,16 +1,18 @@
-package eu.pintergabor.crusher.recipe;
+package eu.pintergabor.crusher.recipe.base;
 
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementRequirements;
 import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
+import net.minecraft.data.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.*;
+import net.minecraft.recipe.AbstractCookingRecipe;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.book.CookingRecipeCategory;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryKey;
@@ -20,7 +22,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
+/**
+ * Similar to {@link CookingRecipeJsonBuilder},
+ * but with {@link ItemStack} output and without the campfire stuff.
+ */
+public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     private final RecipeCategory category;
     private final CookingRecipeCategory cookingCategory;
     private final ItemStack output;
@@ -32,7 +38,7 @@ public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     private String group;
     private final AbstractCookingRecipe.RecipeFactory<?> recipeFactory;
 
-    private CrusherRecipeJsonBuilder(
+    private ProcessingRecipeJsonBuilder(
             RecipeCategory category,
             CookingRecipeCategory cookingCategory,
             ItemStack output,
@@ -50,7 +56,7 @@ public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
         this.recipeFactory = recipeFactory;
     }
 
-    public static <T extends AbstractCookingRecipe> CrusherRecipeJsonBuilder create(
+    public static <T extends AbstractCookingRecipe> ProcessingRecipeJsonBuilder create(
             Ingredient input,
             RecipeCategory category,
             ItemStack output,
@@ -58,15 +64,23 @@ public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
             int cookingTime,
             AbstractCookingRecipe.RecipeFactory<T> recipeFactory
     ) {
-        return new CrusherRecipeJsonBuilder(category, CookingRecipeCategory.MISC, output, input, experience, cookingTime, recipeFactory);
+        return new ProcessingRecipeJsonBuilder(
+                category,
+                CookingRecipeCategory.MISC,
+                output,
+                input,
+                experience,
+                cookingTime,
+                recipeFactory);
     }
 
-    public CrusherRecipeJsonBuilder criterion(String string, AdvancementCriterion<?> advancementCriterion) {
+    public ProcessingRecipeJsonBuilder criterion(
+            String string, AdvancementCriterion<?> advancementCriterion) {
         criteria.put(string, advancementCriterion);
         return this;
     }
 
-    public CrusherRecipeJsonBuilder group(@Nullable String string) {
+    public ProcessingRecipeJsonBuilder group(@Nullable String string) {
         group = string;
         return this;
     }
@@ -84,8 +98,20 @@ public class CrusherRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
                 .criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
         criteria.forEach(builder::criterion);
         AbstractCookingRecipe abstractCookingRecipe = recipeFactory
-                .create(Objects.requireNonNullElse(group, ""), cookingCategory, input, output, experience, cookingTime);
-        exporter.accept(recipeKey, abstractCookingRecipe, builder.build(recipeKey.getValue().withPrefixedPath("recipes/" + category.getName() + "/")));
+                .create(
+                        Objects.requireNonNullElse(group, ""),
+                        cookingCategory,
+                        input,
+                        output,
+                        experience,
+                        cookingTime);
+        exporter.accept(
+                recipeKey,
+                abstractCookingRecipe,
+                builder.build(
+                        recipeKey
+                                .getValue()
+                                .withPrefixedPath("recipes/" + category.getName() + "/")));
     }
 }
 

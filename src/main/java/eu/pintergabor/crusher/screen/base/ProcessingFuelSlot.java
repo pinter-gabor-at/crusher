@@ -2,9 +2,13 @@ package eu.pintergabor.crusher.screen.base;
 
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.screen.slot.FurnaceFuelSlot;
 import net.minecraft.screen.slot.Slot;
 
+/**
+ * Similar to {@link FurnaceFuelSlot},
+ * but without special handling for buckets.
+ */
 public class ProcessingFuelSlot extends Slot {
     private final AbstractProcessingScreenHandler handler;
 
@@ -15,15 +19,6 @@ public class ProcessingFuelSlot extends Slot {
 
     @Override
     public boolean canInsert(ItemStack stack) {
-        return this.handler.isFuel(stack) || isBucket(stack);
-    }
-
-    @Override
-    public int getMaxItemCount(ItemStack stack) {
-        return isBucket(stack) ? 1 : super.getMaxItemCount(stack);
-    }
-
-    public static boolean isBucket(ItemStack stack) {
-        return stack.isOf(Items.BUCKET);
+        return handler.isFuel(stack);
     }
 }

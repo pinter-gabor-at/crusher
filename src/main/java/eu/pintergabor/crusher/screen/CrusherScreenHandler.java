@@ -36,7 +36,6 @@ public class CrusherScreenHandler extends AbstractProcessingScreenHandler {
     public CrusherScreenHandler(
             int syncId, PlayerInventory playerInventory,
             Inventory inventory, PropertyDelegate propertyDelegate) {
-
         super(
                 ModScreenHandlers.CRUSHER_SCREEN_HANDLER,
                 CrusherRecipe.CRUSHER_TYPE,

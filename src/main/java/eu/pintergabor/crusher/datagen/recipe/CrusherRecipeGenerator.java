@@ -1,7 +1,7 @@
 package eu.pintergabor.crusher.datagen.recipe;
 
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
-import eu.pintergabor.crusher.recipe.CrusherRecipeJsonBuilder;
+import eu.pintergabor.crusher.recipe.base.ProcessingRecipeJsonBuilder;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Item;
@@ -32,7 +32,7 @@ public abstract class CrusherRecipeGenerator extends RecipeGenerator {
             ItemConvertible input,
             ItemStack output
     ) {
-        CrusherRecipeJsonBuilder.create(
+        ProcessingRecipeJsonBuilder.create(
                         Ingredient.ofItem(input),
                         RecipeCategory.MISC,
                         output,
@@ -57,7 +57,7 @@ public abstract class CrusherRecipeGenerator extends RecipeGenerator {
         try {
             RegistryWrapper.Impl<Item> registryLookup = registries.getOrThrow(RegistryKeys.ITEM);
             Ingredient i = Ingredient.fromTag(registryLookup.getOrThrow(tag));
-            CrusherRecipeJsonBuilder.create(
+            ProcessingRecipeJsonBuilder.create(
                             i,
                             RecipeCategory.MISC,
                             output,
