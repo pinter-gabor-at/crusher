@@ -12,7 +12,8 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 
-public abstract class AbstractProcessingScreen<T extends AbstractProcessingScreenHandler> extends RecipeBookScreen<T> {
+public abstract class AbstractProcessingScreen<T extends AbstractProcessingScreenHandler>
+        extends RecipeBookScreen<T> {
     private final Identifier background;
     private final Identifier litProgressTexture;
     private final Identifier burnProgressTexture;
@@ -27,7 +28,14 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingScree
             Identifier burnProgressTexture,
             List<RecipeBookWidget.Tab> recipeBookTabs
     ) {
-        super(handler, new AbstractProcessingRecipeBookWidget(handler, toggleCraftableButtonText, recipeBookTabs), playerInventory, title);
+        super(
+                handler,
+                new AbstractProcessingRecipeBookWidget(
+                        handler,
+                        toggleCraftableButtonText,
+                        recipeBookTabs),
+                playerInventory,
+                title);
         this.background = background;
         this.litProgressTexture = litProgressTexture;
         this.burnProgressTexture = burnProgressTexture;
@@ -36,30 +44,40 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingScree
     @Override
     public void init() {
         super.init();
-        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
+        titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
     }
 
     @Override
     protected ScreenPos getRecipeBookButtonPos() {
-        return new ScreenPos(this.x + 20, this.height / 2 - 49);
+        return new ScreenPos(x + 20, height / 2 - 49);
     }
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        int x = this.x;
-        int y = this.y;
-        context.drawTexture(RenderLayer::getGuiTextured, this.background, x, y, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
-        if (this.handler.isBurning()) {
-            int h = MathHelper.ceil(this.handler.getFuelProgress() * 13.0f) + 1;
-            context.drawGuiTexture(RenderLayer::getGuiTextured,
-                    this.litProgressTexture, 14, 14,
+        context.drawTexture(
+                RenderLayer::getGuiTextured,
+                background,
+                x, y,
+                0.0f, 0.0f,
+                backgroundWidth, backgroundHeight,
+                256, 256);
+        if (handler.isBurning()) {
+            int h = MathHelper.ceil(handler.getFuelProgress() * 13.0f) + 1;
+            context.drawGuiTexture(
+                    RenderLayer::getGuiTextured,
+                    litProgressTexture,
+                    14, 14,
                     0, 14 - h,
-                    x + 56, y + 36 + 14 - h, 14, h);
+                    x + 56, y + 36 + 14 - h,
+                    14, h);
         }
-        int w = MathHelper.ceil(this.handler.getCookProgress() * 24.0f);
-        context.drawGuiTexture(RenderLayer::getGuiTextured,
-                this.burnProgressTexture, 24, 16,
+        int w = MathHelper.ceil(handler.getCookProgress() * 24.0f);
+        context.drawGuiTexture(
+                RenderLayer::getGuiTextured,
+                burnProgressTexture,
+                24, 16,
                 0, 0,
-                x + 79, y + 34, w, 16);
+                x + 79, y + 34,
+                w, 16);
     }
 }

@@ -3,7 +3,6 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.1,
-  "group": "crushing",
   "ingredient": "#crusher:red_sand_sources",
   "result": {
     "count": 1,

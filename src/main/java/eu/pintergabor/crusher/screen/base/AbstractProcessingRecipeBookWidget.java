@@ -39,10 +39,7 @@ public class AbstractProcessingRecipeBookWidget extends RecipeBookWidget<Abstrac
 
     @Override
     protected boolean isValid(Slot slot) {
-        return switch (slot.id) {
-            case 0, 1, 2 -> true;
-            default -> false;
-        };
+        return 0 <= slot.id && slot.id <= 2;
     }
 
     @Override

@@ -39,7 +39,6 @@ public abstract class CrusherRecipeGenerator extends RecipeGenerator {
                         experience,
                         cookingTime,
                         CrusherRecipe::new)
-                .group("crushing")
                 .criterion(hasItem(input), conditionsFromItem(input))
                 .offerTo(exporter, getItemPath(output.getItem()) + "_from_crushing_" + getItemPath(input));
     }
@@ -64,7 +63,6 @@ public abstract class CrusherRecipeGenerator extends RecipeGenerator {
                             experience,
                             cookingTime,
                             CrusherRecipe::new)
-                    .group("crushing")
                     .criterion("has_" + tag.id().getPath(), conditionsFromTag(tag))
                     .offerTo(exporter, getItemPath(output.getItem()) + "_from_crushing_" + tag.id().getPath());
         } catch (IllegalStateException e) {

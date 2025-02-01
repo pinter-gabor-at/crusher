@@ -3,7 +3,6 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.1,
-  "group": "crushing",
   "ingredient": "minecraft:tropical_fish_bucket",
   "result": {
     "count": 3,
