@@ -26,14 +26,14 @@ public class ModBlocks {
                 RegistryKey.of(RegistryKeys.BLOCK, Global.ModIdentifier("crusher")),
                 CrusherBlock::new,
                 AbstractBlock.Settings.create()
-                        .solid().noCollision().strength(0.5f, 6.0f).requiresTool());
+                        .solid().strength(0.5f, 6.0f).requiresTool());
         // Item
         CRUSHER_ITEM = Items.register(CRUSHER_BLOCK);
         // Entity
         CRUSHER_ENTITY =
                 Registry.register(Registries.BLOCK_ENTITY_TYPE, Global.ModIdentifier("crusher"),
                         FabricBlockEntityTypeBuilder.create(CrusherBlockEntity::new,
-                                ModBlocks.CRUSHER_BLOCK).build(null));
+                                ModBlocks.CRUSHER_BLOCK).build());
         // Creative tabs
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(
                 content -> content.addAfter(Items.BLAST_FURNACE, CRUSHER_BLOCK));
