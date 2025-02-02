@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:azure_bluet",
+  "result": {
+    "count": 2,
+    "id": "minecraft:light_gray_dye"
+  }
+}

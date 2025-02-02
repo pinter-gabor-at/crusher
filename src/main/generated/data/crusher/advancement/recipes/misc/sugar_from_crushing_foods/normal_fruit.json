@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_foods/normal_fruit": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:foods/normal_fruit"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:sugar_from_crushing_foods/normal_fruit"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_foods/normal_fruit"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:sugar_from_crushing_foods/normal_fruit"
+    ]
+  }
+}

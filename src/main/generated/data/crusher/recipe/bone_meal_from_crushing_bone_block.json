@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:bone_block",
+  "result": {
+    "count": 20,
+    "id": "minecraft:bone_meal"
+  }
+}

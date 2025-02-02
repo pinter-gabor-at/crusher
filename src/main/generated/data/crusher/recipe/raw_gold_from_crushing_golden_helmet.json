@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 150,
+  "experience": 0.1,
+  "ingredient": "minecraft:golden_helmet",
+  "result": {
+    "count": 5,
+    "id": "minecraft:raw_gold"
+  }
+}
