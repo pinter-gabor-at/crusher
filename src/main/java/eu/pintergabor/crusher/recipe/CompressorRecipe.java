@@ -15,12 +15,12 @@ import net.minecraft.registry.Registry;
  * Similar to {@link SmeltingRecipe},
  * but with unique serializer, type and category.
  */
-public class CrusherRecipe extends AbstractProcessingRecipe {
+public class CompressorRecipe extends AbstractProcessingRecipe {
     public static RecipeSerializer<AbstractProcessingRecipe> SERIALIZER;
     public static RecipeType<AbstractProcessingRecipe> TYPE;
     public static RecipeBookCategory CATEGORY;
 
-    public CrusherRecipe(
+    public CompressorRecipe(
             String group,
             CookingRecipeCategory category,
             Ingredient ingredient,
@@ -58,14 +58,14 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
     public static void register() {
         SERIALIZER =
                 RecipeSerializer.register(
-                        "crushing",
-                        new Serializer<>(CrusherRecipe::new, 100));
+                        "compressing",
+                        new Serializer<>(CompressorRecipe::new, 100));
         TYPE =
-                RecipeType.register("crushing");
+                RecipeType.register("compressing");
         CATEGORY =
                 Registry.register(
                         Registries.RECIPE_BOOK_CATEGORY,
-                        "crusher",
+                        "compressor",
                         new RecipeBookCategory());
     }
 }

@@ -18,6 +18,7 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         blockStateModelGenerator.registerCooker(ModBlocks.CRUSHER_BLOCK, TexturedModel.ORIENTABLE);
+        blockStateModelGenerator.registerCooker(ModBlocks.COMPRESSOR_BLOCK, TexturedModel.ORIENTABLE);
     }
 
     /**

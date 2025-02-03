@@ -10,4 +10,7 @@ public class ModScreenHandlers {
     public static final ScreenHandlerType<CrusherScreenHandler> CRUSHER_SCREEN_HANDLER =
             Registry.register(Registries.SCREEN_HANDLER, Global.ModIdentifier("crusher"),
                     new ScreenHandlerType<>(CrusherScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
+    public static final ScreenHandlerType<CompressorScreenHandler> COMPRESSOR_SCREEN_HANDLER =
+            Registry.register(Registries.SCREEN_HANDLER, Global.ModIdentifier("compressor"),
+                    new ScreenHandlerType<>(CompressorScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
 }

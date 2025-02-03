@@ -2,6 +2,10 @@
   "block.crusher.crusher": "Crusher",
   "gui.recipebook.toggleRecipes.crushable": "Crushable",
   "tag.item.crusher.gravel_sources": "Gravel Sources",
+  "tag.item.crusher.sand_sources": "Sand Sources",
   "tag.item.crusher.red_sand_sources": "Red Sand Sources",
-  "tag.item.crusher.sand_sources": "Sand Sources"
+  "tag.item.c.foods.normal_fruit": "Normal fruits",
+  "tag.item.c.foods.normal_vegetable": "Normal vegetables",
+  "block.crusher.compressor": "Compressor",
+  "gui.recipebook.toggleRecipes.compressible": "Compressible"
 }

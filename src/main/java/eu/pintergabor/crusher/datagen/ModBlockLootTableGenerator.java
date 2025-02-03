@@ -17,5 +17,6 @@ public class ModBlockLootTableGenerator extends FabricBlockLootTableProvider {
     public void generate() {
         // Drops itself
         addDrop(ModBlocks.CRUSHER_BLOCK);
+        addDrop(ModBlocks.COMPRESSOR_BLOCK);
     }
 }

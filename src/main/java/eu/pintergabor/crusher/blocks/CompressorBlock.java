@@ -19,34 +19,34 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * A machine, similar to a furnace, but for crushing
+ * A machine, similar to a furnace, but for compressing
  */
-public class CrusherBlock extends AbstractProcessingBlock {
-    public static final MapCodec<CrusherBlock> CODEC = createCodec(CrusherBlock::new);
+public class CompressorBlock extends AbstractProcessingBlock {
+    public static final MapCodec<CompressorBlock> CODEC = createCodec(CompressorBlock::new);
 
     @Override
-    public MapCodec<CrusherBlock> getCodec() {
+    public MapCodec<CompressorBlock> getCodec() {
         return CODEC;
     }
 
-    public CrusherBlock(Settings settings) {
+    public CompressorBlock(Settings settings) {
         super(settings);
     }
 
     @Override
     protected void openScreen(World world, BlockPos pos, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof CrusherBlockEntity) {
+        if (blockEntity instanceof CompressorBlockEntity) {
             player.openHandledScreen(((NamedScreenHandlerFactory) blockEntity));
             // TODO: Create and register stats
-            // player.incrementStat(Stats.INTERACT_WITH_CRUSHER);
+            // player.incrementStat(Stats.INTERACT_WITH_COMPRESSOR);
         }
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new CrusherBlockEntity(pos, state);
+        return new CompressorBlockEntity(pos, state);
     }
 
     /**
@@ -85,6 +85,6 @@ public class CrusherBlock extends AbstractProcessingBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
             World world, BlockState state, BlockEntityType<T> type) {
-        return validateTicker(world, type, ModBlocks.CRUSHER_ENTITY);
+        return validateTicker(world, type, ModBlocks.COMPRESSOR_ENTITY);
     }
 }

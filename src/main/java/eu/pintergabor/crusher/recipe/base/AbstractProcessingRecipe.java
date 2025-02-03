@@ -9,16 +9,12 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.CookingRecipeCategory;
-import net.minecraft.recipe.book.RecipeBookCategory;
 
 /**
  * Similar to {@link SmeltingRecipe},
  * but with unique serializer, type and category.
  */
 public abstract class AbstractProcessingRecipe extends AbstractCookingRecipe {
-    public static RecipeSerializer<AbstractProcessingRecipe> CRUSHER_SERIALIZER;
-    public static RecipeType<AbstractProcessingRecipe> CRUSHER_TYPE;
-    public static RecipeBookCategory CRUSHER_CATEGORY;
 
     public AbstractProcessingRecipe(
             String group,
@@ -31,21 +27,6 @@ public abstract class AbstractProcessingRecipe extends AbstractCookingRecipe {
     }
 
     @Override
-    public RecipeSerializer<? extends AbstractCookingRecipe> getSerializer() {
-        return CRUSHER_SERIALIZER;
-    }
-
-    @Override
-    public RecipeType<? extends AbstractCookingRecipe> getType() {
-        return CRUSHER_TYPE;
-    }
-
-    @Override
-    public RecipeBookCategory getRecipeBookCategory() {
-        return CRUSHER_CATEGORY;
-    }
-
-    @Override
     public ItemStack result() {
         return super.result();
     }
@@ -53,6 +34,7 @@ public abstract class AbstractProcessingRecipe extends AbstractCookingRecipe {
     /**
      * Similar to {@link AbstractCookingRecipe.Serializer},
      * but with {@link ItemStack} output
+     *
      * @param <T>
      */
     public static class Serializer<T extends AbstractProcessingRecipe> implements RecipeSerializer<T> {
