@@ -2,6 +2,7 @@
   "type": "minecraft:crushing",
   "category": "misc",
   "cookingtime": 100,
+  "count": 1,
   "experience": 0.1,
   "ingredient": "minecraft:dark_oak_stairs",
   "result": {

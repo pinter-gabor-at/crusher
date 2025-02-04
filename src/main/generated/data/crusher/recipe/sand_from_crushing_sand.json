@@ -2,6 +2,7 @@
   "type": "minecraft:crushing",
   "category": "misc",
   "cookingtime": 10,
+  "count": 1,
   "experience": 1.0,
   "ingredient": "minecraft:sand",
   "result": {

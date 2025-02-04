@@ -2,6 +2,7 @@
   "type": "minecraft:crushing",
   "category": "misc",
   "cookingtime": 8,
+  "count": 1,
   "experience": 1.5,
   "ingredient": "minecraft:diamond",
   "result": {

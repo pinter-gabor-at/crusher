@@ -1,6 +1,8 @@
 package eu.pintergabor.crusher.blocks.base;
 
 import com.google.common.collect.Lists;
+import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
+import eu.pintergabor.crusher.recipe.base.OneStackRecipeInput;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap.Entry;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import net.minecraft.block.AbstractFurnaceBlock;
@@ -91,13 +93,13 @@ public abstract class AbstractProcessingBlockEntity
         }
     };
     private final Reference2IntOpenHashMap<RegistryKey<Recipe<?>>> recipesUsed = new Reference2IntOpenHashMap<>();
-    private final ServerRecipeManager.MatchGetter<SingleStackRecipeInput, ? extends AbstractCookingRecipe> matchGetter;
+    private final ServerRecipeManager.MatchGetter<OneStackRecipeInput, ? extends AbstractProcessingRecipe> matchGetter;
 
     protected AbstractProcessingBlockEntity(
             BlockEntityType<?> blockEntityType,
             BlockPos pos,
             BlockState state,
-            RecipeType<? extends AbstractCookingRecipe> recipeType
+            RecipeType<? extends AbstractProcessingRecipe> recipeType
     ) {
         super(blockEntityType, pos, state);
         this.matchGetter = ServerRecipeManager.createCachedMatchGetter(recipeType);
@@ -148,10 +150,10 @@ public abstract class AbstractProcessingBlockEntity
         boolean hasFuel = !fuelStack.isEmpty();
         if (blockEntity.isBurning() || (hasFuel && hasInput)) {
             // Get the recipe
-            SingleStackRecipeInput singleStackRecipeInput = new SingleStackRecipeInput(inputStack);
-            RecipeEntry<? extends AbstractCookingRecipe> recipeEntry;
+            OneStackRecipeInput oneStackRecipeInput = new OneStackRecipeInput(inputStack);
+            RecipeEntry<? extends AbstractProcessingRecipe> recipeEntry;
             if (hasInput) {
-                recipeEntry = blockEntity.matchGetter.getFirstMatch(singleStackRecipeInput, world).orElse(null);
+                recipeEntry = blockEntity.matchGetter.getFirstMatch(oneStackRecipeInput, world).orElse(null);
             } else {
                 recipeEntry = null;
             }
@@ -161,7 +163,7 @@ public abstract class AbstractProcessingBlockEntity
                     canAcceptRecipeOutput(
                             world.getRegistryManager(),
                             recipeEntry,
-                            singleStackRecipeInput,
+                            oneStackRecipeInput,
                             blockEntity.inventory,
                             maxCount)) {
                 blockEntity.litTimeRemaining = blockEntity.getFuelTime(world.getFuelRegistry(), fuelStack);
@@ -182,7 +184,7 @@ public abstract class AbstractProcessingBlockEntity
                     canAcceptRecipeOutput(
                             world.getRegistryManager(),
                             recipeEntry,
-                            singleStackRecipeInput,
+                            oneStackRecipeInput,
                             blockEntity.inventory,
                             maxCount)) {
                 blockEntity.cookingTimeSpent++;
@@ -192,7 +194,7 @@ public abstract class AbstractProcessingBlockEntity
                     if (craftRecipe(
                             world.getRegistryManager(),
                             recipeEntry,
-                            singleStackRecipeInput,
+                            oneStackRecipeInput,
                             blockEntity.inventory,
                             maxCount)) {
                         blockEntity.setLastRecipe(recipeEntry);
@@ -251,8 +253,8 @@ public abstract class AbstractProcessingBlockEntity
 
     private static boolean canAcceptRecipeOutput(
             DynamicRegistryManager dynamicRegistryManager,
-            @Nullable RecipeEntry<? extends AbstractCookingRecipe> recipe,
-            SingleStackRecipeInput input,
+            @Nullable RecipeEntry<? extends AbstractProcessingRecipe> recipe,
+            OneStackRecipeInput input,
             DefaultedList<ItemStack> inventory,
             int maxCount) {
         final ItemStack inputStack = inventory.get(INPUT_SLOT_INDEX);
@@ -264,8 +266,8 @@ public abstract class AbstractProcessingBlockEntity
 
     private static boolean craftRecipe(
             DynamicRegistryManager dynamicRegistryManager,
-            @Nullable RecipeEntry<? extends AbstractCookingRecipe> recipe,
-            SingleStackRecipeInput input,
+            @Nullable RecipeEntry<? extends AbstractProcessingRecipe> recipe,
+            OneStackRecipeInput input,
             DefaultedList<ItemStack> inventory,
             int maxCount
     ) {
@@ -295,10 +297,10 @@ public abstract class AbstractProcessingBlockEntity
     }
 
     private static int getCookTime(ServerWorld world, AbstractProcessingBlockEntity processor) {
-        SingleStackRecipeInput singleStackRecipeInput =
-                new SingleStackRecipeInput(processor.getStack(INPUT_SLOT_INDEX));
+        OneStackRecipeInput oneStackRecipeInput =
+                new OneStackRecipeInput(processor.getStack(INPUT_SLOT_INDEX));
         return processor.matchGetter
-                .getFirstMatch(singleStackRecipeInput, world)
+                .getFirstMatch(oneStackRecipeInput, world)
                 .map(recipe -> recipe.value().getCookingTime())
                 .orElse(DEFAULT_COOK_TIME);
     }
@@ -397,7 +399,8 @@ public abstract class AbstractProcessingBlockEntity
         for (Entry<RegistryKey<Recipe<?>>> entry : recipesUsed.reference2IntEntrySet()) {
             world.getRecipeManager().get(entry.getKey()).ifPresent(recipe -> {
                 list.add(recipe);
-                dropExperience(world, pos, entry.getIntValue(), ((AbstractCookingRecipe) recipe.value()).getExperience());
+                dropExperience(world, pos, entry.getIntValue(),
+                        ((AbstractProcessingRecipe) recipe.value()).getExperience());
             });
         }
         return list;

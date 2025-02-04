@@ -2,6 +2,7 @@
   "type": "minecraft:crushing",
   "category": "misc",
   "cookingtime": 150,
+  "count": 1,
   "experience": 0.1,
   "ingredient": "minecraft:golden_hoe",
   "result": {

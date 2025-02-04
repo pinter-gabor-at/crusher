@@ -36,7 +36,7 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     private final Map<String, AdvancementCriterion<?>> criteria = new LinkedHashMap<>();
     @Nullable
     private String group;
-    private final AbstractCookingRecipe.RecipeFactory<?> recipeFactory;
+    private final AbstractProcessingRecipe.RecipeFactory<?> recipeFactory;
 
     private ProcessingRecipeJsonBuilder(
             RecipeCategory category,
@@ -45,7 +45,7 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
             Ingredient input,
             float experience,
             int cookingTime,
-            AbstractCookingRecipe.RecipeFactory<?> recipeFactory
+            AbstractProcessingRecipe.RecipeFactory<?> recipeFactory
     ) {
         this.category = category;
         this.cookingCategory = cookingCategory;
@@ -56,13 +56,13 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
         this.recipeFactory = recipeFactory;
     }
 
-    public static <T extends AbstractCookingRecipe> ProcessingRecipeJsonBuilder create(
+    public static <T extends AbstractProcessingRecipe> ProcessingRecipeJsonBuilder create(
             Ingredient input,
             RecipeCategory category,
             ItemStack output,
             float experience,
             int cookingTime,
-            AbstractCookingRecipe.RecipeFactory<T> recipeFactory
+            AbstractProcessingRecipe.RecipeFactory<T> recipeFactory
     ) {
         return new ProcessingRecipeJsonBuilder(
                 category,
@@ -97,17 +97,18 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
                 .rewards(AdvancementRewards.Builder.recipe(recipeKey))
                 .criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
         criteria.forEach(builder::criterion);
-        AbstractCookingRecipe abstractCookingRecipe = recipeFactory
+        AbstractProcessingRecipe abstractProcessingRecipe = recipeFactory
                 .create(
                         Objects.requireNonNullElse(group, ""),
                         cookingCategory,
                         input,
+                        1,
                         output,
                         experience,
                         cookingTime);
         exporter.accept(
                 recipeKey,
-                abstractCookingRecipe,
+                abstractProcessingRecipe,
                 builder.build(
                         recipeKey
                                 .getValue()
