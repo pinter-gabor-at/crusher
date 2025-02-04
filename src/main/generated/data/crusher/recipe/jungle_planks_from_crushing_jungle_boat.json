@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:jungle_boat",
+  "result": {
+    "count": 5,
+    "id": "minecraft:jungle_planks"
+  }
+}

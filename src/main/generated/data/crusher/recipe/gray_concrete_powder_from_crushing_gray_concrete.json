@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:gray_concrete",
+  "result": {
+    "count": 1,
+    "id": "minecraft:gray_concrete_powder"
+  }
+}

@@ -32,7 +32,7 @@ public class ModBlocks {
                         .solid().strength(0.5f, 6.0f).requiresTool());
         COMPRESSOR_BLOCK = Blocks.register(
                 RegistryKey.of(RegistryKeys.BLOCK, Global.ModIdentifier("compressor")),
-                CrusherBlock::new,
+                CompressorBlock::new,
                 AbstractBlock.Settings.create()
                         .solid().strength(0.5f, 6.0f).requiresTool());
         // Items

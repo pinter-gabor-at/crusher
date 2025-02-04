@@ -2,6 +2,7 @@ package eu.pintergabor.crusher.main;
 
 import eu.pintergabor.crusher.Mod;
 import eu.pintergabor.crusher.blocks.ModBlocks;
+import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 
 public final class Main {
@@ -14,5 +15,6 @@ public final class Main {
         ModBlocks.register();
         // Recipes
         CrusherRecipe.register();
+        CompressorRecipe.register();
     }
 }

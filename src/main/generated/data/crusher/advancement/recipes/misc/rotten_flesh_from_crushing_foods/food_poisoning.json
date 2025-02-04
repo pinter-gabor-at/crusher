@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_foods/food_poisoning": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:foods/food_poisoning"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:rotten_flesh_from_crushing_foods/food_poisoning"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_foods/food_poisoning"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:rotten_flesh_from_crushing_foods/food_poisoning"
+    ]
+  }
+}

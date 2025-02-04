@@ -2,7 +2,7 @@ package eu.pintergabor.crusher.blocks;
 
 import eu.pintergabor.crusher.blocks.base.AbstractProcessingBlockEntity;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
-import eu.pintergabor.crusher.screen.CompressorScreenHandler;
+import eu.pintergabor.crusher.screen.CrusherScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
@@ -24,6 +24,6 @@ public class CrusherBlockEntity extends AbstractProcessingBlockEntity {
 
     @Override
     protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-        return new CompressorScreenHandler(syncId, playerInventory, this, propertyDelegate);
+        return new CrusherScreenHandler(syncId, playerInventory, this, propertyDelegate);
     }
 }

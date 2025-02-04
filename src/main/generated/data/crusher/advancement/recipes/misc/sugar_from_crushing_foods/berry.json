@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_foods/berry": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:foods/berry"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:sugar_from_crushing_foods/berry"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_foods/berry"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:sugar_from_crushing_foods/berry"
+    ]
+  }
+}

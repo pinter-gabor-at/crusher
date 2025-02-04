@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:compressing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:sand",
+  "result": {
+    "count": 1,
+    "id": "minecraft:sandstone"
+  }
+}
