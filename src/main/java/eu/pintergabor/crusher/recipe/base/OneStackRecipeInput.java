@@ -1,17 +1,20 @@
 package eu.pintergabor.crusher.recipe.base;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.input.RecipeInput;
+
+import org.jetbrains.annotations.NotNull;
+
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 
 
 public record OneStackRecipeInput(ItemStack itemStack) implements RecipeInput {
+
 	@Override
-	public ItemStack getStackInSlot(int slot) {
+	public @NotNull ItemStack getItem(int slot) {
 		if (slot != 0) {
 			throw new IllegalArgumentException("No item for index " + slot);
-		} else {
-			return this.itemStack;
 		}
+		return itemStack;
 	}
 
 	@Override

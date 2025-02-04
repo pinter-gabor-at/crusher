@@ -2,69 +2,76 @@ package eu.pintergabor.crusher.screen.base;
 
 import java.util.List;
 
-import net.minecraft.client.gui.screen.ButtonTextures;
-import net.minecraft.client.gui.screen.recipebook.GhostRecipe;
-import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
-import net.minecraft.client.gui.screen.recipebook.RecipeResultCollection;
-import net.minecraft.recipe.RecipeFinder;
-import net.minecraft.recipe.display.FurnaceRecipeDisplay;
-import net.minecraft.recipe.display.RecipeDisplay;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.context.ContextParameterMap;
+import org.jetbrains.annotations.NotNull;
+
+import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.gui.screens.recipebook.FurnaceRecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.GhostSlots;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.context.ContextMap;
+import net.minecraft.world.entity.player.StackedItemContents;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.crafting.display.FurnaceRecipeDisplay;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 
+/**
+ * Similar to {@link FurnaceRecipeBookComponent}.
+ */
 @Environment(EnvType.CLIENT)
-public class AbstractProcessingRecipeBookWidget extends RecipeBookWidget<AbstractProcessingScreenHandler> {
-	private static final ButtonTextures TEXTURES = new ButtonTextures(
-		Identifier.ofVanilla("recipe_book/furnace_filter_enabled"),
-		Identifier.ofVanilla("recipe_book/furnace_filter_disabled"),
-		Identifier.ofVanilla("recipe_book/furnace_filter_enabled_highlighted"),
-		Identifier.ofVanilla("recipe_book/furnace_filter_disabled_highlighted")
+public class AbstractProcessingRecipeBookWidget extends RecipeBookComponent<AbstractProcessingMenu> {
+	private static final WidgetSprites FILTER_SPRITES = new WidgetSprites(
+		ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_enabled"),
+		ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_disabled"),
+		ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_enabled_highlighted"),
+		ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_disabled_highlighted")
 	);
-	private final Text toggleCraftableButtonText;
+	private final Component recipeFilterName;
 
 	public AbstractProcessingRecipeBookWidget(
-		AbstractProcessingScreenHandler screenHandler, Text toggleCraftableButtonText, List<Tab> tabs) {
-		super(screenHandler, tabs);
-		this.toggleCraftableButtonText = toggleCraftableButtonText;
+		AbstractProcessingMenu menu, Component recipeFilterName, List<TabInfo> tabInfos) {
+		super(menu, tabInfos);
+		this.recipeFilterName = recipeFilterName;
 	}
 
 	@Override
-	protected void setBookButtonTexture() {
-		toggleCraftableButton.setTextures(TEXTURES);
+	protected void initFilterButtonTextures() {
+		this.filterButton.initTextureValues(FILTER_SPRITES);
 	}
 
 	@Override
-	protected boolean isValid(Slot slot) {
-		return 0 <= slot.id && slot.id <= 2;
+	protected boolean isCraftingSlot(Slot slot) {
+		return 0 <= slot.index && slot.index <= 2;
 	}
 
-	@Override
-	protected void showGhostRecipe(GhostRecipe ghostRecipe, RecipeDisplay display, ContextParameterMap context) {
-		if (ghostRecipe instanceof ProcessingGhostRecipe processingGhostRecipe) {
-			processingGhostRecipe.addResults(this.craftingScreenHandler.getOutputSlot(), context, display.result());
+	protected void fillGhostRecipe(GhostSlots ghostSlots, RecipeDisplay display, ContextMap context) {
+		if (ghostSlots instanceof ProcessingGhostSlots processingGhostSlots) {
+			processingGhostSlots.setResult(menu.getResultSlot(), context, display.result());
 			if (display instanceof FurnaceRecipeDisplay furnaceRecipeDisplay) {
-				processingGhostRecipe.addInputs(this.craftingScreenHandler.slots.get(0), context, furnaceRecipeDisplay.ingredient());
-				Slot slot = this.craftingScreenHandler.slots.get(1);
-				if (slot.getStack().isEmpty()) {
-					processingGhostRecipe.addInputs(slot, context, furnaceRecipeDisplay.fuel());
+				processingGhostSlots.setInput(menu.slots.get(0),
+					context, furnaceRecipeDisplay.ingredient());
+				Slot slot = menu.slots.get(1);
+				if (slot.getItem().isEmpty()) {
+					processingGhostSlots.setInput(slot, context, furnaceRecipeDisplay.fuel());
 				}
 			}
 		}
 	}
 
 	@Override
-	protected Text getToggleCraftableButtonText() {
-		return toggleCraftableButtonText;
+	protected @NotNull Component getRecipeFilterName() {
+		return recipeFilterName;
 	}
 
 	@Override
-	protected void populateRecipes(RecipeResultCollection recipeResultCollection, RecipeFinder recipeFinder) {
-		recipeResultCollection.populateRecipes(recipeFinder, display -> display instanceof FurnaceRecipeDisplay);
+	protected void selectMatchingRecipes(RecipeCollection possibleRecipes, StackedItemContents stackedItemContents) {
+		possibleRecipes.selectRecipes(stackedItemContents, recipeDisplay ->
+			recipeDisplay instanceof FurnaceRecipeDisplay);
 	}
 }

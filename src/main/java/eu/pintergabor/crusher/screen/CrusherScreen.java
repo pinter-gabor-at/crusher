@@ -6,35 +6,43 @@ import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 import eu.pintergabor.crusher.screen.base.AbstractProcessingScreen;
 
-import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Items;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.Items;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 
-public class CrusherScreen extends AbstractProcessingScreen<CrusherScreenHandler> {
+/**
+ * Similar to {@link FurnaceScreen}, but with fewer tabs.
+ */
+@Environment(EnvType.CLIENT)
+public class CrusherScreen extends AbstractProcessingScreen<CrusherMenu> {
 	// The entire GUI (256x256).
-	private static final Identifier TEXTURE =
+	private static final ResourceLocation TEXTURE =
 		Global.modId("textures/gui/crusher_gui.png");
 	// The fire sprite in the middle (14x14) (textures/gui/sprites/...).
-	private static final Identifier LIT_PROGRESS_TEXTURE =
+	private static final ResourceLocation LIT_PROGRESS_SPRITE =
 		Global.modId("container/crusher/lit_progress");
 	// The arrow sprite on the right (24x16) (textures/gui/sprites/...).
-	private static final Identifier BURN_PROGRESS_TEXTURE =
+	private static final ResourceLocation BURN_PROGRESS_SPRITE =
 		Global.modId("container/crusher/burn_progress");
 	// The mouseover toggle text in the recipe book.
-	private static final Text TOGGLE_TEXT =
-		Text.translatable("gui.recipebook.toggleRecipes.crushable");
+	private static final Component FILTER_NAME =
+		Component.translatable("gui.recipebook.toggleRecipes.crushable");
 	// Recipe book tabs.
-	private static final List<RecipeBookWidget.Tab> TABS = List.of(
-		new RecipeBookWidget.Tab(Items.COMPASS, CrusherRecipe.CATEGORY)
+	private static final List<RecipeBookComponent.TabInfo> TABS = List.of(
+		new RecipeBookComponent.TabInfo(Items.COMPASS, CrusherRecipe.CATEGORY)
 	);
 
 	public CrusherScreen(
-		CrusherScreenHandler handler, PlayerInventory inventory, Text title) {
+		CrusherMenu menu, Inventory playerInventory, Component title) {
 		super(
-			handler, inventory, title,
-			TOGGLE_TEXT, TEXTURE, LIT_PROGRESS_TEXTURE, BURN_PROGRESS_TEXTURE, TABS);
+			menu, playerInventory, title,
+			FILTER_NAME, TEXTURE, LIT_PROGRESS_SPRITE, BURN_PROGRESS_SPRITE, TABS);
 	}
 }

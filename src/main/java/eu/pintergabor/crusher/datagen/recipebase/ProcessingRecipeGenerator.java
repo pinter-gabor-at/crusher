@@ -2,89 +2,87 @@ package eu.pintergabor.crusher.datagen.recipebase;
 
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
-import eu.pintergabor.crusher.recipe.base.ProcessingRecipeJsonBuilder;
+import eu.pintergabor.crusher.recipe.base.ProcessingRecipeBuilder;
 
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 
 
 /**
- * Generate crusher recipes
+ * Generate crusher and compressor recipes.
  */
-public abstract class ProcessingRecipeGenerator extends RecipeGenerator {
+public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	public float experience = 0.1F;
 	public int cookingTime = 100;
 
-	public ProcessingRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
-		super(registries, exporter);
+	public ProcessingRecipeGenerator(HolderLookup.Provider registries, RecipeOutput output) {
+		super(registries, output);
 	}
 
 	/**
-	 * Create crushing recipe from input item
+	 * Create crushing recipe from input item.
 	 *
-	 * @param input       Input item
-	 * @param inputCount  Number of input items
-	 * @param output      Output item
-	 * @param outputCount Number of output items
+	 * @param input       Input item.
+	 * @param inputCount  Number of input items.
+	 * @param result      Output item.
+	 * @param resultCount Number of output items.
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
-		ItemConvertible input,
+		ItemLike input,
 		int inputCount,
-		ItemConvertible output,
-		int outputCount
-	) {
-		final Ingredient ingredient = Ingredient.ofItem(input);
-		ProcessingRecipeJsonBuilder.create(
+		ItemLike result,
+		int resultCount) {
+		final Ingredient ingredient = Ingredient.of(input);
+		ProcessingRecipeBuilder.create(
 				ingredient,
 				inputCount,
 				RecipeCategory.MISC,
-				new ItemStack(output, outputCount),
+				new ItemStack(result, resultCount),
 				experience,
 				cookingTime,
 				CrusherRecipe::new)
-			.criterion(hasItem(input), conditionsFromItem(input))
-			.offerTo(exporter,
-				getItemPath(output.asItem()) + "_from_crushing_" + getItemPath(input));
+			.unlockedBy(getHasName(input), has(input))
+			.save(output,
+				getItemName(result.asItem()) + "_from_crushing_" + getItemName(input));
 	}
 
 	/**
-	 * Create crushing recipe from input item tag
+	 * Create crushing recipe from input item tag.
 	 *
-	 * @param tag         Input item tag
-	 * @param tagCount    Number of input items
-	 * @param output      Output item
-	 * @param outputCount Number of output items
+	 * @param tag         Input item tag.
+	 * @param tagCount    Number of input items.
+	 * @param result      Output item.
+	 * @param resultCount Number of output items.
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
 		TagKey<Item> tag,
 		int tagCount,
-		ItemConvertible output,
-		int outputCount
-	) {
+		ItemLike result,
+		int resultCount) {
 		try {
-			final RegistryWrapper.Impl<Item> registryLookup = registries.getOrThrow(RegistryKeys.ITEM);
-			final Ingredient ingredient = Ingredient.fromTag(registryLookup.getOrThrow(tag));
-			ProcessingRecipeJsonBuilder.create(
+			final HolderLookup.RegistryLookup<Item> registryLookup = registries.lookupOrThrow(Registries.ITEM);
+			final Ingredient ingredient = Ingredient.of(registryLookup.getOrThrow(tag));
+			ProcessingRecipeBuilder.create(
 					ingredient,
 					tagCount,
 					RecipeCategory.MISC,
-					new ItemStack(output, outputCount),
+					new ItemStack(result, resultCount),
 					experience,
 					cookingTime,
 					CrusherRecipe::new)
-				.criterion("has_" + tag.id().getPath(), conditionsFromTag(tag))
-				.offerTo(exporter,
-					getItemPath(output.asItem()) + "_from_crushing_" + tag.id().getPath());
+				.unlockedBy("has_" + tag.location().getPath(), has(tag))
+				.save(output,
+					getItemName(result.asItem()) + "_from_crushing_" + tag.location().getPath());
 		} catch (IllegalStateException e) {
 			// If tag does not exist, then do not generate the recipe.
 		}
@@ -95,28 +93,27 @@ public abstract class ProcessingRecipeGenerator extends RecipeGenerator {
 	 *
 	 * @param input       Input item
 	 * @param inputCount  Number of input items
-	 * @param output      Output item
-	 * @param outputCount Number of output items
+	 * @param result      Output item
+	 * @param resultCount Number of output items
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCompressorRecipe(
-		ItemConvertible input,
+		ItemLike input,
 		int inputCount,
-		ItemConvertible output,
-		int outputCount
-	) {
-		final Ingredient ingredient = Ingredient.ofItem(input);
-		ProcessingRecipeJsonBuilder.create(
+		ItemLike result,
+		int resultCount) {
+		final Ingredient ingredient = Ingredient.of(input);
+		ProcessingRecipeBuilder.create(
 				ingredient,
 				inputCount,
 				RecipeCategory.MISC,
-				new ItemStack(output, outputCount),
+				new ItemStack(result, resultCount),
 				experience,
 				cookingTime,
 				CompressorRecipe::new)
-			.criterion(hasItem(input), conditionsFromItem(input))
-			.offerTo(exporter,
-				getItemPath(output.asItem()) + "_from_compressing_" + getItemPath(input));
+			.unlockedBy(getHasName(input), has(input))
+			.save(output,
+				getItemName(result.asItem()) + "_from_compressing_" + getItemName(input));
 	}
 
 	/**
@@ -124,30 +121,29 @@ public abstract class ProcessingRecipeGenerator extends RecipeGenerator {
 	 *
 	 * @param tag         Input item tag
 	 * @param tagCount    Number of input items
-	 * @param output      Output item
-	 * @param outputCount Number of output items
+	 * @param result      Output item
+	 * @param resultCount Number of output items
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCompressorRecipe(
 		TagKey<Item> tag,
 		int tagCount,
-		ItemConvertible output,
-		int outputCount
-	) {
+		ItemLike result,
+		int resultCount) {
 		try {
-			final RegistryWrapper.Impl<Item> registryLookup = registries.getOrThrow(RegistryKeys.ITEM);
-			final Ingredient ingredient = Ingredient.fromTag(registryLookup.getOrThrow(tag));
-			ProcessingRecipeJsonBuilder.create(
+			final HolderLookup.RegistryLookup<Item> registryLookup = registries.lookupOrThrow(Registries.ITEM);
+			final Ingredient ingredient = Ingredient.of(registryLookup.getOrThrow(tag));
+			ProcessingRecipeBuilder.create(
 					ingredient,
 					tagCount,
 					RecipeCategory.MISC,
-					new ItemStack(output, outputCount),
+					new ItemStack(result, resultCount),
 					experience,
 					cookingTime,
 					CompressorRecipe::new)
-				.criterion("has_" + tag.id().getPath(), conditionsFromTag(tag))
-				.offerTo(exporter,
-					getItemPath(output.asItem()) + "_from_compressing_" + tag.id().getPath());
+				.unlockedBy("has_" + tag.location().getPath(), has(tag))
+				.save(output,
+					getItemName(result.asItem()) + "_from_compressing_" + tag.location().getPath());
 		} catch (IllegalStateException e) {
 			// If tag does not exist, then do not generate the recipe.
 		}

@@ -3,63 +3,64 @@ package eu.pintergabor.crusher.blocks;
 import com.mojang.serialization.MapCodec;
 import eu.pintergabor.crusher.blocks.base.AbstractProcessingBlock;
 import eu.pintergabor.crusher.util.BlockUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.block.BlastFurnaceBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BlastFurnaceBlock;
+import net.minecraft.world.level.block.FurnaceBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
 
 /**
- * A machine, similar to a furnace, but for compressing.
+ * A machine, similar to a {@link FurnaceBlock} or a {@link BlastFurnaceBlock},
+ * but for compressing.
  */
 public class CompressorBlock extends AbstractProcessingBlock {
-	public static final MapCodec<CompressorBlock> CODEC = createCodec(CompressorBlock::new);
+	public static final MapCodec<CompressorBlock> CODEC = simpleCodec(CompressorBlock::new);
 
 	@Override
-	public MapCodec<CompressorBlock> getCodec() {
+	public @NotNull MapCodec<CompressorBlock> codec() {
 		return CODEC;
 	}
 
-	public CompressorBlock(Settings settings) {
-		super(settings);
+	public CompressorBlock(Properties props) {
+		super(props);
 	}
 
 	@Override
-	protected void openScreen(World world, BlockPos pos, PlayerEntity player) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof CompressorBlockEntity) {
-			player.openHandledScreen(((NamedScreenHandlerFactory) blockEntity));
-			// Increment statistics.
-			player.incrementStat(ModStats.COMPRESSOR_STAT);
-		}
-	}
-
-	@Nullable
-	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new CompressorBlockEntity(pos, state);
 	}
 
-	/**
-	 * Based on {@link BlastFurnaceBlock#randomDisplayTick(BlockState, World, BlockPos, Random)}
-	 */
 	@Override
-	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-		BlockUtil.randomBlockTick(state, world, pos, random);
+	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+		Level world, BlockState state, BlockEntityType<T> type) {
+		return createModTicker(world, type, ModBlocks.COMPRESSOR_ENTITY);
 	}
 
-	@Nullable
 	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
-		World world, BlockState state, BlockEntityType<T> type) {
-		return validateModTicker(world, type, ModBlocks.COMPRESSOR_ENTITY);
+	protected void openContainer(Level world, BlockPos pos, Player player) {
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof CompressorBlockEntity) {
+			player.openMenu((MenuProvider) blockEntity);
+			// Increment statistics.
+			player.awardStat(ModStats.COMPRESSOR_STAT);
+		}
+	}
+
+	/**
+	 * Based on {@link BlastFurnaceBlock#animateTick(BlockState, Level, BlockPos, RandomSource)}.
+	 */
+	@Override
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+		BlockUtil.randomBlockTick(state, level, pos, random);
 	}
 }

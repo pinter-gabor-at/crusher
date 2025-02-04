@@ -1,59 +1,61 @@
 package eu.pintergabor.crusher.screen.base;
 
 import eu.pintergabor.crusher.blocks.base.AbstractProcessingBlockEntity;
+import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.FurnaceOutputSlot;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.FurnaceResultSlot;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 
 /**
- * Similar to {@link FurnaceOutputSlot}.
+ * Similar to {@link FurnaceResultSlot}.
  */
 public class ProcessingOutputSlot extends Slot {
-	private final PlayerEntity player;
-	private int amount;
+	private final Player player;
+	private int removeCount;
 
-	public ProcessingOutputSlot(PlayerEntity player, Inventory inventory, int index, int x, int y) {
-		super(inventory, index, x, y);
+	public ProcessingOutputSlot(
+		Player player, Container container,
+		int slot, int x, int y) {
+		super(container, slot, x, y);
 		this.player = player;
 	}
 
 	@Override
-	public boolean canInsert(ItemStack stack) {
+	public boolean mayPlace(ItemStack stack) {
 		return false;
 	}
 
 	@Override
-	public ItemStack takeStack(int amount) {
-		if (hasStack()) {
-			amount += Math.min(amount, getStack().getCount());
+	public @NotNull ItemStack remove(int amount) {
+		if (hasItem()) {
+			amount += Math.min(amount, getItem().getCount());
 		}
-		return super.takeStack(amount);
+		return super.remove(amount);
 	}
 
 	@Override
-	public void onTakeItem(PlayerEntity player, ItemStack stack) {
-		onCrafted(stack);
-		super.onTakeItem(player, stack);
+	public void onTake(Player player, ItemStack stack) {
+		checkTakeAchievements(stack);
+		super.onTake(player, stack);
+	}
+
+	protected void onQuickCraft(ItemStack stack, int amount) {
+		removeCount += amount;
+		checkTakeAchievements(stack);
 	}
 
 	@Override
-	protected void onCrafted(ItemStack stack, int amount) {
-		this.amount += amount;
-		onCrafted(stack);
-	}
-
-	@Override
-	protected void onCrafted(ItemStack stack) {
-		stack.onCraftByPlayer(player, amount);
-		if (player instanceof ServerPlayerEntity serverPlayerEntity &&
-			inventory instanceof AbstractProcessingBlockEntity abstractProcessingBlockEntity) {
+	protected void checkTakeAchievements(ItemStack stack) {
+		stack.onCraftedBy(player, removeCount);
+		if (player instanceof ServerPlayer serverPlayerEntity &&
+			container instanceof AbstractProcessingBlockEntity abstractProcessingBlockEntity) {
 			abstractProcessingBlockEntity.dropExperienceForRecipesUsed(serverPlayerEntity);
 		}
-		amount = 0;
+		removeCount = 0;
 	}
 }

@@ -4,24 +4,25 @@ import java.util.concurrent.CompletableFuture;
 
 import eu.pintergabor.crusher.blocks.ModBlocks;
 
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.BlockTags;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 
 
 public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
+
 	public ModBlockTagProvider(
 		FabricDataOutput output,
-		CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+		CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);
 	}
 
 	@Override
-	protected void configure(RegistryWrapper.WrapperLookup arg) {
+	protected void addTags(HolderLookup.Provider wrapperLookup) {
 		// Mineable with pickaxe.
-		getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+		getOrCreateTagBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
 			.add(ModBlocks.CRUSHER_BLOCK)
 			.add(ModBlocks.COMPRESSOR_BLOCK);
 	}

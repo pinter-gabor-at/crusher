@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/orientable",
+  "parent": "minecraft:block/orientable_with_bottom",
   "textures": {
+    "bottom": "crusher:block/crusher_bottom",
     "front": "crusher:block/crusher_front_on",
     "side": "crusher:block/crusher_side",
     "top": "crusher:block/crusher_top"
