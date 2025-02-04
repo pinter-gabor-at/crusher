@@ -20,7 +20,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.*;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -54,10 +53,10 @@ public abstract class AbstractProcessingBlockEntity
     public static final int PROPERTY_COUNT = 4;
     public static final int DEFAULT_COOK_TIME = 200;
     protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-    int litTimeRemaining;
-    int litTotalTime;
-    int cookingTimeSpent;
-    int cookingTotalTime;
+    protected int litTimeRemaining;
+    protected int litTotalTime;
+    protected int cookingTimeSpent;
+    protected int cookingTotalTime;
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
@@ -73,17 +72,10 @@ public abstract class AbstractProcessingBlockEntity
         @Override
         public void set(int index, int value) {
             switch (index) {
-                case BURN_TIME_PROPERTY_INDEX:
-                    litTimeRemaining = value;
-                    break;
-                case FUEL_TIME_PROPERTY_INDEX:
-                    litTotalTime = value;
-                    break;
-                case COOK_TIME_PROPERTY_INDEX:
-                    cookingTimeSpent = value;
-                    break;
-                case COOK_TIME_TOTAL_PROPERTY_INDEX:
-                    cookingTotalTime = value;
+                case BURN_TIME_PROPERTY_INDEX -> litTimeRemaining = value;
+                case FUEL_TIME_PROPERTY_INDEX -> litTotalTime = value;
+                case COOK_TIME_PROPERTY_INDEX -> cookingTimeSpent = value;
+                case COOK_TIME_TOTAL_PROPERTY_INDEX -> cookingTotalTime = value;
             }
         }
 
@@ -102,11 +94,11 @@ public abstract class AbstractProcessingBlockEntity
             RecipeType<? extends AbstractProcessingRecipe> recipeType
     ) {
         super(blockEntityType, pos, state);
-        this.matchGetter = ServerRecipeManager.createCachedMatchGetter(recipeType);
+        matchGetter = ServerRecipeManager.createCachedMatchGetter(recipeType);
     }
 
     protected boolean isBurning() {
-        return this.litTimeRemaining > 0;
+        return litTimeRemaining > 0;
     }
 
     @Override
@@ -127,13 +119,14 @@ public abstract class AbstractProcessingBlockEntity
     @Override
     protected void writeNbt(NbtCompound nbt, WrapperLookup registries) {
         super.writeNbt(nbt, registries);
-        nbt.putShort("cooking_time_spent", (short) this.cookingTimeSpent);
-        nbt.putShort("cooking_total_time", (short) this.cookingTotalTime);
-        nbt.putShort("lit_time_remaining", (short) this.litTimeRemaining);
-        nbt.putShort("lit_total_time", (short) this.litTotalTime);
-        Inventories.writeNbt(nbt, this.inventory, registries);
+        nbt.putShort("cooking_time_spent", (short) cookingTimeSpent);
+        nbt.putShort("cooking_total_time", (short) cookingTotalTime);
+        nbt.putShort("lit_time_remaining", (short) litTimeRemaining);
+        nbt.putShort("lit_total_time", (short) litTotalTime);
+        Inventories.writeNbt(nbt, inventory, registries);
         NbtCompound nbtCompound = new NbtCompound();
-        this.recipesUsed.forEach((recipeKey, count) -> nbtCompound.putInt(recipeKey.getValue().toString(), count));
+        recipesUsed.forEach((recipeKey, count) ->
+                nbtCompound.putInt(recipeKey.getValue().toString(), count));
         nbt.put("RecipesUsed", nbtCompound);
     }
 
@@ -354,15 +347,15 @@ public abstract class AbstractProcessingBlockEntity
 
     @Override
     public boolean isValid(int slot, ItemStack stack) {
-        if (slot == OUTPUT_SLOT_INDEX) {
-            return false;
-        } else if (slot != FUEL_SLOT_INDEX) {
-            return true;
-        } else {
-            ItemStack fuelStack = inventory.get(FUEL_SLOT_INDEX);
-            return ((world != null) && world.getFuelRegistry().isFuel(stack)) ||
-                    (stack.isOf(Items.BUCKET) && !fuelStack.isOf(Items.BUCKET));
-        }
+        return switch (slot) {
+            case OUTPUT_SLOT_INDEX -> false;
+            case FUEL_SLOT_INDEX -> {
+                ItemStack fuelStack = inventory.get(FUEL_SLOT_INDEX);
+                yield ((world != null) && world.getFuelRegistry().isFuel(stack)) ||
+                        (stack.isOf(Items.BUCKET) && !fuelStack.isOf(Items.BUCKET));
+            }
+            default -> true;
+        };
     }
 
     @Override
