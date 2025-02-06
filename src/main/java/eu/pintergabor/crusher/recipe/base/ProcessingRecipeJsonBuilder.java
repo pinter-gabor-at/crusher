@@ -10,7 +10,6 @@ import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.book.CookingRecipeCategory;
@@ -30,7 +29,8 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     private final RecipeCategory category;
     private final CookingRecipeCategory cookingCategory;
     private final ItemStack output;
-    private final Ingredient input;
+    private final Ingredient ingredient;
+    private final int ingregientCount;
     private final float experience;
     private final int cookingTime;
     private final Map<String, AdvancementCriterion<?>> criteria = new LinkedHashMap<>();
@@ -42,7 +42,8 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
             RecipeCategory category,
             CookingRecipeCategory cookingCategory,
             ItemStack output,
-            Ingredient input,
+            Ingredient ingredient,
+            int ingregientCount,
             float experience,
             int cookingTime,
             AbstractProcessingRecipe.RecipeFactory<?> recipeFactory
@@ -50,14 +51,16 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
         this.category = category;
         this.cookingCategory = cookingCategory;
         this.output = output;
-        this.input = input;
+        this.ingredient = ingredient;
+        this.ingregientCount = ingregientCount;
         this.experience = experience;
         this.cookingTime = cookingTime;
         this.recipeFactory = recipeFactory;
     }
 
     public static <T extends AbstractProcessingRecipe> ProcessingRecipeJsonBuilder create(
-            Ingredient input,
+            Ingredient ingredient,
+            int ingregientCount,
             RecipeCategory category,
             ItemStack output,
             float experience,
@@ -68,7 +71,8 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
                 category,
                 CookingRecipeCategory.MISC,
                 output,
-                input,
+                ingredient,
+                ingregientCount,
                 experience,
                 cookingTime,
                 recipeFactory);
@@ -101,8 +105,8 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
                 .create(
                         Objects.requireNonNullElse(group, ""),
                         cookingCategory,
-                        input,
-                        1,
+                        ingredient,
+                        ingregientCount,
                         output,
                         experience,
                         cookingTime);

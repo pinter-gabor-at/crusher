@@ -2,9 +2,9 @@
   "type": "minecraft:crushing",
   "category": "misc",
   "cookingtime": 100,
-  "count": 1,
   "experience": 0.1,
   "ingredient": "minecraft:cherry_fence_gate",
+  "ingredient_count": 1,
   "result": {
     "count": 8,
     "id": "minecraft:stick"

@@ -119,7 +119,7 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
                                             .forGetter(AbstractProcessingRecipe::getCategory),
                                     Ingredient.CODEC.fieldOf("ingredient").
                                             forGetter(OneStackRecipe::ingredient),
-                                    Codec.INT.fieldOf("count")
+                                    Codec.INT.fieldOf("ingredient_count")
                                             .orElse(1)
                                             .forGetter(OneStackRecipe::ingredientCount),
                                     ItemStack.VALIDATED_CODEC.fieldOf("result")

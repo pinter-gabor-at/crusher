@@ -2,9 +2,9 @@
   "type": "minecraft:crushing",
   "category": "misc",
   "cookingtime": 100,
-  "count": 1,
   "experience": 0.1,
   "ingredient": "minecraft:magenta_concrete",
+  "ingredient_count": 1,
   "result": {
     "count": 1,
     "id": "minecraft:magenta_concrete_powder"

@@ -2,9 +2,9 @@
   "type": "minecraft:crushing",
   "category": "misc",
   "cookingtime": 150,
-  "count": 1,
   "experience": 0.1,
   "ingredient": "minecraft:nether_gold_ore",
+  "ingredient_count": 1,
   "result": {
     "count": 1,
     "id": "minecraft:raw_gold"

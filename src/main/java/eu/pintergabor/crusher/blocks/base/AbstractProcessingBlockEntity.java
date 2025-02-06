@@ -98,7 +98,7 @@ public abstract class AbstractProcessingBlockEntity
     }
 
     protected boolean isBurning() {
-        return litTimeRemaining > 0;
+        return 0 < litTimeRemaining;
     }
 
     @Override
@@ -133,12 +133,13 @@ public abstract class AbstractProcessingBlockEntity
     public static void tick(ServerWorld world, BlockPos pos, BlockState state, AbstractProcessingBlockEntity blockEntity) {
         boolean burning = blockEntity.isBurning();
         boolean changed = false;
-        if (blockEntity.isBurning()) {
+        // Count down burning time.
+        if (burning) {
             blockEntity.litTimeRemaining--;
         }
-
-        ItemStack fuelStack = blockEntity.inventory.get(FUEL_SLOT_INDEX);
+        // Check if starting / continuing processing is possible.
         ItemStack inputStack = blockEntity.inventory.get(INPUT_SLOT_INDEX);
+        ItemStack fuelStack = blockEntity.inventory.get(FUEL_SLOT_INDEX);
         boolean hasInput = !inputStack.isEmpty();
         boolean hasFuel = !fuelStack.isEmpty();
         if (blockEntity.isBurning() || (hasFuel && hasInput)) {
@@ -153,7 +154,7 @@ public abstract class AbstractProcessingBlockEntity
             // Start processing a new input item
             int maxCount = blockEntity.getMaxCountPerStack();
             if (!blockEntity.isBurning() &&
-                    canAcceptRecipeOutput(
+                    canCraftRecipe(
                             world.getRegistryManager(),
                             recipeEntry,
                             oneStackRecipeInput,
@@ -161,6 +162,7 @@ public abstract class AbstractProcessingBlockEntity
                             maxCount)) {
                 blockEntity.litTimeRemaining = blockEntity.getFuelTime(world.getFuelRegistry(), fuelStack);
                 blockEntity.litTotalTime = blockEntity.litTimeRemaining;
+                // Need more fuel to continue.
                 if (blockEntity.isBurning()) {
                     changed = true;
                     if (hasFuel) {
@@ -174,7 +176,7 @@ public abstract class AbstractProcessingBlockEntity
             }
             // End processing one input item and generate output
             if (blockEntity.isBurning() &&
-                    canAcceptRecipeOutput(
+                    canCraftRecipe(
                             world.getRegistryManager(),
                             recipeEntry,
                             oneStackRecipeInput,
@@ -191,6 +193,8 @@ public abstract class AbstractProcessingBlockEntity
                             blockEntity.inventory,
                             maxCount)) {
                         blockEntity.setLastRecipe(recipeEntry);
+                        // Special action?
+                        blockEntity.crafted();
                     }
                     changed = true;
                 }
@@ -216,15 +220,36 @@ public abstract class AbstractProcessingBlockEntity
         }
     }
 
-    private static boolean canAcceptRecipeOutput(
+    /**
+     * Called when something has been crafted.
+     */
+    protected void crafted() {
+        // Do nothing.
+    }
+
+    /**
+     * Check if there are enough items in the input slot, and enough space in the output slot to craft new items.
+     *
+     * @param inputStack  {@link ItemStack} in the input slot
+     * @param outputStack {@link ItemStack} in the ouput slot
+     * @param inputCount  Number of items needed to craft resultStack
+     * @param resultStack {@link ItemStack} that will be crafted
+     * @param maxCount    Optional to further limit the max size of the new outputStack
+     * @return true if nothing prevents crafting
+     */
+    private static boolean canCraft(
             ItemStack inputStack,
             ItemStack outputStack,
+            int inputCount,
             ItemStack resultStack,
             int maxCount) {
-        if (!inputStack.isEmpty()) {
+        if (!inputStack.isEmpty() && inputCount <= inputStack.getCount()) {
+            // If the input slot contains enough items for crafting.
             if (resultStack.isEmpty()) {
+                // If there is no valid recipe, then there is no valid result.
                 return false;
             } else {
+                // The number of crafting result items.
                 final int resultCount = resultStack.getCount();
                 if (outputStack.isEmpty()) {
                     // If the output slot is empty then anything is craftable.
@@ -244,45 +269,71 @@ public abstract class AbstractProcessingBlockEntity
         }
     }
 
-    private static boolean canAcceptRecipeOutput(
+    /**
+     * Check if a recipe can be used to craft new items.
+     *
+     * @param dynamicRegistryManager Lookup table
+     * @param recipe                 Using this recipe
+     * @param input                  To craft from this item
+     * @param inventory              Inventory of the entity
+     * @param maxCount               To further limit the craftable items in the output slot
+     * @return true if the recipe is craftable,
+     * and there are enough items in the input slot,
+     * and there is enough space in the output slot for the new items.
+     */
+    private static boolean canCraftRecipe(
             DynamicRegistryManager dynamicRegistryManager,
             @Nullable RecipeEntry<? extends AbstractProcessingRecipe> recipe,
             OneStackRecipeInput input,
             DefaultedList<ItemStack> inventory,
             int maxCount) {
-        final ItemStack inputStack = inventory.get(INPUT_SLOT_INDEX);
-        final ItemStack outputStack = inventory.get(OUTPUT_SLOT_INDEX);
-        final ItemStack resultStack = recipe == null ?
-                ItemStack.EMPTY : recipe.value().craft(input, dynamicRegistryManager);
-        return canAcceptRecipeOutput(inputStack, outputStack, resultStack, maxCount);
+        if (recipe != null) {
+            final ItemStack inputStack = inventory.get(INPUT_SLOT_INDEX);
+            final ItemStack outputStack = inventory.get(OUTPUT_SLOT_INDEX);
+            final int inputCount = recipe.value().ingredientCount();
+            final ItemStack resultStack = recipe.value().craft(input, dynamicRegistryManager);
+            return canCraft(inputStack, outputStack, inputCount, resultStack, maxCount);
+        }
+        return false;
     }
 
+    /**
+     * Craft new items if the recipe can be used to craft them.
+     *
+     * @param dynamicRegistryManager Lookup table
+     * @param recipe                 Using this recipe
+     * @param input                  To craft from this item
+     * @param inventory              Inventory of the entity
+     * @param maxCount               To further limit the craftable items in the output slot
+     * @return true if the new items are crafted.
+     */
     private static boolean craftRecipe(
             DynamicRegistryManager dynamicRegistryManager,
             @Nullable RecipeEntry<? extends AbstractProcessingRecipe> recipe,
             OneStackRecipeInput input,
             DefaultedList<ItemStack> inventory,
-            int maxCount
-    ) {
-        final ItemStack inputStack = inventory.get(INPUT_SLOT_INDEX);
-        final ItemStack outputStack = inventory.get(OUTPUT_SLOT_INDEX);
-        final ItemStack resultStack = recipe == null ?
-                ItemStack.EMPTY : recipe.value().craft(input, dynamicRegistryManager);
-        if (canAcceptRecipeOutput(inputStack, outputStack, resultStack, maxCount)) {
-            final int resultCount = resultStack.getCount();
-            if (outputStack.isEmpty()) {
-                // If the output slot is empty then craft it.
-                inventory.set(OUTPUT_SLOT_INDEX, resultStack.copy());
-            } else {
-                // Else increment the item count in the output slot.
-                outputStack.increment(resultCount);
+            int maxCount) {
+        if (recipe != null) {
+            final ItemStack inputStack = inventory.get(INPUT_SLOT_INDEX);
+            final ItemStack outputStack = inventory.get(OUTPUT_SLOT_INDEX);
+            final int inputCount = recipe.value().ingredientCount();
+            final ItemStack resultStack = recipe.value().craft(input, dynamicRegistryManager);
+            if (canCraft(inputStack, outputStack, inputCount, resultStack, maxCount)) {
+                // Craft.
+                final int resultCount = resultStack.getCount();
+                if (outputStack.isEmpty()) {
+                    // If the output slot is empty then craft it.
+                    inventory.set(OUTPUT_SLOT_INDEX, resultStack.copy());
+                } else {
+                    // Else increment the item count in the output slot.
+                    outputStack.increment(resultCount);
+                }
+                // Use up the needed amount of input items.
+                inputStack.decrement(inputCount);
+                return true;
             }
-            // Use up one input item.
-            inputStack.decrement(1);
-            return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     protected int getFuelTime(FuelRegistry fuelRegistry, ItemStack stack) {
@@ -309,7 +360,7 @@ public abstract class AbstractProcessingBlockEntity
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        return this.isValid(slot, stack);
+        return isValid(slot, stack);
     }
 
     @Override
