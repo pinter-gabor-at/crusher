@@ -453,7 +453,6 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         createCompressorRecipe(Items.OXIDIZED_COPPER_TRAPDOOR, 1, Items.COPPER_INGOT, 4);
         createCompressorRecipe(Items.WAXED_OXIDIZED_COPPER_TRAPDOOR, 1, Items.COPPER_INGOT, 4);
         createCompressorRecipe(Items.COPPER_BLOCK, 1, Items.COPPER_INGOT, 9);
-        createCompressorRecipe(Items.RAW_COPPER_BLOCK, 1, Items.COPPER_INGOT, 9);
         createCompressorRecipe(Items.WAXED_COPPER_BLOCK, 1, Items.COPPER_INGOT, 9);
         createCompressorRecipe(Items.EXPOSED_COPPER, 1, Items.COPPER_INGOT, 9);
         createCompressorRecipe(Items.WAXED_EXPOSED_COPPER, 1, Items.COPPER_INGOT, 9);
@@ -483,7 +482,6 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         createCompressorRecipe(Items.IRON_SHOVEL, 1, Items.IRON_INGOT, 1);
         createCompressorRecipe(Items.IRON_SWORD, 1, Items.IRON_INGOT, 2);
         createCompressorRecipe(Items.IRON_BLOCK, 1, Items.IRON_INGOT, 9);
-        createCompressorRecipe(Items.RAW_IRON_BLOCK, 1, Items.IRON_INGOT, 9);
         createCompressorRecipe(Items.IRON_HELMET, 1, Items.IRON_INGOT, 5);
         createCompressorRecipe(Items.IRON_CHESTPLATE, 1, Items.IRON_INGOT, 8);
         createCompressorRecipe(Items.IRON_LEGGINGS, 1, Items.IRON_INGOT, 7);
@@ -501,7 +499,6 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         createCompressorRecipe(Items.GOLDEN_SHOVEL, 1, Items.GOLD_INGOT, 1);
         createCompressorRecipe(Items.GOLDEN_SWORD, 1, Items.GOLD_INGOT, 2);
         createCompressorRecipe(Items.GOLD_BLOCK, 1, Items.GOLD_INGOT, 9);
-        createCompressorRecipe(Items.RAW_GOLD_BLOCK, 1, Items.GOLD_INGOT, 9);
         createCompressorRecipe(Items.GOLDEN_HELMET, 1, Items.GOLD_INGOT, 5);
         createCompressorRecipe(Items.GOLDEN_CHESTPLATE, 1, Items.GOLD_INGOT, 8);
         createCompressorRecipe(Items.GOLDEN_LEGGINGS, 1, Items.GOLD_INGOT, 7);
