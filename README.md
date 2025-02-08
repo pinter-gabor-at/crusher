@@ -9,7 +9,8 @@ The Crusher works similar to a furnace, and has a similar recipe:
 
 ![Crusher recipe](./images/crusher_recipe.png "Crusher recipe")
 
-The Compressor can sometime reverse the action of the Crusher.
+The Compressor can sometimes reverse the action of the Crusher.
+And sometimes it can create new things.
 
 ![Screenshot](./images/screenshot2.png "Compressor screenshot")
 
