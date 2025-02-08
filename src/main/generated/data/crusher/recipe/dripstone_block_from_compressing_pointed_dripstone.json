@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:compressing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:pointed_dripstone",
+  "ingredient_count": 4,
+  "result": {
+    "count": 1,
+    "id": "minecraft:dripstone_block"
+  }
+}

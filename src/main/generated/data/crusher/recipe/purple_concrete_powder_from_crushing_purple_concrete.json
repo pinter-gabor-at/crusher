@@ -4,6 +4,7 @@
   "cookingtime": 100,
   "experience": 0.1,
   "ingredient": "minecraft:purple_concrete",
+  "ingredient_count": 1,
   "result": {
     "count": 1,
     "id": "minecraft:purple_concrete_powder"

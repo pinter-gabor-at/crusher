@@ -4,6 +4,7 @@
   "cookingtime": 10,
   "experience": 1.0,
   "ingredient": "minecraft:sand",
+  "ingredient_count": 1,
   "result": {
     "count": 1,
     "id": "minecraft:sand"

@@ -4,7 +4,10 @@ import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.*;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.recipe.book.CookingRecipeCategory;
 import net.minecraft.recipe.book.RecipeBookCategories;
 import net.minecraft.recipe.book.RecipeBookCategory;
@@ -24,10 +27,19 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
             String group,
             CookingRecipeCategory category,
             Ingredient ingredient,
+            int ingredientCount,
             ItemStack result,
             float experience,
             int cookingTime) {
-        super(group, category, ingredient, result, experience, cookingTime);
+        super(
+                group,
+                category,
+                ingredient,
+                ingredientCount,
+                result,
+                experience,
+                cookingTime
+        );
     }
 
     @Override
@@ -36,12 +48,12 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
     }
 
     @Override
-    public RecipeSerializer<? extends AbstractCookingRecipe> getSerializer() {
+    public RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
         return SERIALIZER;
     }
 
     @Override
-    public RecipeType<? extends AbstractCookingRecipe> getType() {
+    public RecipeType<? extends AbstractProcessingRecipe> getType() {
         return TYPE;
     }
 

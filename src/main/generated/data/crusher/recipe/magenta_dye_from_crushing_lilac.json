@@ -4,6 +4,7 @@
   "cookingtime": 100,
   "experience": 0.1,
   "ingredient": "minecraft:lilac",
+  "ingredient_count": 1,
   "result": {
     "count": 4,
     "id": "minecraft:magenta_dye"
