@@ -3,10 +3,10 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.1,
-  "ingredient": "minecraft:iron_trapdoor",
+  "ingredient": "#c:storage_blocks/copper",
   "ingredient_count": 1,
   "result": {
-    "count": 3,
-    "id": "minecraft:raw_iron"
+    "count": 9,
+    "id": "minecraft:raw_copper"
   }
 }

@@ -279,31 +279,17 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         // Copper from things made of copper.
         createCrusherRecipe(Items.COPPER_ORE, 1, Items.RAW_COPPER, 4);
         createCrusherRecipe(Items.DEEPSLATE_COPPER_ORE, 1, Items.RAW_COPPER, 4);
-        createCrusherRecipe(Items.COPPER_DOOR, 1, Items.RAW_COPPER, 2);
-        createCrusherRecipe(Items.WAXED_COPPER_DOOR, 1, Items.RAW_COPPER, 2);
-        createCrusherRecipe(Items.EXPOSED_COPPER_DOOR, 1, Items.RAW_COPPER, 2);
-        createCrusherRecipe(Items.WAXED_EXPOSED_COPPER_DOOR, 1, Items.RAW_COPPER, 2);
-        createCrusherRecipe(Items.WEATHERED_COPPER_DOOR, 1, Items.RAW_COPPER, 2);
-        createCrusherRecipe(Items.WAXED_WEATHERED_COPPER_DOOR, 1, Items.RAW_COPPER, 2);
-        createCrusherRecipe(Items.OXIDIZED_COPPER_DOOR, 1, Items.RAW_COPPER, 2);
-        createCrusherRecipe(Items.WAXED_OXIDIZED_COPPER_DOOR, 1, Items.RAW_COPPER, 2);
-        createCrusherRecipe(Items.COPPER_TRAPDOOR, 1, Items.RAW_COPPER, 4);
-        createCrusherRecipe(Items.WAXED_COPPER_TRAPDOOR, 1, Items.RAW_COPPER, 4);
-        createCrusherRecipe(Items.EXPOSED_COPPER_TRAPDOOR, 1, Items.RAW_COPPER, 4);
-        createCrusherRecipe(Items.WAXED_EXPOSED_COPPER_TRAPDOOR, 1, Items.RAW_COPPER, 4);
-        createCrusherRecipe(Items.WEATHERED_COPPER_TRAPDOOR, 1, Items.RAW_COPPER, 4);
-        createCrusherRecipe(Items.WAXED_WEATHERED_COPPER_TRAPDOOR, 1, Items.RAW_COPPER, 4);
-        createCrusherRecipe(Items.OXIDIZED_COPPER_TRAPDOOR, 1, Items.RAW_COPPER, 4);
-        createCrusherRecipe(Items.WAXED_OXIDIZED_COPPER_TRAPDOOR, 1, Items.RAW_COPPER, 4);
-        createCrusherRecipe(Items.COPPER_BLOCK, 1, Items.RAW_COPPER, 9);
-        createCrusherRecipe(Items.RAW_COPPER_BLOCK, 1, Items.RAW_COPPER, 9);
-        createCrusherRecipe(Items.WAXED_COPPER_BLOCK, 1, Items.RAW_COPPER, 9);
-        createCrusherRecipe(Items.EXPOSED_COPPER, 1, Items.RAW_COPPER, 9);
-        createCrusherRecipe(Items.WAXED_EXPOSED_COPPER, 1, Items.RAW_COPPER, 9);
-        createCrusherRecipe(Items.WEATHERED_COPPER, 1, Items.RAW_COPPER, 9);
-        createCrusherRecipe(Items.WAXED_WEATHERED_COPPER, 1, Items.RAW_COPPER, 9);
-        createCrusherRecipe(Items.OXIDIZED_COPPER, 1, Items.RAW_COPPER, 9);
-        createCrusherRecipe(Items.WAXED_OXIDIZED_COPPER, 1, Items.RAW_COPPER, 9);
+        createCrusherRecipe(ModItemTagProvider.COPPER_BLOCKS, 1, Items.RAW_COPPER, 9);
+        // 9 ingots => 1 block => 4 cut or chiseled blocks, or grates or stairs => 12 ingots.
+        // This allows free generation of copper, for those who discover it.
+        createCrusherRecipe(ModItemTagProvider.CUT_COPPER_BLOCKS, 1, Items.RAW_COPPER, 3);
+        createCrusherRecipe(ModItemTagProvider.CHISELED_COPPER_BLOCKS, 1, Items.RAW_COPPER, 3);
+        createCrusherRecipe(ModItemTagProvider.COPPER_GRATES, 1, Items.RAW_COPPER, 3);
+        createCrusherRecipe(ModItemTagProvider.COPPER_STAIRS, 1, Items.RAW_COPPER, 3);
+        createCrusherRecipe(ModItemTagProvider.COPPER_DOORS, 1, Items.RAW_COPPER, 2);
+        createCrusherRecipe(ModItemTagProvider.COPPER_TRAPDOORS, 1, Items.RAW_COPPER, 3);
+        createCrusherRecipe(ModItemTagProvider.COPPER_SLABS, 1, Items.RAW_COPPER, 1);
+        createCrusherRecipe(ModItemTagProvider.COPPER_BULBS, 1, Items.RAW_COPPER, 9);
         // Iron from things made of iron.
         createCrusherRecipe(Items.IRON_ORE, 1, Items.RAW_IRON, 4);
         createCrusherRecipe(Items.DEEPSLATE_IRON_ORE, 1, Items.RAW_IRON, 4);
@@ -320,7 +306,7 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         createCrusherRecipe(Items.POWDER_SNOW_BUCKET, 1, Items.RAW_IRON, 3);
         createCrusherRecipe(Items.SHEARS, 1, Items.RAW_IRON, 2);
         createCrusherRecipe(Items.IRON_DOOR, 1, Items.RAW_IRON, 2);
-        createCrusherRecipe(Items.IRON_TRAPDOOR, 1, Items.RAW_IRON, 4);
+        createCrusherRecipe(Items.IRON_TRAPDOOR, 1, Items.RAW_IRON, 3);
         createCrusherRecipe(Items.CAULDRON, 1, Items.RAW_IRON, 7);
         createCrusherRecipe(Items.IRON_AXE, 1, Items.RAW_IRON, 3);
         createCrusherRecipe(Items.IRON_PICKAXE, 1, Items.RAW_IRON, 3);
@@ -432,6 +418,53 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         createCompressorRecipe(Items.GUNPOWDER, 1, Items.TNT, 1);
         createCompressorRecipe(Items.TNT, 1, Items.TNT, 1);
         createCompressorRecipe(Items.DIAMOND_BLOCK, 1, Items.TNT, 1);
+        // Sponge.
+        createCompressorRecipe(Items.WET_SPONGE, 1, Items.SPONGE, 1);
+        // Copper from things made of copper.
+        cookingTime = 150;
+        // Copper from things made of copper.
+        // 9 ingots => 1 block => 4 grates or stairs => 12 ingots.
+        // This allows free generation of copper, for those who discover it.
+        createCrusherRecipe(ModItemTagProvider.COPPER_GRATES, 1, Items.COPPER_INGOT, 3);
+        createCrusherRecipe(ModItemTagProvider.COPPER_STAIRS, 1, Items.COPPER_INGOT, 3);
+        createCrusherRecipe(ModItemTagProvider.COPPER_DOORS, 1, Items.COPPER_INGOT, 2);
+        createCrusherRecipe(ModItemTagProvider.COPPER_TRAPDOORS, 1, Items.COPPER_INGOT, 3);
+        createCrusherRecipe(ModItemTagProvider.COPPER_SLABS, 1, Items.COPPER_INGOT, 1);
+        createCrusherRecipe(ModItemTagProvider.COPPER_BULBS, 1, Items.COPPER_INGOT, 9);
+        // Iron from things made of iron.
+        createCompressorRecipe(ModItemTagProvider.BUCKETS, 1, Items.IRON_INGOT, 3);
+        createCompressorRecipe(Items.SHEARS, 1, Items.IRON_INGOT, 2);
+        createCompressorRecipe(Items.IRON_DOOR, 1, Items.IRON_INGOT, 2);
+        createCompressorRecipe(Items.IRON_TRAPDOOR, 1, Items.IRON_INGOT, 4);
+        createCompressorRecipe(Items.CAULDRON, 1, Items.IRON_INGOT, 7);
+        createCompressorRecipe(Items.IRON_AXE, 1, Items.IRON_INGOT, 3);
+        createCompressorRecipe(Items.IRON_PICKAXE, 1, Items.IRON_INGOT, 3);
+        createCompressorRecipe(Items.IRON_HOE, 1, Items.IRON_INGOT, 2);
+        createCompressorRecipe(Items.IRON_SHOVEL, 1, Items.IRON_INGOT, 1);
+        createCompressorRecipe(Items.IRON_SWORD, 1, Items.IRON_INGOT, 2);
+        createCompressorRecipe(Items.IRON_BLOCK, 1, Items.IRON_INGOT, 9);
+        createCompressorRecipe(Items.IRON_HELMET, 1, Items.IRON_INGOT, 5);
+        createCompressorRecipe(Items.IRON_CHESTPLATE, 1, Items.IRON_INGOT, 8);
+        createCompressorRecipe(Items.IRON_LEGGINGS, 1, Items.IRON_INGOT, 7);
+        createCompressorRecipe(Items.IRON_BOOTS, 1, Items.IRON_INGOT, 4);
+        createCompressorRecipe(Items.CHAINMAIL_HELMET, 1, Items.IRON_INGOT, 5);
+        createCompressorRecipe(Items.CHAINMAIL_CHESTPLATE, 1, Items.IRON_INGOT, 8);
+        createCompressorRecipe(Items.CHAINMAIL_LEGGINGS, 1, Items.IRON_INGOT, 7);
+        createCompressorRecipe(Items.CHAINMAIL_BOOTS, 1, Items.IRON_INGOT, 4);
+        createCompressorRecipe(Items.IRON_HORSE_ARMOR, 1, Items.IRON_INGOT, 7);
+        // Gold from things made of gold.
+        cookingTime = 200;
+        createCompressorRecipe(Items.GOLDEN_AXE, 1, Items.GOLD_INGOT, 3);
+        createCompressorRecipe(Items.GOLDEN_PICKAXE, 1, Items.GOLD_INGOT, 3);
+        createCompressorRecipe(Items.GOLDEN_HOE, 1, Items.GOLD_INGOT, 2);
+        createCompressorRecipe(Items.GOLDEN_SHOVEL, 1, Items.GOLD_INGOT, 1);
+        createCompressorRecipe(Items.GOLDEN_SWORD, 1, Items.GOLD_INGOT, 2);
+        createCompressorRecipe(Items.GOLD_BLOCK, 1, Items.GOLD_INGOT, 9);
+        createCompressorRecipe(Items.GOLDEN_HELMET, 1, Items.GOLD_INGOT, 5);
+        createCompressorRecipe(Items.GOLDEN_CHESTPLATE, 1, Items.GOLD_INGOT, 8);
+        createCompressorRecipe(Items.GOLDEN_LEGGINGS, 1, Items.GOLD_INGOT, 7);
+        createCompressorRecipe(Items.GOLDEN_BOOTS, 1, Items.GOLD_INGOT, 4);
+        createCompressorRecipe(Items.GOLDEN_HORSE_ARMOR, 1, Items.GOLD_INGOT, 7);
         // Diamond from coal blocks, but very slowly.
         experience = 1.0f;
         cookingTime = 1000;

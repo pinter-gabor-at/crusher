@@ -39,6 +39,56 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
      */
     public static final TagKey<Item> NORMAL_VEGETABLE_FOODS = TagKey.of(
             RegistryKeys.ITEM, Identifier.of("c", "foods/normal_vegetable"));
+    /**
+     * Copper blocks.
+     */
+    public static final TagKey<Item> COPPER_BLOCKS = TagKey.of(
+            RegistryKeys.ITEM, Identifier.of("c", "storage_blocks/copper"));
+    /**
+     * Cut copper blocks.
+     */
+    public static final TagKey<Item> CUT_COPPER_BLOCKS = TagKey.of(
+            RegistryKeys.ITEM, Identifier.of("c", "cut_blocks/copper"));
+    /**
+     * Chiseled copper blocks.
+     */
+    public static final TagKey<Item> CHISELED_COPPER_BLOCKS = TagKey.of(
+            RegistryKeys.ITEM, Identifier.of("c", "chiseled_blocks/copper"));
+    /**
+     * Copper doors.
+     */
+    public static final TagKey<Item> COPPER_DOORS = TagKey.of(
+            RegistryKeys.ITEM, Identifier.of("c", "doors/copper"));
+    /**
+     * Copper trapdoors.
+     */
+    public static final TagKey<Item> COPPER_TRAPDOORS = TagKey.of(
+            RegistryKeys.ITEM, Identifier.of("c", "trapdoors/copper"));
+    /**
+     * Copper grates.
+     */
+    public static final TagKey<Item> COPPER_GRATES = TagKey.of(
+            RegistryKeys.ITEM, Identifier.of("c", "grates/copper"));
+    /**
+     * Copper bulbs.
+     */
+    public static final TagKey<Item> COPPER_BULBS = TagKey.of(
+            RegistryKeys.ITEM, Identifier.of("c", "bulbes/copper"));
+    /**
+     * Copper slabs.
+     */
+    public static final TagKey<Item> COPPER_SLABS = TagKey.of(
+            RegistryKeys.ITEM, Identifier.of("c", "slabs/copper"));
+    /**
+     * Copper stairs.
+     */
+    public static final TagKey<Item> COPPER_STAIRS = TagKey.of(
+            RegistryKeys.ITEM, Identifier.of("c", "stairs/copper"));
+    /**
+     * Buckets.
+     */
+    public static final TagKey<Item> BUCKETS = TagKey.of(
+            RegistryKeys.ITEM, Identifier.of("c", "buckets"));
 
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
@@ -105,5 +155,72 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(NORMAL_VEGETABLE_FOODS)
                 .add(
                         Items.CARROT, Items.POTATO, Items.BEETROOT);
+        getOrCreateTagBuilder(COPPER_BLOCKS)
+                .add(
+                        Items.COPPER_BLOCK, Items.WAXED_COPPER_BLOCK,
+                        Items.EXPOSED_COPPER, Items.WAXED_EXPOSED_COPPER,
+                        Items.WEATHERED_COPPER, Items.WAXED_WEATHERED_COPPER,
+                        Items.OXIDIZED_COPPER, Items.WAXED_OXIDIZED_COPPER);
+        getOrCreateTagBuilder(CUT_COPPER_BLOCKS)
+                .add(
+                        Items.CUT_COPPER, Items.WAXED_CUT_COPPER,
+                        Items.EXPOSED_CUT_COPPER, Items.WAXED_EXPOSED_CUT_COPPER,
+                        Items.WEATHERED_CUT_COPPER, Items.WAXED_WEATHERED_CUT_COPPER,
+                        Items.OXIDIZED_CUT_COPPER, Items.WAXED_OXIDIZED_CUT_COPPER);
+        getOrCreateTagBuilder(CHISELED_COPPER_BLOCKS)
+                .add(
+                        Items.CHISELED_COPPER, Items.WAXED_CHISELED_COPPER,
+                        Items.EXPOSED_CHISELED_COPPER, Items.WAXED_EXPOSED_CHISELED_COPPER,
+                        Items.WEATHERED_CHISELED_COPPER, Items.WAXED_WEATHERED_CHISELED_COPPER,
+                        Items.OXIDIZED_CHISELED_COPPER, Items.WAXED_OXIDIZED_CHISELED_COPPER);
+        getOrCreateTagBuilder(COPPER_DOORS)
+                .add(
+                        Items.COPPER_DOOR, Items.WAXED_COPPER_DOOR,
+                        Items.EXPOSED_COPPER_DOOR, Items.WAXED_EXPOSED_COPPER_DOOR,
+                        Items.WEATHERED_COPPER_DOOR, Items.WAXED_WEATHERED_COPPER_DOOR,
+                        Items.OXIDIZED_COPPER_DOOR, Items.WAXED_OXIDIZED_COPPER_DOOR);
+        getOrCreateTagBuilder(COPPER_TRAPDOORS)
+                .add(
+                        Items.COPPER_TRAPDOOR, Items.WAXED_COPPER_TRAPDOOR,
+                        Items.EXPOSED_COPPER_TRAPDOOR, Items.WAXED_EXPOSED_COPPER_TRAPDOOR,
+                        Items.WEATHERED_COPPER_TRAPDOOR, Items.WAXED_WEATHERED_COPPER_TRAPDOOR,
+                        Items.OXIDIZED_COPPER_TRAPDOOR, Items.WAXED_OXIDIZED_COPPER_TRAPDOOR);
+        getOrCreateTagBuilder(COPPER_GRATES)
+                .add(
+                        Items.COPPER_GRATE, Items.WAXED_COPPER_GRATE,
+                        Items.EXPOSED_COPPER_GRATE, Items.WAXED_EXPOSED_COPPER_GRATE,
+                        Items.WEATHERED_COPPER_GRATE, Items.WAXED_WEATHERED_COPPER_GRATE,
+                        Items.OXIDIZED_COPPER_GRATE, Items.WAXED_OXIDIZED_COPPER_GRATE);
+        getOrCreateTagBuilder(COPPER_BULBS)
+                .add(
+                        Items.COPPER_BULB, Items.WAXED_COPPER_BULB,
+                        Items.EXPOSED_COPPER_BULB, Items.WAXED_EXPOSED_COPPER_BULB,
+                        Items.WEATHERED_COPPER_BULB, Items.WAXED_WEATHERED_COPPER_BULB,
+                        Items.OXIDIZED_COPPER_BULB, Items.WAXED_OXIDIZED_COPPER_BULB);
+        getOrCreateTagBuilder(COPPER_SLABS)
+                .add(
+                        Items.CUT_COPPER_SLAB, Items.WAXED_CUT_COPPER_SLAB,
+                        Items.EXPOSED_CUT_COPPER_SLAB, Items.WAXED_EXPOSED_CUT_COPPER_SLAB,
+                        Items.WEATHERED_CUT_COPPER_SLAB, Items.WAXED_WEATHERED_CUT_COPPER_SLAB,
+                        Items.OXIDIZED_CUT_COPPER_SLAB, Items.WAXED_OXIDIZED_CUT_COPPER_SLAB);
+        getOrCreateTagBuilder(COPPER_STAIRS)
+                .add(
+                        Items.CUT_COPPER_STAIRS, Items.WAXED_CUT_COPPER_STAIRS,
+                        Items.EXPOSED_CUT_COPPER_STAIRS, Items.WAXED_EXPOSED_CUT_COPPER_STAIRS,
+                        Items.WEATHERED_CUT_COPPER_STAIRS, Items.WAXED_WEATHERED_CUT_COPPER_STAIRS,
+                        Items.OXIDIZED_CUT_COPPER_STAIRS, Items.WAXED_OXIDIZED_CUT_COPPER_STAIRS);
+        getOrCreateTagBuilder(BUCKETS)
+                .add(
+                        Items.BUCKET,
+                        Items.WATER_BUCKET,
+                        Items.LAVA_BUCKET,
+                        Items.MILK_BUCKET,
+                        Items.TROPICAL_FISH_BUCKET,
+                        Items.SALMON_BUCKET,
+                        Items.PUFFERFISH_BUCKET,
+                        Items.COD_BUCKET,
+                        Items.AXOLOTL_BUCKET,
+                        Items.TADPOLE_BUCKET,
+                        Items.POWDER_SNOW_BUCKET);
     }
 }
