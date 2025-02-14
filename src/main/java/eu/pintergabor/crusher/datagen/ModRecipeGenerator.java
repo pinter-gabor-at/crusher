@@ -26,13 +26,25 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         createCrusherRecipe(Items.STONE_HOE, 1, Items.GRAVEL, 2);
         createCrusherRecipe(Items.STONE_SHOVEL, 1, Items.GRAVEL, 1);
         createCrusherRecipe(Items.STONE_SWORD, 1, Items.GRAVEL, 2);
-        // 8 cobblestone => 1 furnace => 9 gravel => 9 cobblestone
+        // 8 cobblestones => 1 furnace => 9 gravels => 9 cobblestones
         // This allows the free generation of cobblestone.
         createCrusherRecipe(Items.FURNACE, 1, Items.GRAVEL, 9);
         // Sand from sandstones and gravel.
         createCrusherRecipe(ModItemTagProvider.SAND_SOURCES, 1, Items.SAND, 1);
+        createCrusherRecipe(ConventionalItemTags.UNCOLORED_SANDSTONE_BLOCKS, 1, Items.SAND, 4);
+        createCrusherRecipe(ConventionalItemTags.UNCOLORED_SANDSTONE_SLABS, 1, Items.SAND, 2);
+        createCrusherRecipe(ConventionalItemTags.UNCOLORED_SANDSTONE_STAIRS, 1, Items.SAND, 6);
+        createCrusherRecipe(Items.SANDSTONE_WALL, 1, Items.SAND, 4);
+        createCrusherRecipe(ConventionalItemTags.GLASS_BLOCKS, 1, Items.SAND, 1);
+        // 6 sands => 6 glass blocks => 16 glass panes => 8 sands
+        // This allows free generation of sand.
+        createCrusherRecipe(ConventionalItemTags.GLASS_PANES, 4, Items.SAND, 2);
         // Red sand from red sandstones and other redish blocks.
         createCrusherRecipe(ModItemTagProvider.RED_SAND_SOURCES, 1, Items.RED_SAND, 1);
+        createCrusherRecipe(ConventionalItemTags.RED_SANDSTONE_BLOCKS, 1, Items.RED_SAND, 4);
+        createCrusherRecipe(ConventionalItemTags.RED_SANDSTONE_SLABS, 1, Items.RED_SAND, 2);
+        createCrusherRecipe(ConventionalItemTags.RED_SANDSTONE_STAIRS, 1, Items.RED_SAND, 6);
+        createCrusherRecipe(Items.RED_SANDSTONE_WALL, 1, Items.RED_SAND, 4);
         // Blaze powder from blaze rod.
         createCrusherRecipe(Items.BLAZE_ROD, 1, Items.BLAZE_POWDER, 2);
         // Bone meal from bone.
@@ -324,6 +336,19 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         createCrusherRecipe(Items.CHAINMAIL_LEGGINGS, 1, Items.RAW_IRON, 7);
         createCrusherRecipe(Items.CHAINMAIL_BOOTS, 1, Items.RAW_IRON, 4);
         createCrusherRecipe(Items.IRON_HORSE_ARMOR, 1, Items.RAW_IRON, 7);
+        createCrusherRecipe(Items.RAIL, 8, Items.RAW_IRON, 3);
+        createCrusherRecipe(Items.ACTIVATOR_RAIL, 1, Items.RAW_IRON, 1);
+        createCrusherRecipe(Items.DETECTOR_RAIL, 1, Items.RAW_IRON, 1);
+        createCrusherRecipe(Items.ANVIL, 1, Items.RAW_IRON, 31);
+        createCrusherRecipe(Items.CHIPPED_ANVIL, 1, Items.RAW_IRON, 20);
+        createCrusherRecipe(Items.DAMAGED_ANVIL, 1, Items.RAW_IRON, 10);
+        createCrusherRecipe(Items.MINECART, 1, Items.RAW_IRON, 5);
+        createCrusherRecipe(Items.CHEST_MINECART, 1, Items.RAW_IRON, 5);
+        createCrusherRecipe(Items.FURNACE_MINECART, 1, Items.RAW_IRON, 5);
+        createCrusherRecipe(Items.HOPPER_MINECART, 1, Items.RAW_IRON, 10);
+        createCrusherRecipe(Items.HOPPER, 1, Items.RAW_IRON, 5);
+        createCrusherRecipe(Items.PISTON, 1, Items.RAW_IRON, 1);
+        createCrusherRecipe(Items.STICKY_PISTON, 1, Items.RAW_IRON, 1);
         // Iron nuggets from iron things.
         // 11 nuggets => 2 nuggets + 1 ingot => 1 chain => 11 nuggets
         createCrusherRecipe(Items.CHAIN, 1, Items.IRON_NUGGET, 11);
@@ -347,6 +372,7 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         createCrusherRecipe(Items.GOLDEN_LEGGINGS, 1, Items.RAW_GOLD, 7);
         createCrusherRecipe(Items.GOLDEN_BOOTS, 1, Items.RAW_GOLD, 4);
         createCrusherRecipe(Items.GOLDEN_HORSE_ARMOR, 1, Items.RAW_GOLD, 7);
+        createCrusherRecipe(Items.POWERED_RAIL, 1, Items.RAW_GOLD, 1);
         // Diamond from things made of diamonds.
         cookingTime = 200;
         createCrusherRecipe(Items.DIAMOND_ORE, 1, Items.DIAMOND, 4);
@@ -378,7 +404,8 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         experience = 0.1f;
         cookingTime = 100;
         // Sandstone from sand.
-        createCompressorRecipe(Items.SAND, 1, Items.SANDSTONE, 1);
+        createCompressorRecipe(Items.SAND, 4, Items.SANDSTONE, 1);
+        createCompressorRecipe(Items.RED_SAND, 4, Items.RED_SANDSTONE, 1);
         // Cobblestone from gravel.
         createCompressorRecipe(Items.GRAVEL, 1, Items.COBBLESTONE, 1);
         // Blaze rod from blaze powder.
@@ -417,6 +444,7 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         // Blow up when compressing a diamond block or something explosive.
         createCompressorRecipe(Items.GUNPOWDER, 1, Items.TNT, 1);
         createCompressorRecipe(Items.TNT, 1, Items.TNT, 1);
+        createCompressorRecipe(Items.TNT_MINECART, 1, Items.TNT, 1);
         createCompressorRecipe(Items.DIAMOND_BLOCK, 1, Items.TNT, 1);
         // Sponge.
         createCompressorRecipe(Items.WET_SPONGE, 1, Items.SPONGE, 1);
@@ -452,6 +480,19 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         createCompressorRecipe(Items.CHAINMAIL_LEGGINGS, 1, Items.IRON_INGOT, 7);
         createCompressorRecipe(Items.CHAINMAIL_BOOTS, 1, Items.IRON_INGOT, 4);
         createCompressorRecipe(Items.IRON_HORSE_ARMOR, 1, Items.IRON_INGOT, 7);
+        createCompressorRecipe(Items.RAIL, 8, Items.IRON_INGOT, 3);
+        createCompressorRecipe(Items.ACTIVATOR_RAIL, 1, Items.IRON_INGOT, 1);
+        createCompressorRecipe(Items.DETECTOR_RAIL, 1, Items.IRON_INGOT, 1);
+        createCompressorRecipe(Items.ANVIL, 1, Items.IRON_INGOT, 31);
+        createCompressorRecipe(Items.CHIPPED_ANVIL, 1, Items.IRON_INGOT, 20);
+        createCompressorRecipe(Items.DAMAGED_ANVIL, 1, Items.IRON_INGOT, 10);
+        createCompressorRecipe(Items.MINECART, 1, Items.IRON_INGOT, 5);
+        createCompressorRecipe(Items.CHEST_MINECART, 1, Items.IRON_INGOT, 5);
+        createCompressorRecipe(Items.FURNACE_MINECART, 1, Items.IRON_INGOT, 5);
+        createCompressorRecipe(Items.HOPPER_MINECART, 1, Items.IRON_INGOT, 10);
+        createCompressorRecipe(Items.HOPPER, 1, Items.IRON_INGOT, 5);
+        createCompressorRecipe(Items.PISTON, 1, Items.IRON_INGOT, 1);
+        createCompressorRecipe(Items.STICKY_PISTON, 1, Items.IRON_INGOT, 1);
         // Gold from things made of gold.
         cookingTime = 200;
         createCompressorRecipe(Items.GOLDEN_AXE, 1, Items.GOLD_INGOT, 3);
@@ -465,6 +506,7 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
         createCompressorRecipe(Items.GOLDEN_LEGGINGS, 1, Items.GOLD_INGOT, 7);
         createCompressorRecipe(Items.GOLDEN_BOOTS, 1, Items.GOLD_INGOT, 4);
         createCompressorRecipe(Items.GOLDEN_HORSE_ARMOR, 1, Items.GOLD_INGOT, 7);
+        createCompressorRecipe(Items.POWERED_RAIL, 1, Items.GOLD_INGOT, 1);
         // Diamond from coal blocks, but very slowly.
         experience = 1.0f;
         cookingTime = 1000;
