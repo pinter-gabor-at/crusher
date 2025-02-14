@@ -10,6 +10,8 @@ base {
 }
 
 repositories {
+	// REI
+	maven { url "https://maven.shedaniel.me" }
 }
 
 fabricApi {
@@ -26,6 +28,10 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// REI
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
+	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 }
 
 processResources {
