@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:compressing",
+  "category": "misc",
+  "cookingtime": 150,
+  "experience": 0.1,
+  "ingredient": "minecraft:furnace_minecart",
+  "ingredient_count": 1,
+  "result": {
+    "count": 5,
+    "id": "minecraft:iron_ingot"
+  }
+}

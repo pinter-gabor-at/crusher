@@ -23,9 +23,6 @@
     ],
     "fabric-datagen": [
       "eu.pintergabor.crusher.Datagen"
-    ],
-    "rei_client": [
-      "eu.pintergabor.crusher.rei.CrusherREIClientPlugin"
     ]
   },
   "depends": {
@@ -33,8 +30,5 @@
     "minecraft": "~1.21.4",
     "java": ">=21",
     "fabric-api": "*"
-  },
-  "suggests": {
-    "roughlyenoughitems": ">=18.0.796"
   }
 }

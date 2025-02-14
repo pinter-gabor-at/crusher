@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:compressing",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": "minecraft:powered_rail",
+  "ingredient_count": 1,
+  "result": {
+    "count": 1,
+    "id": "minecraft:gold_ingot"
+  }
+}
