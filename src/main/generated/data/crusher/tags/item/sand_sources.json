@@ -1,10 +1,5 @@
 {
   "values": [
-    "#c:sandstone/uncolored_blocks",
-    "#c:sandstone/uncolored_slabs",
-    "#c:sandstone/uncolored_stairs",
-    "#c:glass_blocks",
-    "#c:glass_panes",
     "minecraft:gravel",
     "minecraft:quartz",
     "minecraft:quartz_block",

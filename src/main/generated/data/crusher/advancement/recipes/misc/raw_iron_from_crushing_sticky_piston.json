@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_sticky_piston": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:sticky_piston"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:raw_iron_from_crushing_sticky_piston"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sticky_piston"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:raw_iron_from_crushing_sticky_piston"
+    ]
+  }
+}

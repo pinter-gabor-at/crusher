@@ -128,11 +128,6 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         Items.NETHER_BRICK_SLAB, Items.NETHER_BRICK_STAIRS, Items.NETHER_BRICK_WALL,
                         Items.NETHER_BRICKS, Items.CRACKED_NETHER_BRICKS, Items.CHISELED_NETHER_BRICKS);
         getOrCreateTagBuilder(SAND_SOURCES)
-                .forceAddTag(ConventionalItemTags.UNCOLORED_SANDSTONE_BLOCKS)
-                .forceAddTag(ConventionalItemTags.UNCOLORED_SANDSTONE_SLABS)
-                .forceAddTag(ConventionalItemTags.UNCOLORED_SANDSTONE_STAIRS)
-                .forceAddTag(ConventionalItemTags.GLASS_BLOCKS)
-                .forceAddTag(ConventionalItemTags.GLASS_PANES)
                 .add(
                         Items.GRAVEL,
                         Items.QUARTZ, Items.QUARTZ_BLOCK, Items.QUARTZ_BRICKS, Items.QUARTZ_PILLAR,
@@ -142,9 +137,6 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         Items.GLASS_BOTTLE,
                         Items.TERRACOTTA, Items.WHITE_TERRACOTTA, Items.WHITE_GLAZED_TERRACOTTA);
         getOrCreateTagBuilder(RED_SAND_SOURCES)
-                .forceAddTag(ConventionalItemTags.RED_SANDSTONE_BLOCKS)
-                .forceAddTag(ConventionalItemTags.RED_SANDSTONE_SLABS)
-                .forceAddTag(ConventionalItemTags.RED_SANDSTONE_STAIRS)
                 .add(
                         Items.RED_TERRACOTTA, Items.RED_GLAZED_TERRACOTTA,
                         Items.RED_NETHER_BRICK_SLAB, Items.RED_NETHER_BRICK_STAIRS, Items.RED_NETHER_BRICK_WALL,

@@ -3,10 +3,10 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.1,
-  "ingredient": "minecraft:sand",
-  "ingredient_count": 4,
+  "ingredient": "minecraft:tnt_minecart",
+  "ingredient_count": 1,
   "result": {
     "count": 1,
-    "id": "minecraft:sandstone"
+    "id": "minecraft:tnt"
   }
 }

@@ -57,17 +57,17 @@ public abstract class ProcessingRecipeGenerator extends RecipeGenerator {
     /**
      * Create crushing recipe from input item tag
      *
-     * @param tag          Input item tag
-     * @param tagCount     Number of input items
-     * @param output       Output item
-     * @param ooutputCount Number of output items
+     * @param tag         Input item tag
+     * @param tagCount    Number of input items
+     * @param output      Output item
+     * @param outputCount Number of output items
      */
     @SuppressWarnings({"unused", "SameParameterValue"})
     protected void createCrusherRecipe(
             TagKey<Item> tag,
             int tagCount,
             ItemConvertible output,
-            int ooutputCount
+            int outputCount
     ) {
         try {
             final RegistryWrapper.Impl<Item> registryLookup = registries.getOrThrow(RegistryKeys.ITEM);
@@ -76,7 +76,7 @@ public abstract class ProcessingRecipeGenerator extends RecipeGenerator {
                             ingredient,
                             tagCount,
                             RecipeCategory.MISC,
-                            new ItemStack(output, ooutputCount),
+                            new ItemStack(output, outputCount),
                             experience,
                             cookingTime,
                             CrusherRecipe::new)
@@ -120,10 +120,10 @@ public abstract class ProcessingRecipeGenerator extends RecipeGenerator {
     /**
      * Create compressing recipe from input item tag
      *
-     * @param tag      Input item tag
-     * @param tagCount Number of input items
-     * @param output   Output item
-     * @param outputCount    Number of output items
+     * @param tag         Input item tag
+     * @param tagCount    Number of input items
+     * @param output      Output item
+     * @param outputCount Number of output items
      */
     @SuppressWarnings({"unused", "SameParameterValue"})
     protected void createCompressorRecipe(
