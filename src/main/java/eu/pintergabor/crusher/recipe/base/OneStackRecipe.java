@@ -3,14 +3,20 @@ package eu.pintergabor.crusher.recipe.base;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.recipe.*;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.IngredientPlacement;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+
 
 /**
  * A recipe that has only one input ingredient. It can be used by any type
@@ -25,22 +31,22 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
     private IngredientPlacement ingredientPlacement;
 
     public OneStackRecipe(
-            String group,
-            ItemStack input,
-            ItemStack result) {
+        String group,
+        ItemStack input,
+        ItemStack result) {
         this(
-                group,
-                Ingredient.ofItem(input.getItem()),
-                input.getCount(),
-                result
+            group,
+            Ingredient.ofItem(input.getItem()),
+            input.getCount(),
+            result
         );
     }
 
     public OneStackRecipe(
-            String group,
-            Ingredient ingredient,
-            int ingredientCount,
-            ItemStack result) {
+        String group,
+        Ingredient ingredient,
+        int ingredientCount,
+        ItemStack result) {
         this.group = group;
         this.ingredient = ingredient;
         this.ingredientCount = ingredientCount;
@@ -97,25 +103,25 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 
         protected Serializer(OneStackRecipe.RecipeFactory<T> recipeFactory) {
             codec = RecordCodecBuilder.mapCodec(
-                    instance -> instance.group(
-                                    Codec.STRING.optionalFieldOf("group", "")
-                                            .forGetter(OneStackRecipe::getGroup),
-                                    Ingredient.CODEC.fieldOf("ingredient").
-                                            forGetter(OneStackRecipe::ingredient),
-                                    Codec.INT.fieldOf("count")
-                                            .orElse(1)
-                                            .forGetter(OneStackRecipe::ingredientCount),
-                                    ItemStack.VALIDATED_CODEC.fieldOf("result")
-                                            .forGetter(OneStackRecipe::result)
-                            )
-                            .apply(instance, recipeFactory::create)
+                instance -> instance.group(
+                        Codec.STRING.optionalFieldOf("group", "")
+                            .forGetter(OneStackRecipe::getGroup),
+                        Ingredient.CODEC.fieldOf("ingredient").
+                            forGetter(OneStackRecipe::ingredient),
+                        Codec.INT.fieldOf("count")
+                            .orElse(1)
+                            .forGetter(OneStackRecipe::ingredientCount),
+                        ItemStack.VALIDATED_CODEC.fieldOf("result")
+                            .forGetter(OneStackRecipe::result)
+                    )
+                    .apply(instance, recipeFactory::create)
             );
             packetCodec = PacketCodec.tuple(
-                    PacketCodecs.STRING, OneStackRecipe::getGroup,
-                    Ingredient.PACKET_CODEC, OneStackRecipe::ingredient,
-                    PacketCodecs.INTEGER, OneStackRecipe::ingredientCount,
-                    ItemStack.PACKET_CODEC, OneStackRecipe::result,
-                    recipeFactory::create
+                PacketCodecs.STRING, OneStackRecipe::getGroup,
+                Ingredient.PACKET_CODEC, OneStackRecipe::ingredient,
+                PacketCodecs.INTEGER, OneStackRecipe::ingredientCount,
+                ItemStack.PACKET_CODEC, OneStackRecipe::result,
+                recipeFactory::create
             );
         }
 

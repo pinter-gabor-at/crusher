@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.FurnaceFuelSlot;
 import net.minecraft.screen.slot.Slot;
 
+
 /**
  * Similar to {@link FurnaceFuelSlot},
  * but without special handling for buckets.

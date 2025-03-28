@@ -1,13 +1,20 @@
 package eu.pintergabor.crusher.blocks.base;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.Lists;
+import com.mojang.serialization.Codec;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import eu.pintergabor.crusher.recipe.base.OneStackRecipeInput;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap.Entry;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.ExperienceOrbEntity;
@@ -19,32 +26,40 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.*;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.RecipeFinder;
+import net.minecraft.recipe.RecipeInputProvider;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.RecipeUnlocker;
+import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 
+/**
+ * Similar to {@link AbstractFurnaceBlockEntity}.
+ * <li>But allows multiple input and output counts.
+ * <li>And adds a hook for special processing.
+ * <li>And removes the special handling of buckets in the fuel slot.
+ */
 public abstract class AbstractProcessingBlockEntity
-        extends LockableContainerBlockEntity
-        implements SidedInventory, RecipeUnlocker, RecipeInputProvider {
+    extends LockableContainerBlockEntity
+    implements SidedInventory, RecipeUnlocker, RecipeInputProvider {
     public static final int INPUT_SLOT_INDEX = 0;
     public static final int FUEL_SLOT_INDEX = 1;
     public static final int OUTPUT_SLOT_INDEX = 2;
     private static final int[] TOP_SLOTS = new int[]{INPUT_SLOT_INDEX};
-    private static final int[] BOTTOM_SLOTS = new int[]{OUTPUT_SLOT_INDEX, FUEL_SLOT_INDEX};
+    private static final int[] BOTTOM_SLOTS = new int[]{OUTPUT_SLOT_INDEX};
     private static final int[] SIDE_SLOTS = new int[]{FUEL_SLOT_INDEX};
     public static final int BURN_TIME_PROPERTY_INDEX = 0;
     public static final int FUEL_TIME_PROPERTY_INDEX = 1;
@@ -52,11 +67,16 @@ public abstract class AbstractProcessingBlockEntity
     public static final int COOK_TIME_TOTAL_PROPERTY_INDEX = 3;
     public static final int PROPERTY_COUNT = 4;
     public static final int DEFAULT_COOK_TIME = 200;
+    private static final Codec<Map<RegistryKey<Recipe<?>>, Integer>> CODEC =
+        Codec.unboundedMap(Recipe.KEY_CODEC, Codec.INT);
     protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     protected int litTimeRemaining;
     protected int litTotalTime;
     protected int cookingTimeSpent;
     protected int cookingTotalTime;
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     protected final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
@@ -87,35 +107,45 @@ public abstract class AbstractProcessingBlockEntity
     private final Reference2IntOpenHashMap<RegistryKey<Recipe<?>>> recipesUsed = new Reference2IntOpenHashMap<>();
     private final ServerRecipeManager.MatchGetter<OneStackRecipeInput, ? extends AbstractProcessingRecipe> matchGetter;
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     protected AbstractProcessingBlockEntity(
-            BlockEntityType<?> blockEntityType,
-            BlockPos pos,
-            BlockState state,
-            RecipeType<? extends AbstractProcessingRecipe> recipeType
+        BlockEntityType<?> blockEntityType,
+        BlockPos pos,
+        BlockState state,
+        RecipeType<? extends AbstractProcessingRecipe> recipeType
     ) {
         super(blockEntityType, pos, state);
         matchGetter = ServerRecipeManager.createCachedMatchGetter(recipeType);
     }
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     protected boolean isBurning() {
         return 0 < litTimeRemaining;
     }
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     @Override
     protected void readNbt(NbtCompound nbt, WrapperLookup registries) {
         super.readNbt(nbt, registries);
         inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
         Inventories.readNbt(nbt, inventory, registries);
-        cookingTimeSpent = nbt.getShort("cooking_time_spent");
-        cookingTotalTime = nbt.getShort("cooking_total_time");
-        litTimeRemaining = nbt.getShort("lit_time_remaining");
-        litTotalTime = nbt.getShort("lit_total_time");
-        NbtCompound nbtCompound = nbt.getCompound("RecipesUsed");
-        for (String string : nbtCompound.getKeys()) {
-            this.recipesUsed.put(RegistryKey.of(RegistryKeys.RECIPE, Identifier.of(string)), nbtCompound.getInt(string));
-        }
+        cookingTimeSpent = nbt.getShort("cooking_time_spent", (short) 0);
+        cookingTotalTime = nbt.getShort("cooking_total_time", (short) 0);
+        litTimeRemaining = nbt.getShort("lit_time_remaining", (short) 0);
+        litTotalTime = nbt.getShort("lit_total_time", (short) 0);
+        recipesUsed.clear();
+        recipesUsed.putAll(nbt.get("RecipesUsed", CODEC).orElse(Map.of()));
     }
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     @Override
     protected void writeNbt(NbtCompound nbt, WrapperLookup registries) {
         super.writeNbt(nbt, registries);
@@ -126,11 +156,17 @@ public abstract class AbstractProcessingBlockEntity
         Inventories.writeNbt(nbt, inventory, registries);
         NbtCompound nbtCompound = new NbtCompound();
         recipesUsed.forEach((recipeKey, count) ->
-                nbtCompound.putInt(recipeKey.getValue().toString(), count));
+            nbtCompound.putInt(
+                recipeKey.getValue().toString(),
+                count));
         nbt.put("RecipesUsed", nbtCompound);
     }
 
-    public static void tick(ServerWorld world, BlockPos pos, BlockState state, AbstractProcessingBlockEntity blockEntity) {
+    /**
+     * Similar to {@link AbstractFurnaceBlockEntity}, but allows multiple input and output counts.
+     */
+    public static void tick(
+        ServerWorld world, BlockPos pos, BlockState state, AbstractProcessingBlockEntity blockEntity) {
         boolean burning = blockEntity.isBurning();
         boolean changed = false;
         // Count down burning time.
@@ -151,15 +187,15 @@ public abstract class AbstractProcessingBlockEntity
             } else {
                 recipeEntry = null;
             }
-            // Start processing a new input item
+            // Start processing a new input item.
             int maxCount = blockEntity.getMaxCountPerStack();
             if (!blockEntity.isBurning() &&
-                    canCraftRecipe(
-                            world.getRegistryManager(),
-                            recipeEntry,
-                            oneStackRecipeInput,
-                            blockEntity.inventory,
-                            maxCount)) {
+                canAcceptRecipeOutput(
+                    world.getRegistryManager(),
+                    recipeEntry,
+                    oneStackRecipeInput,
+                    blockEntity.inventory,
+                    maxCount)) {
                 blockEntity.litTimeRemaining = blockEntity.getFuelTime(world.getFuelRegistry(), fuelStack);
                 blockEntity.litTotalTime = blockEntity.litTimeRemaining;
                 // Need more fuel to continue.
@@ -174,24 +210,24 @@ public abstract class AbstractProcessingBlockEntity
                     }
                 }
             }
-            // End processing one input item and generate output
+            // End processing one input item and generate output.
             if (blockEntity.isBurning() &&
-                    canCraftRecipe(
-                            world.getRegistryManager(),
-                            recipeEntry,
-                            oneStackRecipeInput,
-                            blockEntity.inventory,
-                            maxCount)) {
+                canAcceptRecipeOutput(
+                    world.getRegistryManager(),
+                    recipeEntry,
+                    oneStackRecipeInput,
+                    blockEntity.inventory,
+                    maxCount)) {
                 blockEntity.cookingTimeSpent++;
                 if (blockEntity.cookingTimeSpent == blockEntity.cookingTotalTime) {
                     blockEntity.cookingTimeSpent = 0;
                     blockEntity.cookingTotalTime = getCookTime(world, blockEntity);
                     if (craftRecipe(
-                            world.getRegistryManager(),
-                            recipeEntry,
-                            oneStackRecipeInput,
-                            blockEntity.inventory,
-                            maxCount)) {
+                        world.getRegistryManager(),
+                        recipeEntry,
+                        oneStackRecipeInput,
+                        blockEntity.inventory,
+                        maxCount)) {
                         blockEntity.setLastRecipe(recipeEntry);
                         // Special action?
                         blockEntity.crafted();
@@ -202,19 +238,19 @@ public abstract class AbstractProcessingBlockEntity
                 blockEntity.cookingTimeSpent = 0;
             }
         } else {
-            // Continue processing the input item
+            // Continue processing the input item.
             if (!blockEntity.isBurning() && blockEntity.cookingTimeSpent > 0) {
                 blockEntity.cookingTimeSpent = MathHelper.clamp(
-                        blockEntity.cookingTimeSpent - 2, 0, blockEntity.cookingTotalTime);
+                    blockEntity.cookingTimeSpent - 2, 0, blockEntity.cookingTotalTime);
             }
         }
-        // Burning state changed
+        // Burning state changed.
         if (burning != blockEntity.isBurning()) {
             changed = true;
             state = state.with(AbstractFurnaceBlock.LIT, blockEntity.isBurning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
         }
-        // Something changed -> redraw
+        // Something changed -> redraw.
         if (changed) {
             markDirty(world, pos, state);
         }
@@ -238,11 +274,11 @@ public abstract class AbstractProcessingBlockEntity
      * @return true if nothing prevents crafting
      */
     private static boolean canCraft(
-            ItemStack inputStack,
-            ItemStack outputStack,
-            int inputCount,
-            ItemStack resultStack,
-            int maxCount) {
+        ItemStack inputStack,
+        ItemStack outputStack,
+        int inputCount,
+        ItemStack resultStack,
+        int maxCount) {
         if (!inputStack.isEmpty() && inputCount <= inputStack.getCount()) {
             // If the input slot contains enough items for crafting.
             if (resultStack.isEmpty()) {
@@ -261,7 +297,7 @@ public abstract class AbstractProcessingBlockEntity
                     // If there is enough space for the new items, then they are craftable.
                     final int outputCount = outputStack.getCount() + resultCount;
                     return ((outputCount <= maxCount) && (outputCount <= outputStack.getMaxCount())) ||
-                            (outputCount <= resultStack.getMaxCount());
+                        (outputCount <= resultStack.getMaxCount());
                 }
             }
         } else {
@@ -271,6 +307,8 @@ public abstract class AbstractProcessingBlockEntity
 
     /**
      * Check if a recipe can be used to craft new items.
+     * <p>
+     * Similar to {@link AbstractFurnaceBlockEntity}, but allows multiple input counts.
      *
      * @param dynamicRegistryManager Lookup table
      * @param recipe                 Using this recipe
@@ -281,12 +319,12 @@ public abstract class AbstractProcessingBlockEntity
      * and there are enough items in the input slot,
      * and there is enough space in the output slot for the new items.
      */
-    private static boolean canCraftRecipe(
-            DynamicRegistryManager dynamicRegistryManager,
-            @Nullable RecipeEntry<? extends AbstractProcessingRecipe> recipe,
-            OneStackRecipeInput input,
-            DefaultedList<ItemStack> inventory,
-            int maxCount) {
+    private static boolean canAcceptRecipeOutput(
+        DynamicRegistryManager dynamicRegistryManager,
+        @Nullable RecipeEntry<? extends AbstractProcessingRecipe> recipe,
+        OneStackRecipeInput input,
+        DefaultedList<ItemStack> inventory,
+        int maxCount) {
         if (recipe != null) {
             final ItemStack inputStack = inventory.get(INPUT_SLOT_INDEX);
             final ItemStack outputStack = inventory.get(OUTPUT_SLOT_INDEX);
@@ -299,6 +337,8 @@ public abstract class AbstractProcessingBlockEntity
 
     /**
      * Craft new items if the recipe can be used to craft them.
+     * <p>
+     * Similar to {@link AbstractFurnaceBlockEntity}, but allows multiple input and output counts.
      *
      * @param dynamicRegistryManager Lookup table
      * @param recipe                 Using this recipe
@@ -308,11 +348,11 @@ public abstract class AbstractProcessingBlockEntity
      * @return true if the new items are crafted.
      */
     private static boolean craftRecipe(
-            DynamicRegistryManager dynamicRegistryManager,
-            @Nullable RecipeEntry<? extends AbstractProcessingRecipe> recipe,
-            OneStackRecipeInput input,
-            DefaultedList<ItemStack> inventory,
-            int maxCount) {
+        DynamicRegistryManager dynamicRegistryManager,
+        @Nullable RecipeEntry<? extends AbstractProcessingRecipe> recipe,
+        OneStackRecipeInput input,
+        DefaultedList<ItemStack> inventory,
+        int maxCount) {
         if (recipe != null) {
             final ItemStack inputStack = inventory.get(INPUT_SLOT_INDEX);
             final ItemStack outputStack = inventory.get(OUTPUT_SLOT_INDEX);
@@ -336,19 +376,28 @@ public abstract class AbstractProcessingBlockEntity
         return false;
     }
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     protected int getFuelTime(FuelRegistry fuelRegistry, ItemStack stack) {
         return fuelRegistry.getFuelTicks(stack);
     }
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     private static int getCookTime(ServerWorld world, AbstractProcessingBlockEntity processor) {
         OneStackRecipeInput oneStackRecipeInput =
-                new OneStackRecipeInput(processor.getStack(INPUT_SLOT_INDEX));
+            new OneStackRecipeInput(processor.getStack(INPUT_SLOT_INDEX));
         return processor.matchGetter
-                .getFirstMatch(oneStackRecipeInput, world)
-                .map(recipe -> recipe.value().getCookingTime())
-                .orElse(DEFAULT_COOK_TIME);
+            .getFirstMatch(oneStackRecipeInput, world)
+            .map(recipe -> recipe.value().getCookingTime())
+            .orElse(DEFAULT_COOK_TIME);
     }
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     @Override
     public int[] getAvailableSlots(Direction side) {
         return switch (side) {
@@ -358,26 +407,41 @@ public abstract class AbstractProcessingBlockEntity
         };
     }
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
         return isValid(slot, stack);
     }
 
+    /**
+     * Anything can be extracted from the output slot, and nothing from the fuel slot.
+     */
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-        return dir != Direction.DOWN || slot != FUEL_SLOT_INDEX || stack.isOf(Items.WATER_BUCKET) || stack.isOf(Items.BUCKET);
+        return slot != FUEL_SLOT_INDEX;
     }
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     @Override
     public int size() {
         return inventory.size();
     }
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     @Override
     protected DefaultedList<ItemStack> getHeldStacks() {
         return inventory;
     }
 
+    /**
+     * Same as in {@link AbstractFurnaceBlockEntity}.
+     */
     @Override
     protected void setHeldStacks(DefaultedList<ItemStack> inventory) {
         this.inventory = inventory;
@@ -403,7 +467,7 @@ public abstract class AbstractProcessingBlockEntity
             case FUEL_SLOT_INDEX -> {
                 ItemStack fuelStack = inventory.get(FUEL_SLOT_INDEX);
                 yield ((world != null) && world.getFuelRegistry().isFuel(stack)) ||
-                        (stack.isOf(Items.BUCKET) && !fuelStack.isOf(Items.BUCKET));
+                    (stack.isOf(Items.BUCKET) && !fuelStack.isOf(Items.BUCKET));
             }
             default -> true;
         };
@@ -444,7 +508,7 @@ public abstract class AbstractProcessingBlockEntity
             world.getRecipeManager().get(entry.getKey()).ifPresent(recipe -> {
                 list.add(recipe);
                 dropExperience(world, pos, entry.getIntValue(),
-                        ((AbstractProcessingRecipe) recipe.value()).getExperience());
+                    ((AbstractProcessingRecipe) recipe.value()).getExperience());
             });
         }
         return list;

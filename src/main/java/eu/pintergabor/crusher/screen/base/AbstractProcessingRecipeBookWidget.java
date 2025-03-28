@@ -1,7 +1,7 @@
 package eu.pintergabor.crusher.screen.base;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import java.util.List;
+
 import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.screen.recipebook.GhostRecipe;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
@@ -14,20 +14,22 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.context.ContextParameterMap;
 
-import java.util.List;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 
 @Environment(EnvType.CLIENT)
 public class AbstractProcessingRecipeBookWidget extends RecipeBookWidget<AbstractProcessingScreenHandler> {
     private static final ButtonTextures TEXTURES = new ButtonTextures(
-            Identifier.ofVanilla("recipe_book/furnace_filter_enabled"),
-            Identifier.ofVanilla("recipe_book/furnace_filter_disabled"),
-            Identifier.ofVanilla("recipe_book/furnace_filter_enabled_highlighted"),
-            Identifier.ofVanilla("recipe_book/furnace_filter_disabled_highlighted")
+        Identifier.ofVanilla("recipe_book/furnace_filter_enabled"),
+        Identifier.ofVanilla("recipe_book/furnace_filter_disabled"),
+        Identifier.ofVanilla("recipe_book/furnace_filter_enabled_highlighted"),
+        Identifier.ofVanilla("recipe_book/furnace_filter_disabled_highlighted")
     );
     private final Text toggleCraftableButtonText;
 
     public AbstractProcessingRecipeBookWidget(
-            AbstractProcessingScreenHandler screenHandler, Text toggleCraftableButtonText, List<Tab> tabs) {
+        AbstractProcessingScreenHandler screenHandler, Text toggleCraftableButtonText, List<Tab> tabs) {
         super(screenHandler, tabs);
         this.toggleCraftableButtonText = toggleCraftableButtonText;
     }

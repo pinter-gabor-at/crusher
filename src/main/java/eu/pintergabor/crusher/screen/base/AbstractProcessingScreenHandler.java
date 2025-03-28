@@ -1,11 +1,19 @@
 package eu.pintergabor.crusher.screen.base;
 
+import static eu.pintergabor.crusher.blocks.base.AbstractProcessingBlockEntity.*;
+
+import java.util.List;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.*;
+import net.minecraft.recipe.AbstractCookingRecipe;
+import net.minecraft.recipe.InputSlotFiller;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.RecipeFinder;
+import net.minecraft.recipe.RecipeInputProvider;
 import net.minecraft.recipe.book.RecipeBookType;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
@@ -17,9 +25,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-import java.util.List;
-
-import static eu.pintergabor.crusher.blocks.base.AbstractProcessingBlockEntity.*;
 
 public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler {
     final Inventory inventory;
@@ -27,24 +32,24 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
     protected final World world;
 
     protected AbstractProcessingScreenHandler(
-            ScreenHandlerType<?> type,
-            int syncId,
-            PlayerInventory playerInventory
+        ScreenHandlerType<?> type,
+        int syncId,
+        PlayerInventory playerInventory
     ) {
         this(
-                type,
-                syncId,
-                playerInventory,
-                new SimpleInventory(3),
-                new ArrayPropertyDelegate(PROPERTY_COUNT));
+            type,
+            syncId,
+            playerInventory,
+            new SimpleInventory(3),
+            new ArrayPropertyDelegate(PROPERTY_COUNT));
     }
 
     protected AbstractProcessingScreenHandler(
-            ScreenHandlerType<?> type,
-            int syncId,
-            PlayerInventory playerInventory,
-            Inventory inventory,
-            PropertyDelegate propertyDelegate
+        ScreenHandlerType<?> type,
+        int syncId,
+        PlayerInventory playerInventory,
+        Inventory inventory,
+        PropertyDelegate propertyDelegate
     ) {
         super(type, syncId);
         checkSize(inventory, 3);
@@ -53,11 +58,11 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
         this.propertyDelegate = propertyDelegate;
         this.world = playerInventory.player.getWorld();
         this.addSlot(new Slot(inventory,
-                INPUT_SLOT_INDEX, 56, 17));
+            INPUT_SLOT_INDEX, 56, 17));
         this.addSlot(new ProcessingFuelSlot(this, inventory,
-                FUEL_SLOT_INDEX, 56, 53));
+            FUEL_SLOT_INDEX, 56, 53));
         this.addSlot(new ProcessingOutputSlot(playerInventory.player, inventory,
-                OUTPUT_SLOT_INDEX, 116, 35));
+            OUTPUT_SLOT_INDEX, 116, 35));
         this.addPlayerSlots(playerInventory, 8, 84);
         this.addProperties(propertyDelegate);
     }
@@ -87,27 +92,27 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
             if (slot == OUTPUT_SLOT_INDEX) {
                 // From output slot to inventory
                 if (!this.insertItem(clickItemStack,
-                        3, 39, true)) {
+                    3, 39, true)) {
                     return ItemStack.EMPTY;
                 }
                 clickSlot.onQuickTransfer(clickItemStack, returnItemStack);
             } else if (slot == FUEL_SLOT_INDEX || slot == INPUT_SLOT_INDEX) {
                 // From fuel, or input slot to inventory
                 if (!this.insertItem(clickItemStack,
-                        3, 39, false)) {
+                    3, 39, false)) {
                     return ItemStack.EMPTY;
                 }
             } else {
                 // From elsewhere, if it is fuel, to the fuel slot
                 if (this.isFuel(clickItemStack)) {
                     if (!this.insertItem(clickItemStack,
-                            FUEL_SLOT_INDEX, FUEL_SLOT_INDEX + 1, false)) {
+                        FUEL_SLOT_INDEX, FUEL_SLOT_INDEX + 1, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else {
                     // From elsewhere to the input slot
                     if (!this.insertItem(clickItemStack,
-                            INPUT_SLOT_INDEX, INPUT_SLOT_INDEX + 1, false)) {
+                        INPUT_SLOT_INDEX, INPUT_SLOT_INDEX + 1, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
@@ -139,8 +144,8 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
         int progress = propertyDelegate.get(COOK_TIME_PROPERTY_INDEX);
         int total = propertyDelegate.get(COOK_TIME_TOTAL_PROPERTY_INDEX);
         return total != 0 ?
-                MathHelper.clamp((float) progress / (float) total, 0.0f, 1.0f) :
-                0.0f;
+            MathHelper.clamp((float) progress / (float) total, 0.0f, 1.0f) :
+            0.0f;
     }
 
     /**
@@ -169,39 +174,38 @@ public class AbstractProcessingScreenHandler extends AbstractRecipeScreenHandler
     @Override
     @SuppressWarnings("unchecked")
     public PostFillAction fillInputSlots(
-            boolean craftAll,
-            boolean creative,
-            RecipeEntry<?> recipe,
-            ServerWorld world,
-            PlayerInventory inventory) {
+        boolean craftAll,
+        boolean creative,
+        RecipeEntry<?> recipe,
+        ServerWorld world,
+        PlayerInventory inventory) {
         final List<Slot> list = List.of(getSlot(INPUT_SLOT_INDEX), getSlot(OUTPUT_SLOT_INDEX));
         AbstractProcessingScreenHandler parent = this;
         return InputSlotFiller.fill(
-                new InputSlotFiller.Handler<>() {
-                    @Override
-                    public void populateRecipeFinder(RecipeFinder finder) {
-                        parent.populateRecipeFinder(finder);
-                    }
+            new InputSlotFiller.Handler<>() {
+                @Override
+                public void populateRecipeFinder(RecipeFinder finder) {
+                    parent.populateRecipeFinder(finder);
+                }
 
-                    @Override
-                    public void clear() {
-                        list.forEach(slot -> slot.setStackNoCallbacks(ItemStack.EMPTY));
-                    }
+                @Override
+                public void clear() {
+                    list.forEach(slot -> slot.setStackNoCallbacks(ItemStack.EMPTY));
+                }
 
-                    @Override
-                    public boolean matches(RecipeEntry<AbstractCookingRecipe> entry) {
-                        return entry.value().matches(
-                                new SingleStackRecipeInput(parent.inventory.getStack(INPUT_SLOT_INDEX)), world);
-                    }
-                },
-                1,
-                1,
-                List.of(getSlot(INPUT_SLOT_INDEX)),
-                list,
-                inventory,
-                (RecipeEntry<AbstractCookingRecipe>) recipe,
-                craftAll,
-                creative);
+                @Override
+                public boolean matches(RecipeEntry<AbstractCookingRecipe> entry) {
+                    return entry.value().matches(
+                        new SingleStackRecipeInput(parent.inventory.getStack(INPUT_SLOT_INDEX)), world);
+                }
+            },
+            1,
+            1,
+            List.of(getSlot(INPUT_SLOT_INDEX)),
+            list,
+            inventory,
+            (RecipeEntry<AbstractCookingRecipe>) recipe,
+            craftAll,
+            creative);
     }
 }
-

@@ -2,12 +2,15 @@ package eu.pintergabor.crusher.datagen;
 
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.datagen.recipebase.ProcessingRecipeGenerator;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
+
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+
 
 public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 
@@ -17,7 +20,7 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 
     private void generateCrusherRecipes() {
         // Defaults.
-        experience = 0.1f;
+        experience = 0.1F;
         cookingTime = 100;
         // Gravel from gravel sources.
         createCrusherRecipe(ModItemTagProvider.GRAVEL_SOURCES, 1, Items.GRAVEL, 1);
@@ -517,26 +520,26 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
     public void generate() {
         // The crusher.
         createShaped(RecipeCategory.DECORATIONS, ModBlocks.CRUSHER_BLOCK)
-                .pattern("###")
-                .pattern("P P")
-                .pattern("###")
-                .input('#', ItemTags.STONE_CRAFTING_MATERIALS)
-                .input('P', Items.IRON_PICKAXE)
-                .criterion("has_cobblestone", conditionsFromTag(ItemTags.STONE_CRAFTING_MATERIALS))
-                .criterion(hasItem(Items.IRON_PICKAXE), conditionsFromItem(Items.IRON_PICKAXE))
-                .offerTo(exporter);
+            .pattern("###")
+            .pattern("P P")
+            .pattern("###")
+            .input('#', ItemTags.STONE_CRAFTING_MATERIALS)
+            .input('P', Items.IRON_PICKAXE)
+            .criterion("has_cobblestone", conditionsFromTag(ItemTags.STONE_CRAFTING_MATERIALS))
+            .criterion(hasItem(Items.IRON_PICKAXE), conditionsFromItem(Items.IRON_PICKAXE))
+            .offerTo(exporter);
         // The crushing recipes.
         generateCrusherRecipes();
         // The compressor.
         createShaped(RecipeCategory.DECORATIONS, ModBlocks.COMPRESSOR_BLOCK)
-                .pattern("###")
-                .pattern("P P")
-                .pattern("###")
-                .input('#', ItemTags.STONE_CRAFTING_MATERIALS)
-                .input('P', Items.PISTON)
-                .criterion("has_cobblestone", conditionsFromTag(ItemTags.STONE_CRAFTING_MATERIALS))
-                .criterion(hasItem(Items.PISTON), conditionsFromItem(Items.PISTON))
-                .offerTo(exporter);
+            .pattern("###")
+            .pattern("P P")
+            .pattern("###")
+            .input('#', ItemTags.STONE_CRAFTING_MATERIALS)
+            .input('P', Items.PISTON)
+            .criterion("has_cobblestone", conditionsFromTag(ItemTags.STONE_CRAFTING_MATERIALS))
+            .criterion(hasItem(Items.PISTON), conditionsFromItem(Items.PISTON))
+            .offerTo(exporter);
         // The compressing recipes.
         generateCompressorRecipes();
     }

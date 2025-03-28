@@ -1,5 +1,11 @@
 package eu.pintergabor.crusher.recipe.base;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementRequirements;
@@ -15,11 +21,7 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.book.CookingRecipeCategory;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryKey;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * Similar to {@link CookingRecipeJsonBuilder},
@@ -39,14 +41,14 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     private final AbstractProcessingRecipe.RecipeFactory<?> recipeFactory;
 
     private ProcessingRecipeJsonBuilder(
-            RecipeCategory category,
-            CookingRecipeCategory cookingCategory,
-            ItemStack output,
-            Ingredient ingredient,
-            int ingregientCount,
-            float experience,
-            int cookingTime,
-            AbstractProcessingRecipe.RecipeFactory<?> recipeFactory
+        RecipeCategory category,
+        CookingRecipeCategory cookingCategory,
+        ItemStack output,
+        Ingredient ingredient,
+        int ingregientCount,
+        float experience,
+        int cookingTime,
+        AbstractProcessingRecipe.RecipeFactory<?> recipeFactory
     ) {
         this.category = category;
         this.cookingCategory = cookingCategory;
@@ -59,27 +61,27 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     }
 
     public static <T extends AbstractProcessingRecipe> ProcessingRecipeJsonBuilder create(
-            Ingredient ingredient,
-            int ingregientCount,
-            RecipeCategory category,
-            ItemStack output,
-            float experience,
-            int cookingTime,
-            AbstractProcessingRecipe.RecipeFactory<T> recipeFactory
+        Ingredient ingredient,
+        int ingregientCount,
+        RecipeCategory category,
+        ItemStack output,
+        float experience,
+        int cookingTime,
+        AbstractProcessingRecipe.RecipeFactory<T> recipeFactory
     ) {
         return new ProcessingRecipeJsonBuilder(
-                category,
-                CookingRecipeCategory.MISC,
-                output,
-                ingredient,
-                ingregientCount,
-                experience,
-                cookingTime,
-                recipeFactory);
+            category,
+            CookingRecipeCategory.MISC,
+            output,
+            ingredient,
+            ingregientCount,
+            experience,
+            cookingTime,
+            recipeFactory);
     }
 
     public ProcessingRecipeJsonBuilder criterion(
-            String string, AdvancementCriterion<?> advancementCriterion) {
+        String string, AdvancementCriterion<?> advancementCriterion) {
         criteria.put(string, advancementCriterion);
         return this;
     }
@@ -97,26 +99,25 @@ public class ProcessingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     @Override
     public void offerTo(RecipeExporter exporter, RegistryKey<Recipe<?>> recipeKey) {
         Advancement.Builder builder = exporter.getAdvancementBuilder()
-                .criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeKey))
-                .rewards(AdvancementRewards.Builder.recipe(recipeKey))
-                .criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
+            .criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeKey))
+            .rewards(AdvancementRewards.Builder.recipe(recipeKey))
+            .criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
         criteria.forEach(builder::criterion);
         AbstractProcessingRecipe abstractProcessingRecipe = recipeFactory
-                .create(
-                        Objects.requireNonNullElse(group, ""),
-                        cookingCategory,
-                        ingredient,
-                        ingregientCount,
-                        output,
-                        experience,
-                        cookingTime);
+            .create(
+                Objects.requireNonNullElse(group, ""),
+                cookingCategory,
+                ingredient,
+                ingregientCount,
+                output,
+                experience,
+                cookingTime);
         exporter.accept(
-                recipeKey,
-                abstractProcessingRecipe,
-                builder.build(
-                        recipeKey
-                                .getValue()
-                                .withPrefixedPath("recipes/" + category.getName() + "/")));
+            recipeKey,
+            abstractProcessingRecipe,
+            builder.build(
+                recipeKey
+                    .getValue()
+                    .withPrefixedPath("recipes/" + category.getName() + "/")));
     }
 }
-

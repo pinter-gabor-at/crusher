@@ -47,7 +47,7 @@ public class ProcessingOutputSlot extends Slot {
 
     @Override
     protected void onCrafted(ItemStack stack) {
-        stack.onCraftByPlayer(player.getWorld(), player, amount);
+        stack.onCraftByPlayer(player, amount);
         if (player instanceof ServerPlayerEntity serverPlayerEntity &&
                 inventory instanceof AbstractProcessingBlockEntity abstractProcessingBlockEntity) {
             abstractProcessingBlockEntity.dropExperienceForRecipesUsed(serverPlayerEntity);

@@ -1,11 +1,14 @@
 package eu.pintergabor.crusher.datagen;
 
 import eu.pintergabor.crusher.blocks.ModBlocks;
-import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+
 import net.minecraft.client.data.BlockStateModelGenerator;
 import net.minecraft.client.data.ItemModelGenerator;
 import net.minecraft.client.data.TexturedModel;
+
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+
 
 public class ModModelProvider extends FabricModelProvider {
     public ModModelProvider(FabricDataOutput output) {
@@ -13,7 +16,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     /**
-     * Generate block models and block states
+     * Generate block models and block states.
      */
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
@@ -22,7 +25,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     /**
-     * Generate item models
+     * Generate item models.
      */
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
