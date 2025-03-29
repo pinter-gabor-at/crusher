@@ -27,138 +27,138 @@ import net.minecraft.recipe.display.SlotDisplay;
  * but with unique serializer, type and category.
  */
 public abstract class AbstractProcessingRecipe extends OneStackRecipe {
-    private final CookingRecipeCategory category;
-    private final float experience;
-    private final int cookingTime;
+	private final CookingRecipeCategory category;
+	private final float experience;
+	private final int cookingTime;
 
-    public AbstractProcessingRecipe(
-        String group,
-        CookingRecipeCategory category,
-        ItemStack input,
-        ItemStack result,
-        float experience,
-        int cookingTime) {
-        super(group, input, result);
-        this.category = category;
-        this.experience = experience;
-        this.cookingTime = cookingTime;
-    }
+	public AbstractProcessingRecipe(
+		String group,
+		CookingRecipeCategory category,
+		ItemStack input,
+		ItemStack result,
+		float experience,
+		int cookingTime) {
+		super(group, input, result);
+		this.category = category;
+		this.experience = experience;
+		this.cookingTime = cookingTime;
+	}
 
-    public AbstractProcessingRecipe(
-        String group,
-        CookingRecipeCategory category,
-        Ingredient ingredient,
-        int ingredientCount,
-        ItemStack result,
-        float experience,
-        int cookingTime) {
-        super(group, ingredient, ingredientCount, result);
-        this.category = category;
-        this.experience = experience;
-        this.cookingTime = cookingTime;
-    }
+	public AbstractProcessingRecipe(
+		String group,
+		CookingRecipeCategory category,
+		Ingredient ingredient,
+		int ingredientCount,
+		ItemStack result,
+		float experience,
+		int cookingTime) {
+		super(group, ingredient, ingredientCount, result);
+		this.category = category;
+		this.experience = experience;
+		this.cookingTime = cookingTime;
+	}
 
-    @Override
-    public abstract RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer();
+	@Override
+	public abstract RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer();
 
-    @Override
-    public abstract RecipeType<? extends AbstractProcessingRecipe> getType();
+	@Override
+	public abstract RecipeType<? extends AbstractProcessingRecipe> getType();
 
-    public float getExperience() {
-        return experience;
-    }
+	public float getExperience() {
+		return experience;
+	}
 
-    public int getCookingTime() {
-        return cookingTime;
-    }
+	public int getCookingTime() {
+		return cookingTime;
+	}
 
-    public CookingRecipeCategory getCategory() {
-        return category;
-    }
+	public CookingRecipeCategory getCategory() {
+		return category;
+	}
 
-    protected abstract Item getCookerItem();
+	protected abstract Item getCookerItem();
 
-    @Override
-    public List<RecipeDisplay> getDisplays() {
-        return List.of(
-            new FurnaceRecipeDisplay(
-                this.ingredient().toDisplay(),
-                SlotDisplay.AnyFuelSlotDisplay.INSTANCE,
-                new SlotDisplay.StackSlotDisplay(this.result()),
-                new SlotDisplay.ItemSlotDisplay(this.getCookerItem()),
-                this.cookingTime,
-                this.experience
-            )
-        );
-    }
+	@Override
+	public List<RecipeDisplay> getDisplays() {
+		return List.of(
+			new FurnaceRecipeDisplay(
+				this.ingredient().toDisplay(),
+				SlotDisplay.AnyFuelSlotDisplay.INSTANCE,
+				new SlotDisplay.StackSlotDisplay(this.result()),
+				new SlotDisplay.ItemSlotDisplay(this.getCookerItem()),
+				this.cookingTime,
+				this.experience
+			)
+		);
+	}
 
-    @FunctionalInterface
-    public interface RecipeFactory<T extends AbstractProcessingRecipe> {
-        T create(
-            String group,
-            CookingRecipeCategory category,
-            Ingredient ingredient,
-            int ingredientCount,
-            ItemStack result,
-            float experience,
-            int cookingTime
-        );
-    }
+	@FunctionalInterface
+	public interface RecipeFactory<T extends AbstractProcessingRecipe> {
+		T create(
+			String group,
+			CookingRecipeCategory category,
+			Ingredient ingredient,
+			int ingredientCount,
+			ItemStack result,
+			float experience,
+			int cookingTime
+		);
+	}
 
-    /**
-     * Similar to {@link AbstractCookingRecipe.Serializer},
-     * but with {@link ItemStack} output
-     *
-     * @param <T>
-     */
-    public static class Serializer<T extends AbstractProcessingRecipe> implements RecipeSerializer<T> {
-        private final MapCodec<T> codec;
-        private final PacketCodec<RegistryByteBuf, T> packetCodec;
+	/**
+	 * Similar to {@link AbstractCookingRecipe.Serializer},
+	 * but with {@link ItemStack} output
+	 *
+	 * @param <T>
+	 */
+	public static class Serializer<T extends AbstractProcessingRecipe> implements RecipeSerializer<T> {
+		private final MapCodec<T> codec;
+		private final PacketCodec<RegistryByteBuf, T> packetCodec;
 
-        public Serializer(RecipeFactory<T> factory, int defaultCookingTime) {
-            codec = RecordCodecBuilder.mapCodec(
-                instance -> instance.group(
-                        Codec.STRING.optionalFieldOf("group", "")
-                            .forGetter(OneStackRecipe::getGroup),
-                        CookingRecipeCategory.CODEC.fieldOf("category")
-                            .orElse(CookingRecipeCategory.MISC)
-                            .forGetter(AbstractProcessingRecipe::getCategory),
-                        Ingredient.CODEC.fieldOf("ingredient").
-                            forGetter(OneStackRecipe::ingredient),
-                        Codec.INT.fieldOf("ingredient_count")
-                            .orElse(1)
-                            .forGetter(OneStackRecipe::ingredientCount),
-                        ItemStack.VALIDATED_CODEC.fieldOf("result")
-                            .forGetter(OneStackRecipe::result),
-                        Codec.FLOAT.fieldOf("experience")
-                            .orElse(0.0f)
-                            .forGetter(AbstractProcessingRecipe::getExperience),
-                        Codec.INT.fieldOf("cookingtime")
-                            .orElse(defaultCookingTime)
-                            .forGetter(AbstractProcessingRecipe::getCookingTime)
-                    )
-                    .apply(instance, factory::create)
-            );
-            packetCodec = PacketCodec.tuple(
-                PacketCodecs.STRING, OneStackRecipe::getGroup,
-                CookingRecipeCategory.PACKET_CODEC, AbstractProcessingRecipe::getCategory,
-                Ingredient.PACKET_CODEC, OneStackRecipe::ingredient,
-                PacketCodecs.INTEGER, OneStackRecipe::ingredientCount,
-                ItemStack.PACKET_CODEC, OneStackRecipe::result,
-                PacketCodecs.FLOAT, AbstractProcessingRecipe::getExperience,
-                PacketCodecs.INTEGER, AbstractProcessingRecipe::getCookingTime,
-                factory::create
-            );
-        }
+		public Serializer(RecipeFactory<T> factory, int defaultCookingTime) {
+			codec = RecordCodecBuilder.mapCodec(
+				instance -> instance.group(
+						Codec.STRING.optionalFieldOf("group", "")
+							.forGetter(OneStackRecipe::getGroup),
+						CookingRecipeCategory.CODEC.fieldOf("category")
+							.orElse(CookingRecipeCategory.MISC)
+							.forGetter(AbstractProcessingRecipe::getCategory),
+						Ingredient.CODEC.fieldOf("ingredient").
+							forGetter(OneStackRecipe::ingredient),
+						Codec.INT.fieldOf("ingredient_count")
+							.orElse(1)
+							.forGetter(OneStackRecipe::ingredientCount),
+						ItemStack.VALIDATED_CODEC.fieldOf("result")
+							.forGetter(OneStackRecipe::result),
+						Codec.FLOAT.fieldOf("experience")
+							.orElse(0.0f)
+							.forGetter(AbstractProcessingRecipe::getExperience),
+						Codec.INT.fieldOf("cookingtime")
+							.orElse(defaultCookingTime)
+							.forGetter(AbstractProcessingRecipe::getCookingTime)
+					)
+					.apply(instance, factory::create)
+			);
+			packetCodec = PacketCodec.tuple(
+				PacketCodecs.STRING, OneStackRecipe::getGroup,
+				CookingRecipeCategory.PACKET_CODEC, AbstractProcessingRecipe::getCategory,
+				Ingredient.PACKET_CODEC, OneStackRecipe::ingredient,
+				PacketCodecs.INTEGER, OneStackRecipe::ingredientCount,
+				ItemStack.PACKET_CODEC, OneStackRecipe::result,
+				PacketCodecs.FLOAT, AbstractProcessingRecipe::getExperience,
+				PacketCodecs.INTEGER, AbstractProcessingRecipe::getCookingTime,
+				factory::create
+			);
+		}
 
-        @Override
-        public MapCodec<T> codec() {
-            return codec;
-        }
+		@Override
+		public MapCodec<T> codec() {
+			return codec;
+		}
 
-        @Override
-        public PacketCodec<RegistryByteBuf, T> packetCodec() {
-            return packetCodec;
-        }
-    }
+		@Override
+		public PacketCodec<RegistryByteBuf, T> packetCodec() {
+			return packetCodec;
+		}
+	}
 }

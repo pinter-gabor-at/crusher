@@ -10,11 +10,11 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens;
 
 public final class ClientMain {
 
-    /**
-     * Called from {@link ModClient#onInitializeClient()}.
-     */
-    public static void init() {
-        HandledScreens.register(ModScreenHandlers.CRUSHER_SCREEN_HANDLER, CrusherScreen::new);
-        HandledScreens.register(ModScreenHandlers.COMPRESSOR_SCREEN_HANDLER, CompressorScreen::new);
-    }
+	/**
+	 * Called from {@link ModClient#onInitializeClient()}.
+	 */
+	public static void init() {
+		HandledScreens.register(ModScreenHandlers.CRUSHER_SCREEN_HANDLER, CrusherScreen::new);
+		HandledScreens.register(ModScreenHandlers.COMPRESSOR_SCREEN_HANDLER, CompressorScreen::new);
+	}
 }

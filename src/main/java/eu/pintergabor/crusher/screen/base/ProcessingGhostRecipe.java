@@ -16,18 +16,17 @@ import net.fabricmc.api.Environment;
  */
 @Environment(EnvType.CLIENT)
 public class ProcessingGhostRecipe extends GhostRecipe {
+	public ProcessingGhostRecipe(CurrentIndexProvider currentIndexProvider) {
+		super(currentIndexProvider);
+	}
 
-    public ProcessingGhostRecipe(CurrentIndexProvider currentIndexProvider) {
-        super(currentIndexProvider);
-    }
+	@Override
+	public void addInputs(Slot slot, ContextParameterMap context, SlotDisplay display) {
+		super.addInputs(slot, context, display);
+	}
 
-    @Override
-    public void addInputs(Slot slot, ContextParameterMap context, SlotDisplay display) {
-        super.addInputs(slot, context, display);
-    }
-
-    @Override
-    public void addResults(Slot slot, ContextParameterMap context, SlotDisplay display) {
-        super.addResults(slot, context, display);
-    }
+	@Override
+	public void addResults(Slot slot, ContextParameterMap context, SlotDisplay display) {
+		super.addResults(slot, context, display);
+	}
 }

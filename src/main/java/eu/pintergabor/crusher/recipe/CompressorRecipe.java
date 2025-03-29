@@ -21,65 +21,65 @@ import net.minecraft.registry.Registry;
  * but with unique serializer, type and category.
  */
 public class CompressorRecipe extends AbstractProcessingRecipe {
-    public static RecipeSerializer<AbstractProcessingRecipe> SERIALIZER;
-    public static RecipeType<AbstractProcessingRecipe> TYPE;
-    public static RecipeBookCategory CATEGORY;
+	public static RecipeSerializer<AbstractProcessingRecipe> SERIALIZER;
+	public static RecipeType<AbstractProcessingRecipe> TYPE;
+	public static RecipeBookCategory CATEGORY;
 
-    public CompressorRecipe(
-        String group,
-        CookingRecipeCategory category,
-        Ingredient ingredient,
-        int ingredientCount,
-        ItemStack result,
-        float experience,
-        int cookingTime) {
-        super(
-            group,
-            category,
-            ingredient,
-            ingredientCount,
-            result,
-            experience,
-            cookingTime
-        );
-    }
+	public CompressorRecipe(
+		String group,
+		CookingRecipeCategory category,
+		Ingredient ingredient,
+		int ingredientCount,
+		ItemStack result,
+		float experience,
+		int cookingTime) {
+		super(
+			group,
+			category,
+			ingredient,
+			ingredientCount,
+			result,
+			experience,
+			cookingTime
+		);
+	}
 
-    @Override
-    protected Item getCookerItem() {
-        return ModBlocks.CRUSHER_ITEM;
-    }
+	@Override
+	protected Item getCookerItem() {
+		return ModBlocks.CRUSHER_ITEM;
+	}
 
-    @Override
-    public RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
-        return SERIALIZER;
-    }
+	@Override
+	public RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
+		return SERIALIZER;
+	}
 
-    @Override
-    public RecipeType<? extends AbstractProcessingRecipe> getType() {
-        return TYPE;
-    }
+	@Override
+	public RecipeType<? extends AbstractProcessingRecipe> getType() {
+		return TYPE;
+	}
 
-    @Override
-    public RecipeBookCategory getRecipeBookCategory() {
-        return CATEGORY;
-    }
+	@Override
+	public RecipeBookCategory getRecipeBookCategory() {
+		return CATEGORY;
+	}
 
-    /**
-     * Register unique serializer, type and category.
-     * <p>
-     * See {@link RecipeSerializer}, {@link RecipeType} and {@link RecipeBookCategories} for examples.
-     */
-    public static void register() {
-        SERIALIZER =
-            RecipeSerializer.register(
-                "compressing",
-                new Serializer<>(CompressorRecipe::new, 100));
-        TYPE =
-            RecipeType.register("compressing");
-        CATEGORY =
-            Registry.register(
-                Registries.RECIPE_BOOK_CATEGORY,
-                "compressor",
-                new RecipeBookCategory());
-    }
+	/**
+	 * Register unique serializer, type and category.
+	 * <p>
+	 * See {@link RecipeSerializer}, {@link RecipeType} and {@link RecipeBookCategories} for examples.
+	 */
+	public static void register() {
+		SERIALIZER =
+			RecipeSerializer.register(
+				"compressing",
+				new Serializer<>(CompressorRecipe::new, 100));
+		TYPE =
+			RecipeType.register("compressing");
+		CATEGORY =
+			Registry.register(
+				Registries.RECIPE_BOOK_CATEGORY,
+				"compressor",
+				new RecipeBookCategory());
+	}
 }

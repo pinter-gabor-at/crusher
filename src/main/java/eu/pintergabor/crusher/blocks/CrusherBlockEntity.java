@@ -15,17 +15,17 @@ import net.minecraft.util.math.BlockPos;
  * See {@link CrusherBlock}.
  */
 public class CrusherBlockEntity extends AbstractProcessingBlockEntity {
-    public CrusherBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlocks.CRUSHER_ENTITY, pos, state, CrusherRecipe.TYPE);
-    }
+	public CrusherBlockEntity(BlockPos pos, BlockState state) {
+		super(ModBlocks.CRUSHER_ENTITY, pos, state, CrusherRecipe.TYPE);
+	}
 
-    @Override
-    protected Text getContainerName() {
-        return Text.translatable("block.crusher.crusher");
-    }
+	@Override
+	protected Text getContainerName() {
+		return Text.translatable("block.crusher.crusher");
+	}
 
-    @Override
-    protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-        return new CrusherScreenHandler(syncId, playerInventory, this, propertyDelegate);
-    }
+	@Override
+	protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
+		return new CrusherScreenHandler(syncId, playerInventory, this, propertyDelegate);
+	}
 }

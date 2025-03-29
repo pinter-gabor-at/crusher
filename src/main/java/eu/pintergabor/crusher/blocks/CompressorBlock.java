@@ -21,45 +21,45 @@ import net.minecraft.world.World;
  * A machine, similar to a furnace, but for compressing.
  */
 public class CompressorBlock extends AbstractProcessingBlock {
-    public static final MapCodec<CompressorBlock> CODEC = createCodec(CompressorBlock::new);
+	public static final MapCodec<CompressorBlock> CODEC = createCodec(CompressorBlock::new);
 
-    @Override
-    public MapCodec<CompressorBlock> getCodec() {
-        return CODEC;
-    }
+	@Override
+	public MapCodec<CompressorBlock> getCodec() {
+		return CODEC;
+	}
 
-    public CompressorBlock(Settings settings) {
-        super(settings);
-    }
+	public CompressorBlock(Settings settings) {
+		super(settings);
+	}
 
-    @Override
-    protected void openScreen(World world, BlockPos pos, PlayerEntity player) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof CompressorBlockEntity) {
-            player.openHandledScreen(((NamedScreenHandlerFactory) blockEntity));
-            // TODO: Create and register stats
-            // player.incrementStat(Stats.INTERACT_WITH_COMPRESSOR);
-        }
-    }
+	@Override
+	protected void openScreen(World world, BlockPos pos, PlayerEntity player) {
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof CompressorBlockEntity) {
+			player.openHandledScreen(((NamedScreenHandlerFactory) blockEntity));
+			// Increment statistics.
+			player.incrementStat(ModStats.COMPRESSOR_STAT);
+		}
+	}
 
-    @Nullable
-    @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new CompressorBlockEntity(pos, state);
-    }
+	@Nullable
+	@Override
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new CompressorBlockEntity(pos, state);
+	}
 
-    /**
-     * Based on {@link BlastFurnaceBlock#randomDisplayTick(BlockState, World, BlockPos, Random)}
-     */
-    @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        BlockUtil.randomBlockTick(state, world, pos, random);
-    }
+	/**
+	 * Based on {@link BlastFurnaceBlock#randomDisplayTick(BlockState, World, BlockPos, Random)}
+	 */
+	@Override
+	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+		BlockUtil.randomBlockTick(state, world, pos, random);
+	}
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
-        World world, BlockState state, BlockEntityType<T> type) {
-        return validateModTicker(world, type, ModBlocks.COMPRESSOR_ENTITY);
-    }
+	@Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+		World world, BlockState state, BlockEntityType<T> type) {
+		return validateModTicker(world, type, ModBlocks.COMPRESSOR_ENTITY);
+	}
 }

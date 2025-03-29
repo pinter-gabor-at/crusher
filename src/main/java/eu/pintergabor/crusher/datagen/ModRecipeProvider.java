@@ -13,18 +13,18 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 
 
 public class ModRecipeProvider extends FabricRecipeProvider {
-    public ModRecipeProvider(
-        FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
-        super(output, registriesFuture);
-    }
+	public ModRecipeProvider(
+		FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+		super(output, registriesFuture);
+	}
 
-    @Override
-    protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
-        return new ModRecipeGenerator(registries, exporter);
-    }
+	@Override
+	protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
+		return new ModRecipeGenerator(registries, exporter);
+	}
 
-    @Override
-    public String getName() {
-        return Global.MODID + " recipes";
-    }
+	@Override
+	public String getName() {
+		return Global.MODID + " recipes";
+	}
 }

@@ -11,15 +11,15 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 
 
 public class ModBlockLootTableGenerator extends FabricBlockLootTableProvider {
-    public ModBlockLootTableGenerator(
-        FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-        super(dataOutput, registryLookup);
-    }
+	public ModBlockLootTableGenerator(
+		FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+		super(dataOutput, registryLookup);
+	}
 
-    @Override
-    public void generate() {
-        // Drops itself.
-        addDrop(ModBlocks.CRUSHER_BLOCK);
-        addDrop(ModBlocks.COMPRESSOR_BLOCK);
-    }
+	@Override
+	public void generate() {
+		// Drops itself.
+		addDrop(ModBlocks.CRUSHER_BLOCK);
+		addDrop(ModBlocks.COMPRESSOR_BLOCK);
+	}
 }
