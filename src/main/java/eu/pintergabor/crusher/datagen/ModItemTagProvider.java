@@ -76,7 +76,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	 * Copper bulbs.
 	 */
 	public static final TagKey<Item> COPPER_BULBS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "bulbes/copper"));
+		RegistryKeys.ITEM, Identifier.of("c", "bulbs/copper"));
 	/**
 	 * Copper slabs.
 	 */
@@ -93,7 +93,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	public static final TagKey<Item> BUCKETS = TagKey.of(
 		RegistryKeys.ITEM, Identifier.of("c", "buckets"));
 
-	public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+	public ModItemTagProvider(
+        FabricDataOutput output,
+        CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
 		super(output, completableFuture);
 	}
 
