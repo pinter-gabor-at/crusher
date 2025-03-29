@@ -1,8 +1,10 @@
 package eu.pintergabor.crusher;
 
-import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import net.minecraft.util.Identifier;
+
 
 public final class Global {
 
@@ -15,9 +17,10 @@ public final class Global {
 
 	/**
 	 * Create a mod specific identifier
+	 *
 	 * @param path Name, without the "modid:" prefix
 	 */
-	public static Identifier ModIdentifier(String path) {
+	public static Identifier modId(String path) {
 		return Identifier.of(MODID, path);
 	}
 }

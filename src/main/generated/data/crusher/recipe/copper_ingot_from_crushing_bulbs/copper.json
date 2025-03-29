@@ -3,7 +3,7 @@
   "category": "misc",
   "cookingtime": 150,
   "experience": 0.1,
-  "ingredient": "#c:bulbes/copper",
+  "ingredient": "#c:bulbs/copper",
   "ingredient_count": 1,
   "result": {
     "count": 9,
