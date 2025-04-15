@@ -13,14 +13,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Items;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 
 /**
  * Similar to {@link FurnaceScreen}, but with fewer tabs.
  */
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class CrusherScreen extends AbstractProcessingScreen<CrusherMenu> {
 	// The entire GUI (256x256).
 	private static final ResourceLocation TEXTURE =
@@ -36,7 +36,7 @@ public class CrusherScreen extends AbstractProcessingScreen<CrusherMenu> {
 		Component.translatable("gui.recipebook.toggleRecipes.crushable");
 	// Recipe book tabs.
 	private static final List<RecipeBookComponent.TabInfo> TABS = List.of(
-		new RecipeBookComponent.TabInfo(Items.COMPASS, CrusherRecipe.CATEGORY)
+		new RecipeBookComponent.TabInfo(Items.COMPASS, CrusherRecipe.CATEGORY.get())
 	);
 
 	public CrusherScreen(

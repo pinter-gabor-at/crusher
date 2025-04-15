@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class CrusherBlockEntity extends AbstractProcessingBlockEntity {
 
 	public CrusherBlockEntity(BlockPos pos, BlockState state) {
-		super(ModBlocks.CRUSHER_ENTITY, pos, state, CrusherRecipe.TYPE);
+		super(ModBlocks.CRUSHER_ENTITY.get(), pos, state, CrusherRecipe.TYPE.get());
 	}
 
 	@Override
@@ -27,7 +27,8 @@ public class CrusherBlockEntity extends AbstractProcessingBlockEntity {
 	}
 
 	@Override
-	protected @NotNull AbstractContainerMenu createMenu(int containerId, Inventory playerInventory) {
+	protected @NotNull AbstractContainerMenu createMenu(
+		int containerId, @NotNull Inventory playerInventory) {
 		return new CrusherMenu(containerId, playerInventory, this, dataAccess);
 	}
 }

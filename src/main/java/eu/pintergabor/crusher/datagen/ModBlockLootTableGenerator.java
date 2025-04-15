@@ -1,26 +1,38 @@
 package eu.pintergabor.crusher.datagen;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.Set;
 
 import eu.pintergabor.crusher.blocks.ModBlocks;
 
+import eu.pintergabor.crusher.main.Main;
+
 import net.minecraft.core.HolderLookup;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.level.block.Block;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import org.jetbrains.annotations.NotNull;
 
 
-public class ModBlockLootTableGenerator extends FabricBlockLootTableProvider {
+public class ModBlockLootTableGenerator extends BlockLootSubProvider {
 
-	public ModBlockLootTableGenerator(
-		FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
-		super(dataOutput, registryLookup);
+	public ModBlockLootTableGenerator(HolderLookup.Provider lookupProvider) {
+		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, lookupProvider);
+	}
+
+	@Override
+	@NotNull
+	protected Iterable<Block> getKnownBlocks() {
+		return Main.BLOCKS.getEntries()
+			.stream()
+			.map(e -> (Block) e.get())
+			.toList();
 	}
 
 	@Override
 	public void generate() {
 		// Drop themselves.
-		dropSelf(ModBlocks.CRUSHER_BLOCK);
-		dropSelf(ModBlocks.COMPRESSOR_BLOCK);
+		dropSelf(ModBlocks.CRUSHER_BLOCK.get());
+		dropSelf(ModBlocks.COMPRESSOR_BLOCK.get());
 	}
 }

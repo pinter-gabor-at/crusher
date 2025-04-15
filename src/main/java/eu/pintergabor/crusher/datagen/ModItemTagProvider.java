@@ -3,25 +3,28 @@ package eu.pintergabor.crusher.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import eu.pintergabor.crusher.Global;
+import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.world.level.block.Block;
 
 
-public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
+public class ModItemTagProvider extends ItemTagsProvider {
+
 	/**
 	 * Items crushed to gravel.
 	 */
 	public static final TagKey<Item> GRAVEL_SOURCES = createModItemTag("gravel_sources");
+
 	/**
 	 * Items crushed to sand.
 	 */
@@ -31,13 +34,13 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	 */
 	public static final TagKey<Item> RED_SAND_SOURCES = createModItemTag("red_sand_sources");
 	/**
-	 * Similar to {@link ConventionalItemTags#FRUIT_FOODS}, excluding the golden variants.
+	 * Similar to {@link Tags.Items#FOODS_FRUIT}, excluding the golden variants.
 	 */
-	public static final TagKey<Item> NORMAL_FRUIT_FOODS = createCItemTag("foods/normal_fruit");
+	public static final TagKey<Item> FOODS_NORMAL_FRUIT = createCItemTag("foods/normal_fruit");
 	/**
-	 * Similar to {@link ConventionalItemTags#VEGETABLE_FOODS}, excluding the golden variants.
+	 * Similar to {@link Tags.Items#FOODS_VEGETABLE}, excluding the golden variants.
 	 */
-	public static final TagKey<Item> NORMAL_VEGETABLE_FOODS = createCItemTag("foods/normal_vegetable");
+	public static final TagKey<Item> FOODS_NORMAL_VEGETABLE = createCItemTag("foods/normal_vegetable");
 	/**
 	 * Copper blocks.
 	 */
@@ -80,9 +83,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	public static final TagKey<Item> BUCKETS = createCItemTag("buckets");
 
 	public ModItemTagProvider(
-		FabricDataOutput output,
-		CompletableFuture<HolderLookup.Provider> completableFuture) {
-		super(output, completableFuture);
+		PackOutput output,
+		CompletableFuture<HolderLookup.Provider> lookupProvider,
+		CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider) {
+		super(output, lookupProvider, blockTagProvider, Global.MODID);
 	}
 
 	/**
@@ -105,10 +109,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	 * Create all tags.
 	 */
 	@Override
-	protected void addTags(HolderLookup.Provider wrapperLookup) {
-		getOrCreateTagBuilder(GRAVEL_SOURCES)
-			.forceAddTag(ConventionalItemTags.STONES)
-			.forceAddTag(ConventionalItemTags.COBBLESTONES)
+	protected void addTags(@NotNull HolderLookup.Provider wrapperLookup) {
+		tag(GRAVEL_SOURCES)
+			.addTag(Tags.Items.STONES)
+			.addTag(Tags.Items.COBBLESTONES)
 			.add(
 				Items.BASALT, Items.BLACKSTONE,
 				Items.COBBLESTONE_SLAB, Items.COBBLESTONE_STAIRS, Items.COBBLESTONE_WALL,
@@ -137,7 +141,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 				Items.NETHER_BRICK, Items.NETHER_BRICK_FENCE,
 				Items.NETHER_BRICK_SLAB, Items.NETHER_BRICK_STAIRS, Items.NETHER_BRICK_WALL,
 				Items.NETHER_BRICKS, Items.CRACKED_NETHER_BRICKS, Items.CHISELED_NETHER_BRICKS);
-		getOrCreateTagBuilder(SAND_SOURCES)
+		tag(SAND_SOURCES)
 			.add(
 				Items.GRAVEL,
 				Items.QUARTZ, Items.QUARTZ_BLOCK, Items.QUARTZ_BRICKS, Items.QUARTZ_PILLAR,
@@ -146,72 +150,72 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 				Items.CHISELED_QUARTZ_BLOCK, Items.NETHER_QUARTZ_ORE,
 				Items.GLASS_BOTTLE,
 				Items.TERRACOTTA, Items.WHITE_TERRACOTTA, Items.WHITE_GLAZED_TERRACOTTA);
-		getOrCreateTagBuilder(RED_SAND_SOURCES)
+		tag(RED_SAND_SOURCES)
 			.add(
 				Items.RED_TERRACOTTA, Items.RED_GLAZED_TERRACOTTA,
 				Items.RED_NETHER_BRICK_SLAB, Items.RED_NETHER_BRICK_STAIRS, Items.RED_NETHER_BRICK_WALL,
 				Items.RED_NETHER_BRICKS, Items.RED_STAINED_GLASS, Items.RED_STAINED_GLASS_PANE);
-		getOrCreateTagBuilder(NORMAL_FRUIT_FOODS)
+		tag(FOODS_NORMAL_FRUIT)
 			.add(
 				Items.APPLE, Items.CHORUS_FRUIT, Items.MELON_SLICE);
-		getOrCreateTagBuilder(NORMAL_VEGETABLE_FOODS)
+		tag(FOODS_NORMAL_VEGETABLE)
 			.add(
 				Items.CARROT, Items.POTATO, Items.BEETROOT);
-		getOrCreateTagBuilder(COPPER_BLOCKS)
+		tag(COPPER_BLOCKS)
 			.add(
 				Items.COPPER_BLOCK, Items.WAXED_COPPER_BLOCK,
 				Items.EXPOSED_COPPER, Items.WAXED_EXPOSED_COPPER,
 				Items.WEATHERED_COPPER, Items.WAXED_WEATHERED_COPPER,
 				Items.OXIDIZED_COPPER, Items.WAXED_OXIDIZED_COPPER);
-		getOrCreateTagBuilder(CUT_COPPER_BLOCKS)
+		tag(CUT_COPPER_BLOCKS)
 			.add(
 				Items.CUT_COPPER, Items.WAXED_CUT_COPPER,
 				Items.EXPOSED_CUT_COPPER, Items.WAXED_EXPOSED_CUT_COPPER,
 				Items.WEATHERED_CUT_COPPER, Items.WAXED_WEATHERED_CUT_COPPER,
 				Items.OXIDIZED_CUT_COPPER, Items.WAXED_OXIDIZED_CUT_COPPER);
-		getOrCreateTagBuilder(CHISELED_COPPER_BLOCKS)
+		tag(CHISELED_COPPER_BLOCKS)
 			.add(
 				Items.CHISELED_COPPER, Items.WAXED_CHISELED_COPPER,
 				Items.EXPOSED_CHISELED_COPPER, Items.WAXED_EXPOSED_CHISELED_COPPER,
 				Items.WEATHERED_CHISELED_COPPER, Items.WAXED_WEATHERED_CHISELED_COPPER,
 				Items.OXIDIZED_CHISELED_COPPER, Items.WAXED_OXIDIZED_CHISELED_COPPER);
-		getOrCreateTagBuilder(COPPER_DOORS)
+		tag(COPPER_DOORS)
 			.add(
 				Items.COPPER_DOOR, Items.WAXED_COPPER_DOOR,
 				Items.EXPOSED_COPPER_DOOR, Items.WAXED_EXPOSED_COPPER_DOOR,
 				Items.WEATHERED_COPPER_DOOR, Items.WAXED_WEATHERED_COPPER_DOOR,
 				Items.OXIDIZED_COPPER_DOOR, Items.WAXED_OXIDIZED_COPPER_DOOR);
-		getOrCreateTagBuilder(COPPER_TRAPDOORS)
+		tag(COPPER_TRAPDOORS)
 			.add(
 				Items.COPPER_TRAPDOOR, Items.WAXED_COPPER_TRAPDOOR,
 				Items.EXPOSED_COPPER_TRAPDOOR, Items.WAXED_EXPOSED_COPPER_TRAPDOOR,
 				Items.WEATHERED_COPPER_TRAPDOOR, Items.WAXED_WEATHERED_COPPER_TRAPDOOR,
 				Items.OXIDIZED_COPPER_TRAPDOOR, Items.WAXED_OXIDIZED_COPPER_TRAPDOOR);
-		getOrCreateTagBuilder(COPPER_GRATES)
+		tag(COPPER_GRATES)
 			.add(
 				Items.COPPER_GRATE, Items.WAXED_COPPER_GRATE,
 				Items.EXPOSED_COPPER_GRATE, Items.WAXED_EXPOSED_COPPER_GRATE,
 				Items.WEATHERED_COPPER_GRATE, Items.WAXED_WEATHERED_COPPER_GRATE,
 				Items.OXIDIZED_COPPER_GRATE, Items.WAXED_OXIDIZED_COPPER_GRATE);
-		getOrCreateTagBuilder(COPPER_BULBS)
+		tag(COPPER_BULBS)
 			.add(
 				Items.COPPER_BULB, Items.WAXED_COPPER_BULB,
 				Items.EXPOSED_COPPER_BULB, Items.WAXED_EXPOSED_COPPER_BULB,
 				Items.WEATHERED_COPPER_BULB, Items.WAXED_WEATHERED_COPPER_BULB,
 				Items.OXIDIZED_COPPER_BULB, Items.WAXED_OXIDIZED_COPPER_BULB);
-		getOrCreateTagBuilder(COPPER_SLABS)
+		tag(COPPER_SLABS)
 			.add(
 				Items.CUT_COPPER_SLAB, Items.WAXED_CUT_COPPER_SLAB,
 				Items.EXPOSED_CUT_COPPER_SLAB, Items.WAXED_EXPOSED_CUT_COPPER_SLAB,
 				Items.WEATHERED_CUT_COPPER_SLAB, Items.WAXED_WEATHERED_CUT_COPPER_SLAB,
 				Items.OXIDIZED_CUT_COPPER_SLAB, Items.WAXED_OXIDIZED_CUT_COPPER_SLAB);
-		getOrCreateTagBuilder(COPPER_STAIRS)
+		tag(COPPER_STAIRS)
 			.add(
 				Items.CUT_COPPER_STAIRS, Items.WAXED_CUT_COPPER_STAIRS,
 				Items.EXPOSED_CUT_COPPER_STAIRS, Items.WAXED_EXPOSED_CUT_COPPER_STAIRS,
 				Items.WEATHERED_CUT_COPPER_STAIRS, Items.WAXED_WEATHERED_CUT_COPPER_STAIRS,
 				Items.OXIDIZED_CUT_COPPER_STAIRS, Items.WAXED_OXIDIZED_CUT_COPPER_STAIRS);
-		getOrCreateTagBuilder(BUCKETS)
+		tag(BUCKETS)
 			.add(
 				Items.BUCKET,
 				Items.WATER_BUCKET,

@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
 
 	public CompressorBlockEntity(BlockPos pos, BlockState state) {
-		super(ModBlocks.COMPRESSOR_ENTITY, pos, state, CompressorRecipe.TYPE);
+		super(ModBlocks.COMPRESSOR_ENTITY.get(), pos, state, CompressorRecipe.TYPE.get());
 	}
 
 	@Override
@@ -30,7 +30,8 @@ public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
 	}
 
 	@Override
-	protected @NotNull AbstractContainerMenu createMenu(int containerId, Inventory playerInventory) {
+	protected @NotNull AbstractContainerMenu createMenu(
+		int containerId, @NotNull Inventory playerInventory) {
 		return new CompressorMenu(containerId, playerInventory, this, dataAccess);
 	}
 

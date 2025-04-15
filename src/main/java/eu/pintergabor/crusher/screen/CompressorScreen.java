@@ -5,6 +5,8 @@ import java.util.List;
 import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.screen.base.AbstractProcessingScreen;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
@@ -13,14 +15,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Items;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 
 /**
  * Similar to {@link FurnaceScreen}, but with fewer tabs.
  */
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class CompressorScreen extends AbstractProcessingScreen<CompressorMenu> {
 	// The entire GUI (256x256). TODO: Why?
 	private static final ResourceLocation TEXTURE =
@@ -36,7 +35,7 @@ public class CompressorScreen extends AbstractProcessingScreen<CompressorMenu> {
 		Component.translatable("gui.recipebook.toggleRecipes.compressible");
 	// Recipe book tabs.
 	private static final List<RecipeBookComponent.TabInfo> TABS = List.of(
-		new RecipeBookComponent.TabInfo(Items.COMPASS, CompressorRecipe.CATEGORY)
+		new RecipeBookComponent.TabInfo(Items.COMPASS, CompressorRecipe.CATEGORY.get())
 	);
 
 	public CompressorScreen(

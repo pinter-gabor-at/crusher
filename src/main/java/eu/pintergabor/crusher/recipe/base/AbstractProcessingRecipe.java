@@ -128,7 +128,7 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 		private final MapCodec<T> codec;
 		private final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
 
-		public Serializer(RecipeFactory<T> factory, int defaultCookingTime) {
+		public Serializer(RecipeFactory<T> factory) {
 			codec = RecordCodecBuilder.mapCodec(
 				instance -> instance.group(
 						Codec.STRING.optionalFieldOf("group", "")
@@ -144,10 +144,10 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 						ItemStack.STRICT_CODEC.fieldOf("result")
 							.forGetter(OneStackRecipe::result),
 						Codec.FLOAT.fieldOf("experience")
-							.orElse(0.0f)
+							.orElse(0F)
 							.forGetter(AbstractProcessingRecipe::experience),
 						Codec.INT.fieldOf("cookingtime")
-							.orElse(defaultCookingTime)
+							.orElse(100)
 							.forGetter(AbstractProcessingRecipe::cookingTime)
 					)
 					.apply(instance, factory::create)

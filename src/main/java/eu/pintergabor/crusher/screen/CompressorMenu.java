@@ -13,7 +13,7 @@ public class CompressorMenu extends AbstractProcessingMenu {
 		int containerId, Inventory playerInventory,
 		Container container, ContainerData data) {
 		super(
-			ModScreenHandlers.COMPRESSOR_SCREEN_HANDLER,
+			ModScreenHandlers.COMPRESSOR_SCREEN_HANDLER.get(),
 			containerId,
 			playerInventory,
 			container,
@@ -23,7 +23,7 @@ public class CompressorMenu extends AbstractProcessingMenu {
 	public CompressorMenu(
 		int conteinerId, Inventory playerInventory) {
 		super(
-			ModScreenHandlers.COMPRESSOR_SCREEN_HANDLER,
+			ModScreenHandlers.COMPRESSOR_SCREEN_HANDLER.get(),
 			conteinerId,
 			playerInventory);
 	}

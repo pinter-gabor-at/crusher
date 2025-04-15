@@ -2,6 +2,7 @@ package eu.pintergabor.crusher.datagen;
 
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.datagen.recipebase.ProcessingRecipeGenerator;
+import net.neoforged.neoforge.common.Tags;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -10,8 +11,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 
 public class ModRecipeGenerator extends ProcessingRecipeGenerator {
@@ -58,19 +57,19 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.FURNACE, 1, Items.GRAVEL, 9);
 		// Sand from sandstones and gravel.
 		createCrusherRecipe(ModItemTagProvider.SAND_SOURCES, 1, Items.SAND, 1);
-		createCrusherRecipe(ConventionalItemTags.UNCOLORED_SANDSTONE_BLOCKS, 1, Items.SAND, 4);
-		createCrusherRecipe(ConventionalItemTags.UNCOLORED_SANDSTONE_SLABS, 1, Items.SAND, 2);
-		createCrusherRecipe(ConventionalItemTags.UNCOLORED_SANDSTONE_STAIRS, 1, Items.SAND, 6);
+		createCrusherRecipe(Tags.Items.SANDSTONE_UNCOLORED_BLOCKS, 1, Items.SAND, 4);
+		createCrusherRecipe(Tags.Items.SANDSTONE_UNCOLORED_SLABS, 1, Items.SAND, 2);
+		createCrusherRecipe(Tags.Items.SANDSTONE_UNCOLORED_STAIRS, 1, Items.SAND, 6);
 		createCrusherRecipe(Items.SANDSTONE_WALL, 1, Items.SAND, 4);
-		createCrusherRecipe(ConventionalItemTags.GLASS_BLOCKS, 1, Items.SAND, 1);
+		createCrusherRecipe(Tags.Items.GLASS_BLOCKS, 1, Items.SAND, 1);
 		// 6 sands => 6 glass blocks => 16 glass panes => 8 sands.
 		// This allows free generation of sand.
-		createCrusherRecipe(ConventionalItemTags.GLASS_PANES, 2, Items.SAND, 1);
+		createCrusherRecipe(Tags.Items.GLASS_PANES, 2, Items.SAND, 1);
 		// Red sand from red sandstones and other redish blocks.
 		createCrusherRecipe(ModItemTagProvider.RED_SAND_SOURCES, 1, Items.RED_SAND, 1);
-		createCrusherRecipe(ConventionalItemTags.RED_SANDSTONE_BLOCKS, 1, Items.RED_SAND, 4);
-		createCrusherRecipe(ConventionalItemTags.RED_SANDSTONE_SLABS, 1, Items.RED_SAND, 2);
-		createCrusherRecipe(ConventionalItemTags.RED_SANDSTONE_STAIRS, 1, Items.RED_SAND, 6);
+		createCrusherRecipe(Tags.Items.SANDSTONE_RED_BLOCKS, 1, Items.RED_SAND, 4);
+		createCrusherRecipe(Tags.Items.SANDSTONE_RED_SLABS, 1, Items.RED_SAND, 2);
+		createCrusherRecipe(Tags.Items.SANDSTONE_RED_STAIRS, 1, Items.RED_SAND, 6);
 		createCrusherRecipe(Items.RED_SANDSTONE_WALL, 1, Items.RED_SAND, 4);
 		// Blaze powder from blaze rod.
 		createCrusherRecipe(Items.BLAZE_ROD, 1, Items.BLAZE_POWDER, 2);
@@ -214,20 +213,20 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		// Coal from logs.
 		createCrusherRecipe(ItemTags.LOGS, 1, Items.CHARCOAL, 1);
 		// Sugar, rotten flesh or dirt from food, except golden apple and golden carrot.
-		createCrusherRecipe(ConventionalItemTags.BERRY_FOODS, 1, Items.SUGAR, 1);
-		createCrusherRecipe(ConventionalItemTags.CANDY_FOODS, 1, Items.SUGAR, 1);
-		createCrusherRecipe(ConventionalItemTags.COOKIE_FOODS, 1, Items.SUGAR, 1);
-		createCrusherRecipe(ConventionalItemTags.PIE_FOODS, 1, Items.SUGAR, 1);
-		createCrusherRecipe(ModItemTagProvider.NORMAL_FRUIT_FOODS, 1, Items.SUGAR, 1);
-		createCrusherRecipe(ConventionalItemTags.FOOD_POISONING_FOODS, 1, Items.ROTTEN_FLESH, 1);
-		createCrusherRecipe(ConventionalItemTags.RAW_FISH_FOODS, 1, Items.ROTTEN_FLESH, 1);
-		createCrusherRecipe(ConventionalItemTags.COOKED_FISH_FOODS, 1, Items.ROTTEN_FLESH, 1);
-		createCrusherRecipe(ConventionalItemTags.RAW_MEAT_FOODS, 1, Items.ROTTEN_FLESH, 1);
-		createCrusherRecipe(ConventionalItemTags.COOKED_MEAT_FOODS, 1, Items.ROTTEN_FLESH, 1);
-		createCrusherRecipe(ConventionalItemTags.BREAD_FOODS, 1, Items.DIRT, 1);
-		createCrusherRecipe(ConventionalItemTags.EDIBLE_WHEN_PLACED_FOODS, 1, Items.DIRT, 1);
-		createCrusherRecipe(ConventionalItemTags.SOUP_FOODS, 1, Items.DIRT, 1);
-		createCrusherRecipe(ModItemTagProvider.NORMAL_VEGETABLE_FOODS, 1, Items.DIRT, 1);
+		createCrusherRecipe(Tags.Items.FOODS_BERRY, 1, Items.SUGAR, 1);
+		createCrusherRecipe(Tags.Items.FOODS_CANDY, 1, Items.SUGAR, 1);
+		createCrusherRecipe(Tags.Items.FOODS_COOKIE, 1, Items.SUGAR, 1);
+		createCrusherRecipe(Tags.Items.FOODS_PIE, 1, Items.SUGAR, 1);
+		createCrusherRecipe(ModItemTagProvider.FOODS_NORMAL_FRUIT, 1, Items.SUGAR, 1);
+		createCrusherRecipe(Tags.Items.FOODS_FOOD_POISONING, 1, Items.ROTTEN_FLESH, 1);
+		createCrusherRecipe(Tags.Items.FOODS_RAW_FISH, 1, Items.ROTTEN_FLESH, 1);
+		createCrusherRecipe(Tags.Items.FOODS_COOKED_FISH, 1, Items.ROTTEN_FLESH, 1);
+		createCrusherRecipe(Tags.Items.FOODS_RAW_MEAT, 1, Items.ROTTEN_FLESH, 1);
+		createCrusherRecipe(Tags.Items.FOODS_COOKED_MEAT, 1, Items.ROTTEN_FLESH, 1);
+		createCrusherRecipe(Tags.Items.FOODS_BREAD, 1, Items.DIRT, 1);
+		createCrusherRecipe(Tags.Items.FOODS_EDIBLE_WHEN_PLACED, 1, Items.DIRT, 1);
+		createCrusherRecipe(Tags.Items.FOODS_SOUP, 1, Items.DIRT, 1);
+		createCrusherRecipe(ModItemTagProvider.FOODS_NORMAL_VEGETABLE, 1, Items.DIRT, 1);
 		// 8 ingots + 1 apple => 1 golden apple => 9 ingots.
 		// This allows free generation of gold, for those who discover it.
 		cookingTime = 200;
@@ -547,11 +546,11 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 	@Override
 	public void buildRecipes() {
 		// The crusher.
-		buildProcessor(ModBlocks.CRUSHER_BLOCK, Items.IRON_PICKAXE);
+		buildProcessor(ModBlocks.CRUSHER_BLOCK.get(), Items.IRON_PICKAXE);
 		// The crushing recipes.
 		generateCrusherRecipes();
 		// The compressor.
-		buildProcessor(ModBlocks.COMPRESSOR_BLOCK, Items.PISTON);
+		buildProcessor(ModBlocks.COMPRESSOR_BLOCK.get(), Items.PISTON);
 		// The compressing recipes.
 		generateCompressorRecipes();
 	}

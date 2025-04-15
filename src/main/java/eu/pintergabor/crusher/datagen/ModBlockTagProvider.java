@@ -2,28 +2,29 @@ package eu.pintergabor.crusher.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
+import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.blocks.ModBlocks;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import org.jetbrains.annotations.NotNull;
 
 
-public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
+public class ModBlockTagProvider extends BlockTagsProvider {
 
 	public ModBlockTagProvider(
-		FabricDataOutput output,
-		CompletableFuture<HolderLookup.Provider> registriesFuture) {
-		super(output, registriesFuture);
+		PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+		super(output, lookupProvider, Global.MODID);
 	}
 
 	@Override
-	protected void addTags(HolderLookup.Provider wrapperLookup) {
+	protected void addTags(@NotNull HolderLookup.Provider wrapperLookup) {
 		// Mineable with pickaxe.
-		getOrCreateTagBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
-			.add(ModBlocks.CRUSHER_BLOCK)
-			.add(ModBlocks.COMPRESSOR_BLOCK);
+		tag(BlockTags.MINEABLE_WITH_PICKAXE)
+			.add(ModBlocks.CRUSHER_BLOCK.get())
+			.add(ModBlocks.COMPRESSOR_BLOCK.get());
 	}
 }

@@ -1,35 +1,30 @@
 package eu.pintergabor.crusher.datagen;
 
+import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.blocks.ModBlocks;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.model.TexturedModel;
-
-import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.data.PackOutput;
 
 
-public class ModModelProvider extends FabricModelProvider {
+public class ModModelProvider extends ModelProvider {
 
-	public ModModelProvider(FabricDataOutput output) {
-		super(output);
+	public ModModelProvider(PackOutput output) {
+		super(output, Global.MODID);
 	}
 
 	/**
-	 * Generate block models and block states.
+	 * Generate blockstates, block and item models.
 	 */
 	@Override
-	public void generateBlockStateModels(BlockModelGenerators blockModelGenerator) {
-		blockModelGenerator.createFurnace(ModBlocks.CRUSHER_BLOCK, TexturedModel.ORIENTABLE);
-		blockModelGenerator.createFurnace(ModBlocks.COMPRESSOR_BLOCK, TexturedModel.ORIENTABLE);
-	}
-
-	/**
-	 * Generate item models.
-	 */
-	@Override
-	public void generateItemModels(ItemModelGenerators itemModelGenerator) {
-		// All item models come from the corresponding block model.
+	protected void registerModels(
+		@NotNull BlockModelGenerators blockModels,
+		@NotNull ItemModelGenerators itemModels) {
+		blockModels.createFurnace(ModBlocks.CRUSHER_BLOCK.get(), TexturedModel.ORIENTABLE);
+		blockModels.createFurnace(ModBlocks.COMPRESSOR_BLOCK.get(), TexturedModel.ORIENTABLE);
 	}
 }

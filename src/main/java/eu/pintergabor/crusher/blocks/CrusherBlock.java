@@ -2,23 +2,18 @@ package eu.pintergabor.crusher.blocks;
 
 import com.mojang.serialization.MapCodec;
 import eu.pintergabor.crusher.blocks.base.AbstractProcessingBlock;
-import eu.pintergabor.crusher.util.BlockUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BlastFurnaceBlock;
 import net.minecraft.world.level.block.FurnaceBlock;
-
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -37,24 +32,31 @@ public class CrusherBlock extends AbstractProcessingBlock {
 		super(props);
 	}
 
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CrusherBlockEntity(pos, state);
-    }
-
-    @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(
-        Level world, BlockState state, BlockEntityType<T> type) {
-        return createModTicker(world, type, ModBlocks.CRUSHER_ENTITY);
-    }
+	@Override
+	public BlockEntity newBlockEntity(
+		@NotNull BlockPos pos,
+		@NotNull BlockState state) {
+		return new CrusherBlockEntity(pos, state);
+	}
 
 	@Override
-    protected void openContainer(Level world, BlockPos pos, Player player) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+		@NotNull Level world,
+		@NotNull BlockState state,
+		@NotNull BlockEntityType<T> type) {
+		return createModTicker(world, type, ModBlocks.CRUSHER_ENTITY.get());
+	}
+
+	@Override
+	protected void openContainer(
+		@NotNull Level world,
+		@NotNull BlockPos pos,
+		@NotNull Player player) {
+		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof CrusherBlockEntity processor) {
-            player.openMenu(processor);
-            // Increment statistics.
-            player.awardStat(ModStats.CRUSHER_STAT);
+			player.openMenu(processor);
+			// Increment statistics.
+			player.awardStat(ModStats.CRUSHER_STAT.get());
 		}
 	}
 }

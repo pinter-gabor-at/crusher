@@ -2,6 +2,8 @@ package eu.pintergabor.crusher.screen.base;
 
 import java.util.List;
 
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -17,14 +19,11 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.crafting.display.FurnaceRecipeDisplay;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 
 /**
  * Similar to {@link FurnaceRecipeBookComponent}.
  */
-@Environment(EnvType.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class AbstractProcessingRecipeBookWidget extends RecipeBookComponent<AbstractProcessingMenu> {
 	private static final WidgetSprites FILTER_SPRITES = new WidgetSprites(
 		ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_enabled"),
@@ -50,7 +49,10 @@ public class AbstractProcessingRecipeBookWidget extends RecipeBookComponent<Abst
 		return 0 <= slot.index && slot.index <= 2;
 	}
 
-	protected void fillGhostRecipe(GhostSlots ghostSlots, RecipeDisplay display, ContextMap context) {
+	protected void fillGhostRecipe(
+		@NotNull GhostSlots ghostSlots,
+		@NotNull RecipeDisplay display,
+		@NotNull ContextMap context) {
 		if (ghostSlots instanceof ProcessingGhostSlots processingGhostSlots) {
 			processingGhostSlots.setResult(menu.getResultSlot(), context, display.result());
 			if (display instanceof FurnaceRecipeDisplay furnaceRecipeDisplay) {
