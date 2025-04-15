@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
@@ -32,6 +33,12 @@ public class ModBlocks {
 	public static BlockEntityType<CrusherBlockEntity> CRUSHER_ENTITY;
 	public static BlockEntityType<CompressorBlockEntity> COMPRESSOR_ENTITY;
 
+	/**
+	 * Create and register a {@link Block}.
+	 * @param path    The name of the entity, without MODID.
+	 * @param factory The constructor of the block.
+	 * @return The new block.
+	 */
 	private static @NotNull Block registerBlock(
 		String path, Function<BlockBehaviour.Properties, Block> factory) {
 		return Blocks.register(
@@ -43,6 +50,29 @@ public class ModBlocks {
 				.requiresCorrectToolForDrops());
 	}
 
+	/**
+	 * Create and register a {@link BlockEntityType}.
+	 *
+	 * @param path    The name of the entity, without MODID.
+	 * @param factory The constructor of the entity.
+	 * @param block   The blocks this entity is associated with.
+	 * @param <T>     The entity class.
+	 * @return The new entity type.
+	 */
+	private static <T extends BlockEntity> BlockEntityType<T> registerEntity(
+		String path,
+		FabricBlockEntityTypeBuilder.Factory<T> factory,
+		Block... block) {
+		final BlockEntityType<T> entity =
+			FabricBlockEntityTypeBuilder.create(factory, block).build();
+		Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,
+			Global.modId(path), entity);
+		return entity;
+	}
+
+	/**
+	 * Create and register all blocks, items and block entities.
+	 */
 	public static void init() {
 		// Blocks.
 		CRUSHER_BLOCK = registerBlock("crusher", CrusherBlock::new);
@@ -51,16 +81,13 @@ public class ModBlocks {
 		CRUSHER_ITEM = Items.registerBlock(CRUSHER_BLOCK);
 		COMPRESOR_ITEM = Items.registerBlock(COMPRESSOR_BLOCK);
 		// Entities.
-		CRUSHER_ENTITY = FabricBlockEntityTypeBuilder.create(
-			CrusherBlockEntity::new, ModBlocks.CRUSHER_BLOCK).build();
-		Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,
-			Global.modId("crusher"), CRUSHER_ENTITY);
-		COMPRESSOR_ENTITY = FabricBlockEntityTypeBuilder.create(
-			CompressorBlockEntity::new, ModBlocks.COMPRESSOR_BLOCK).build();
-		Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,
-			Global.modId("compressor"), COMPRESSOR_ENTITY);
+		CRUSHER_ENTITY = registerEntity("crusher",
+			CrusherBlockEntity::new, ModBlocks.CRUSHER_BLOCK);
+		COMPRESSOR_ENTITY = registerEntity("compressor",
+			CompressorBlockEntity::new, ModBlocks.COMPRESSOR_BLOCK);
 		// Creative tabs.
-		ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(
+		ItemGroupEvents.modifyEntriesEvent(
+			CreativeModeTabs.FUNCTIONAL_BLOCKS).register(
 			content -> content.addAfter(Items.BLAST_FURNACE,
 				CRUSHER_BLOCK, COMPRESSOR_BLOCK));
 	}

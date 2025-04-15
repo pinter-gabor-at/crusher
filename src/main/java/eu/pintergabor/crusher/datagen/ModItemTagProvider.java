@@ -101,6 +101,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 			Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", path));
 	}
 
+	/**
+	 * Create all tags.
+	 */
 	@Override
 	protected void addTags(HolderLookup.Provider wrapperLookup) {
 		getOrCreateTagBuilder(GRAVEL_SOURCES)

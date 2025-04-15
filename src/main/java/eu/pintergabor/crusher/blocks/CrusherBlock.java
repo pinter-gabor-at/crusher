@@ -51,18 +51,10 @@ public class CrusherBlock extends AbstractProcessingBlock {
 	@Override
     protected void openContainer(Level world, BlockPos pos, Player player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof CrusherBlockEntity) {
-            player.openMenu((MenuProvider)blockEntity);
+		if (blockEntity instanceof CrusherBlockEntity processor) {
+            player.openMenu(processor);
             // Increment statistics.
             player.awardStat(ModStats.CRUSHER_STAT);
 		}
 	}
-
-	/**
-	 * Based on {@link BlastFurnaceBlock#animateTick(BlockState, Level, BlockPos, RandomSource)}.
-	 */
-    @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
-        BlockUtil.randomBlockTick(state, world, pos, random);
-    }
 }

@@ -41,8 +41,7 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
 			ingredientCount,
 			result,
 			experience,
-			cookingTime
-		);
+			cookingTime);
 	}
 
 	@Override

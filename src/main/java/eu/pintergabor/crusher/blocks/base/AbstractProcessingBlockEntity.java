@@ -78,7 +78,7 @@ public abstract class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	protected final ContainerData propertyDelegate = new ContainerData() {
+	protected final ContainerData dataAccess = new ContainerData() {
 		@Override
 		public int get(int index) {
 			return switch (index) {
@@ -107,8 +107,8 @@ public abstract class AbstractProcessingBlockEntity
 	};
 	private final Reference2IntOpenHashMap<ResourceKey<Recipe<?>>> recipesUsed =
 		new Reference2IntOpenHashMap<>();
-	private final RecipeManager.CachedCheck<OneStackRecipeInput, ?
-		extends AbstractProcessingRecipe> matchGetter;
+	private final RecipeManager.CachedCheck<OneStackRecipeInput,
+		? extends AbstractProcessingRecipe> matchGetter;
 
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
@@ -182,7 +182,7 @@ public abstract class AbstractProcessingBlockEntity
 		boolean hasInput = !inputStack.isEmpty();
 		boolean hasFuel = !fuelStack.isEmpty();
 		if (blockEntity.isBurning() || (hasFuel && hasInput)) {
-			// Get the recipe
+			// Get the recipe.
 			OneStackRecipeInput oneStackRecipeInput = new OneStackRecipeInput(inputStack);
 			RecipeHolder<? extends AbstractProcessingRecipe> recipeEntry;
 			if (hasInput) {

@@ -22,15 +22,13 @@ public class ModRecipeRunner extends FabricRecipeProvider {
 	}
 
 	@Override
-	@NotNull
-	protected RecipeProvider createRecipeProvider(
+	protected @NotNull RecipeProvider createRecipeProvider(
 		HolderLookup.Provider registryLookup, RecipeOutput output) {
 		return new ModRecipeGenerator(registryLookup, output);
 	}
 
 	@Override
-	@NotNull
-	public String getName() {
+	public @NotNull String getName() {
 		return Global.MODID + " recipes";
 	}
 }

@@ -49,18 +49,10 @@ public class CompressorBlock extends AbstractProcessingBlock {
 	@Override
 	protected void openContainer(Level world, BlockPos pos, Player player) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof CompressorBlockEntity) {
-			player.openMenu((MenuProvider) blockEntity);
+		if (blockEntity instanceof CompressorBlockEntity processor) {
+			player.openMenu(processor);
 			// Increment statistics.
 			player.awardStat(ModStats.COMPRESSOR_STAT);
 		}
-	}
-
-	/**
-	 * Based on {@link BlastFurnaceBlock#animateTick(BlockState, Level, BlockPos, RandomSource)}.
-	 */
-	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-		BlockUtil.randomBlockTick(state, level, pos, random);
 	}
 }

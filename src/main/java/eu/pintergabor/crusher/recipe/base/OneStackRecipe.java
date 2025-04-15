@@ -1,15 +1,10 @@
 package eu.pintergabor.crusher.recipe.base;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.PlacementInfo;
@@ -36,8 +31,10 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	/**
 	 * Create recipe.
 	 *
+	 * @param input      The input item.
 	 * @param inputCount The number of items to use in the recipe.
 	 */
+	@SuppressWarnings("unused")
 	public OneStackRecipe(
 		String group,
 		Ingredient input,
@@ -54,6 +51,7 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	 *
 	 * @param input Encodes both the input item and the quantity required.
 	 */
+	@SuppressWarnings("unused")
 	public OneStackRecipe(
 		String group,
 		ItemStack input,
@@ -71,8 +69,8 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	@Override
 	public abstract @NotNull RecipeType<? extends OneStackRecipe> getType();
 
-	public boolean matches(OneStackRecipeInput oneStackRecipeInput, Level world) {
-		return input.test(oneStackRecipeInput.itemStack());
+	public boolean matches(OneStackRecipeInput recipeInput, Level world) {
+		return input.test(recipeInput.getItemStack());
 	}
 
 	@Override
@@ -101,51 +99,7 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	}
 
 	@Override
-	public @NotNull ItemStack assemble(OneStackRecipeInput input, HolderLookup.Provider registries) {
+	public @NotNull ItemStack assemble(OneStackRecipeInput recipeInput, HolderLookup.Provider registries) {
 		return result.copy();
-	}
-
-	@FunctionalInterface
-	public interface RecipeFactory<T extends OneStackRecipe> {
-		T create(String group, Ingredient ingredient, int ingredientCount, ItemStack result);
-	}
-
-	public static class Serializer<T extends OneStackRecipe> implements RecipeSerializer<T> {
-		private final MapCodec<T> codec;
-		private final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
-
-		protected Serializer(OneStackRecipe.RecipeFactory<T> recipeFactory) {
-			codec = RecordCodecBuilder.mapCodec(
-				instance -> instance.group(
-						Codec.STRING.optionalFieldOf("group", "")
-							.forGetter(OneStackRecipe::group),
-						Ingredient.CODEC.fieldOf("ingredient").
-							forGetter(OneStackRecipe::input),
-						Codec.INT.fieldOf("count")
-							.orElse(1)
-							.forGetter(OneStackRecipe::inputCount),
-						ItemStack.STRICT_CODEC.fieldOf("result")
-							.forGetter(OneStackRecipe::result)
-					)
-					.apply(instance, recipeFactory::create)
-			);
-			streamCodec = StreamCodec.composite(
-				ByteBufCodecs.STRING_UTF8, OneStackRecipe::group,
-				Ingredient.CONTENTS_STREAM_CODEC, OneStackRecipe::input,
-				ByteBufCodecs.INT, OneStackRecipe::inputCount,
-				ItemStack.STREAM_CODEC, OneStackRecipe::result,
-				recipeFactory::create
-			);
-		}
-
-		@Override
-		public @NotNull MapCodec<T> codec() {
-			return codec;
-		}
-
-		@Override
-		public @NotNull StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
-			return streamCodec;
-		}
 	}
 }

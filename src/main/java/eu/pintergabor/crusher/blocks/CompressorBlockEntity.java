@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * See {@link CompressorBlock}.
  */
 public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
+
 	public CompressorBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlocks.COMPRESSOR_ENTITY, pos, state, CompressorRecipe.TYPE);
 	}
@@ -30,7 +31,7 @@ public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
 
 	@Override
 	protected @NotNull AbstractContainerMenu createMenu(int containerId, Inventory playerInventory) {
-		return new CompressorMenu(containerId, playerInventory, this, propertyDelegate);
+		return new CompressorMenu(containerId, playerInventory, this, dataAccess);
 	}
 
 	/**
@@ -48,7 +49,7 @@ public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
 				worldPosition.getX(),
 				worldPosition.getY(),
 				worldPosition.getZ(),
-				8.0F,
+				8F,
 				false,
 				Level.ExplosionInteraction.TNT);
 		}

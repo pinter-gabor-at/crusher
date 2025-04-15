@@ -2,6 +2,7 @@ package eu.pintergabor.crusher.datagen.recipebase;
 
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
+import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import eu.pintergabor.crusher.recipe.base.ProcessingRecipeBuilder;
 
 import net.minecraft.core.HolderLookup;
@@ -28,6 +29,34 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	}
 
 	/**
+	 * Create a crushing or a compressing recipe from input item.
+	 *
+	 * @param input       Input item.
+	 * @param inputCount  Number of input items.
+	 * @param result      Output item.
+	 * @param resultCount Number of output items.
+	 * @param factory     Recipe generator.
+	 * @param from        "_from_crushing_" or "_from_compressing_"
+	 */
+	private <T extends AbstractProcessingRecipe> void createRecipe(
+		ItemLike input, int inputCount,
+		ItemLike result, int resultCount,
+		AbstractProcessingRecipe.RecipeFactory<T> factory, String from) {
+		final Ingredient ingredient = Ingredient.of(input);
+		ProcessingRecipeBuilder.create(
+				ingredient,
+				inputCount,
+				RecipeCategory.MISC,
+				new ItemStack(result, resultCount),
+				experience,
+				cookingTime,
+				factory)
+			.unlockedBy(getHasName(input), has(input))
+			.save(output,
+				getItemName(result.asItem()) + from + getItemName(input));
+	}
+
+	/**
 	 * Create crushing recipe from input item.
 	 *
 	 * @param input       Input item.
@@ -37,55 +66,11 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
-		ItemLike input,
-		int inputCount,
-		ItemLike result,
-		int resultCount) {
-		final Ingredient ingredient = Ingredient.of(input);
-		ProcessingRecipeBuilder.create(
-				ingredient,
-				inputCount,
-				RecipeCategory.MISC,
-				new ItemStack(result, resultCount),
-				experience,
-				cookingTime,
-				CrusherRecipe::new)
-			.unlockedBy(getHasName(input), has(input))
-			.save(output,
-				getItemName(result.asItem()) + "_from_crushing_" + getItemName(input));
-	}
-
-	/**
-	 * Create crushing recipe from input item tag.
-	 *
-	 * @param tag         Input item tag.
-	 * @param tagCount    Number of input items.
-	 * @param result      Output item.
-	 * @param resultCount Number of output items.
-	 */
-	@SuppressWarnings({"unused", "SameParameterValue"})
-	protected void createCrusherRecipe(
-		TagKey<Item> tag,
-		int tagCount,
-		ItemLike result,
-		int resultCount) {
-		try {
-			final HolderLookup.RegistryLookup<Item> registryLookup = registries.lookupOrThrow(Registries.ITEM);
-			final Ingredient ingredient = Ingredient.of(registryLookup.getOrThrow(tag));
-			ProcessingRecipeBuilder.create(
-					ingredient,
-					tagCount,
-					RecipeCategory.MISC,
-					new ItemStack(result, resultCount),
-					experience,
-					cookingTime,
-					CrusherRecipe::new)
-				.unlockedBy("has_" + tag.location().getPath(), has(tag))
-				.save(output,
-					getItemName(result.asItem()) + "_from_crushing_" + tag.location().getPath());
-		} catch (IllegalStateException e) {
-			// If tag does not exist, then do not generate the recipe.
-		}
+		ItemLike input, int inputCount,
+		ItemLike result, int resultCount) {
+		createRecipe(input, inputCount,
+			result, resultCount,
+			CrusherRecipe::new, "_from_crushing_");
 	}
 
 	/**
@@ -98,40 +83,30 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCompressorRecipe(
-		ItemLike input,
-		int inputCount,
-		ItemLike result,
-		int resultCount) {
-		final Ingredient ingredient = Ingredient.of(input);
-		ProcessingRecipeBuilder.create(
-				ingredient,
-				inputCount,
-				RecipeCategory.MISC,
-				new ItemStack(result, resultCount),
-				experience,
-				cookingTime,
-				CompressorRecipe::new)
-			.unlockedBy(getHasName(input), has(input))
-			.save(output,
-				getItemName(result.asItem()) + "_from_compressing_" + getItemName(input));
+		ItemLike input, int inputCount,
+		ItemLike result, int resultCount) {
+		createRecipe(input, inputCount,
+			result, resultCount,
+			CompressorRecipe::new, "_from_compressing_");
 	}
 
 	/**
-	 * Create compressing recipe from input item tag
+	 * Create a crushing or a compressing recipe from input item tag.
 	 *
-	 * @param tag         Input item tag
-	 * @param tagCount    Number of input items
-	 * @param result      Output item
-	 * @param resultCount Number of output items
+	 * @param tag         Input item tag.
+	 * @param tagCount    Number of input items.
+	 * @param result      Output item.
+	 * @param resultCount Number of output items.
+	 * @param factory     Recipe generator.
+	 * @param from        "_from_crushing_" or "_from_compressing_"
 	 */
-	@SuppressWarnings({"unused", "SameParameterValue"})
-	protected void createCompressorRecipe(
-		TagKey<Item> tag,
-		int tagCount,
-		ItemLike result,
-		int resultCount) {
+	private <T extends AbstractProcessingRecipe> void createRecipe(
+		TagKey<Item> tag, int tagCount,
+		ItemLike result, int resultCount,
+		AbstractProcessingRecipe.RecipeFactory<T> factory, String from) {
 		try {
-			final HolderLookup.RegistryLookup<Item> registryLookup = registries.lookupOrThrow(Registries.ITEM);
+			final HolderLookup.RegistryLookup<Item> registryLookup =
+				registries.lookupOrThrow(Registries.ITEM);
 			final Ingredient ingredient = Ingredient.of(registryLookup.getOrThrow(tag));
 			ProcessingRecipeBuilder.create(
 					ingredient,
@@ -140,12 +115,46 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 					new ItemStack(result, resultCount),
 					experience,
 					cookingTime,
-					CompressorRecipe::new)
+					factory)
 				.unlockedBy("has_" + tag.location().getPath(), has(tag))
 				.save(output,
-					getItemName(result.asItem()) + "_from_compressing_" + tag.location().getPath());
+					getItemName(result.asItem()) + from + tag.location().getPath());
 		} catch (IllegalStateException e) {
-			// If tag does not exist, then do not generate the recipe.
+			// If the tag does not exist, then do not generate the recipe.
 		}
+	}
+
+	/**
+	 * Create crushing recipe from input item tag.
+	 *
+	 * @param tag         Input item tag.
+	 * @param tagCount    Number of input items.
+	 * @param result      Output item.
+	 * @param resultCount Number of output items.
+	 */
+	@SuppressWarnings({"unused", "SameParameterValue"})
+	protected void createCrusherRecipe(
+		TagKey<Item> tag, int tagCount,
+		ItemLike result, int resultCount) {
+		createRecipe(tag, tagCount,
+			result, resultCount,
+			CrusherRecipe::new, "_from_crushing_");
+	}
+
+	/**
+	 * Create compressing recipe from input item tag.
+	 *
+	 * @param tag         Input item tag.
+	 * @param tagCount    Number of input items.
+	 * @param result      Output item.
+	 * @param resultCount Number of output items.
+	 */
+	@SuppressWarnings({"unused", "SameParameterValue"})
+	protected void createCompressorRecipe(
+		TagKey<Item> tag, int tagCount,
+		ItemLike result, int resultCount) {
+		createRecipe(tag, tagCount,
+			result, resultCount,
+			CompressorRecipe::new, "_from_compressing_");
 	}
 }

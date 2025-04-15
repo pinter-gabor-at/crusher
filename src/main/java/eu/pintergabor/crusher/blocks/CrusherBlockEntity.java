@@ -28,6 +28,6 @@ public class CrusherBlockEntity extends AbstractProcessingBlockEntity {
 
 	@Override
 	protected @NotNull AbstractContainerMenu createMenu(int containerId, Inventory playerInventory) {
-		return new CrusherMenu(containerId, playerInventory, this, propertyDelegate);
+		return new CrusherMenu(containerId, playerInventory, this, dataAccess);
 	}
 }

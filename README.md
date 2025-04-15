@@ -43,4 +43,9 @@ This is why I decided to make all my Minecraft mods publicly available.
 ## Thanks
 
 This mod was inspired by [Stone Crusher](https://modrinth.com/mod/stone-crusher) made by [Blyrium](https://modrinth.com/user/Blyrium).
-Reading his code helped me a lot, writing this mod.
+Reading his code helped me a lot.
+
+
+## See also
+
+My other mods on [Modrinth](https://modrinth.com/user/pinter.gabor) and on [CurseForge](https://www.curseforge.com/members/pintergabor/projects).

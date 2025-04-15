@@ -38,6 +38,7 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	 * @param input  Encodes both the input item and the quantity required.
 	 * @param result Encodes both the output item and the quantity produced.
 	 */
+	@SuppressWarnings("unused")
 	public AbstractProcessingRecipe(
 		String group,
 		CookingBookCategory category,
@@ -58,6 +59,7 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	 * @param inputCount And the input quantity required.
 	 * @param result     Encodes both the output item and the quantity produced.
 	 */
+	@SuppressWarnings("unused")
 	public AbstractProcessingRecipe(
 		String group,
 		CookingBookCategory category,

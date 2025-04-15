@@ -1,5 +1,12 @@
 package eu.pintergabor.crusher.blocks.base;
 
+import eu.pintergabor.crusher.util.BlockUtil;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.BlastFurnaceBlock;
+import net.minecraft.world.level.block.state.BlockState;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.server.level.ServerLevel;
@@ -34,5 +41,13 @@ public abstract class AbstractProcessingBlock extends AbstractFurnaceBlock {
 				AbstractProcessingBlockEntity.tick(
 					serverLevel, pos, state, blockEntity))
 			: null;
+	}
+
+	/**
+	 * Based on {@link BlastFurnaceBlock#animateTick(BlockState, Level, BlockPos, RandomSource)}.
+	 */
+	@Override
+	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+		BlockUtil.randomBlockTick(state, world, pos, random);
 	}
 }
