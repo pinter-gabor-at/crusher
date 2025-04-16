@@ -14,19 +14,20 @@ import net.minecraft.world.item.ItemStack;
 /**
  * Similar to {@link FurnaceResultSlot}.
  */
-public class ProcessingOutputSlot extends Slot {
+public class ProcessingResultSlot extends Slot {
 	private final Player player;
 	private int removeCount;
 
-	public ProcessingOutputSlot(
+	public ProcessingResultSlot(
 		Player player, Container container,
-		int slot, int x, int y) {
+		int slot, int x, int y
+	) {
 		super(container, slot, x, y);
 		this.player = player;
 	}
 
 	@Override
-	public boolean mayPlace(ItemStack stack) {
+	public boolean mayPlace(@NotNull ItemStack stack) {
 		return false;
 	}
 
@@ -39,12 +40,12 @@ public class ProcessingOutputSlot extends Slot {
 	}
 
 	@Override
-	public void onTake(Player player, ItemStack stack) {
+	public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
 		checkTakeAchievements(stack);
 		super.onTake(player, stack);
 	}
 
-	protected void onQuickCraft(ItemStack stack, int amount) {
+	protected void onQuickCraft(@NotNull ItemStack stack, int amount) {
 		removeCount += amount;
 		checkTakeAchievements(stack);
 	}
@@ -52,9 +53,9 @@ public class ProcessingOutputSlot extends Slot {
 	@Override
 	protected void checkTakeAchievements(ItemStack stack) {
 		stack.onCraftedBy(player, removeCount);
-		if (player instanceof ServerPlayer serverPlayerEntity &&
-			container instanceof AbstractProcessingBlockEntity abstractProcessingBlockEntity) {
-			abstractProcessingBlockEntity.dropExperienceForRecipesUsed(serverPlayerEntity);
+		if (player instanceof ServerPlayer serverPlayer &&
+			container instanceof AbstractProcessingBlockEntity processor) {
+			processor.dropExperienceForRecipesUsed(serverPlayer);
 		}
 		removeCount = 0;
 	}

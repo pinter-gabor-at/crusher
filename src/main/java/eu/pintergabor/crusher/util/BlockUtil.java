@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.BlastFurnaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 
-public class BlockUtil {
+public final class BlockUtil {
 
 	private BlockUtil() {
 		// Static class.

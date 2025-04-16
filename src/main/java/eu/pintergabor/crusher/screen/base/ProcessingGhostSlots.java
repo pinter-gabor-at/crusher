@@ -26,7 +26,8 @@ public class ProcessingGhostSlots extends GhostSlots {
 	public void setInput(
 		@NotNull Slot slot,
 		@NotNull ContextMap context,
-		@NotNull SlotDisplay display) {
+		@NotNull SlotDisplay display
+	) {
 		super.setInput(slot, context, display);
 	}
 
@@ -34,7 +35,8 @@ public class ProcessingGhostSlots extends GhostSlots {
 	public void setResult(
 		@NotNull Slot slot,
 		@NotNull ContextMap context,
-		@NotNull SlotDisplay display) {
+		@NotNull SlotDisplay display
+	) {
 		super.setResult(slot, context, display);
 	}
 }

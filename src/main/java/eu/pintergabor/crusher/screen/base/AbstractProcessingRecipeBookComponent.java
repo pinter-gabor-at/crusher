@@ -24,7 +24,7 @@ import net.minecraft.world.item.crafting.display.RecipeDisplay;
  * Similar to {@link FurnaceRecipeBookComponent}.
  */
 @OnlyIn(Dist.CLIENT)
-public class AbstractProcessingRecipeBookWidget extends RecipeBookComponent<AbstractProcessingMenu> {
+public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<AbstractProcessingMenu> {
 	private static final WidgetSprites FILTER_SPRITES = new WidgetSprites(
 		ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_enabled"),
 		ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_disabled"),
@@ -33,8 +33,9 @@ public class AbstractProcessingRecipeBookWidget extends RecipeBookComponent<Abst
 	);
 	private final Component recipeFilterName;
 
-	public AbstractProcessingRecipeBookWidget(
-		AbstractProcessingMenu menu, Component recipeFilterName, List<TabInfo> tabInfos) {
+	public AbstractProcessingRecipeBookComponent(
+		AbstractProcessingMenu menu, Component recipeFilterName, List<TabInfo> tabInfos
+	) {
 		super(menu, tabInfos);
 		this.recipeFilterName = recipeFilterName;
 	}
@@ -52,7 +53,8 @@ public class AbstractProcessingRecipeBookWidget extends RecipeBookComponent<Abst
 	protected void fillGhostRecipe(
 		@NotNull GhostSlots ghostSlots,
 		@NotNull RecipeDisplay display,
-		@NotNull ContextMap context) {
+		@NotNull ContextMap context
+	) {
 		if (ghostSlots instanceof ProcessingGhostSlots processingGhostSlots) {
 			processingGhostSlots.setResult(menu.getResultSlot(), context, display.result());
 			if (display instanceof FurnaceRecipeDisplay furnaceRecipeDisplay) {
@@ -72,8 +74,10 @@ public class AbstractProcessingRecipeBookWidget extends RecipeBookComponent<Abst
 	}
 
 	@Override
-	protected void selectMatchingRecipes(RecipeCollection possibleRecipes, StackedItemContents stackedItemContents) {
-		possibleRecipes.selectRecipes(stackedItemContents, recipeDisplay ->
+	protected void selectMatchingRecipes(
+		RecipeCollection possibleRecipes,
+		@NotNull StackedItemContents contents) {
+		possibleRecipes.selectRecipes(contents, recipeDisplay ->
 			recipeDisplay instanceof FurnaceRecipeDisplay);
 	}
 }
