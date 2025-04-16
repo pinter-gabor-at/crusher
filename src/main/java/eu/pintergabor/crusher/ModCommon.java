@@ -1,6 +1,7 @@
 package eu.pintergabor.crusher;
 
 import eu.pintergabor.crusher.main.Main;
+import eu.pintergabor.crusher.screen.ModScreenHandlers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;

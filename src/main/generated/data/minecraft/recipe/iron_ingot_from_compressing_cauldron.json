@@ -1,0 +1,12 @@
+{
+  "type": "crusher:compressing",
+  "category": "misc",
+  "cookingtime": 150,
+  "experience": 0.1,
+  "ingredient": "minecraft:cauldron",
+  "ingredient_count": 1,
+  "result": {
+    "count": 7,
+    "id": "minecraft:iron_ingot"
+  }
+}

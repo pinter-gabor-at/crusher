@@ -31,7 +31,8 @@ public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
 
 	@Override
 	protected @NotNull AbstractContainerMenu createMenu(
-		int containerId, @NotNull Inventory playerInventory) {
+		int containerId, @NotNull Inventory playerInventory
+	) {
 		return new CompressorMenu(containerId, playerInventory, this, dataAccess);
 	}
 
@@ -40,8 +41,8 @@ public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
 	 */
 	@Override
 	protected void crafted() {
-		// If the crafted result is TNT then create twice as large explosion as a TNT block.
 		if (level != null && inventory.get(OUTPUT_SLOT_INDEX).is(Items.TNT)) {
+			// If the crafted result is TNT then create twice as large explosion as a TNT block.
 			inventory.set(OUTPUT_SLOT_INDEX, ItemStack.EMPTY);
 			level.explode(
 				null,

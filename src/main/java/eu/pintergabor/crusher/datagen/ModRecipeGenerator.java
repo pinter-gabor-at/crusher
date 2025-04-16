@@ -415,12 +415,12 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.DIAMOND_BOOTS, 1, Items.DIAMOND, 4);
 		createCrusherRecipe(Items.DIAMOND_HORSE_ARMOR, 1, Items.DIAMOND, 7);
 		// Sand from sand fast.
-		experience = 1.0f;
+		experience = 1.0F;
 		cookingTime = 10;
 		createCrusherRecipe(Items.SAND, 1, Items.SAND, 1);
 		createCrusherRecipe(Items.RED_SAND, 1, Items.RED_SAND, 1);
 		// Diamond from diamond, even faster.
-		experience = 1.5f;
+		experience = 1.5F;
 		cookingTime = 8;
 		createCrusherRecipe(Items.DIAMOND, 1, Items.DIAMOND, 1);
 	}

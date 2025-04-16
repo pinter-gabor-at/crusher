@@ -1,0 +1,12 @@
+{
+  "type": "crusher:crushing",
+  "category": "misc",
+  "cookingtime": 150,
+  "experience": 0.1,
+  "ingredient": "minecraft:powered_rail",
+  "ingredient_count": 1,
+  "result": {
+    "count": 1,
+    "id": "minecraft:raw_gold"
+  }
+}

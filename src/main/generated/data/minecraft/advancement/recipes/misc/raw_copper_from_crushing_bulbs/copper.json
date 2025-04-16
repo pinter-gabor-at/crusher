@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bulbs/copper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:bulbs/copper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:raw_copper_from_crushing_bulbs/copper"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bulbs/copper"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:raw_copper_from_crushing_bulbs/copper"
+    ]
+  }
+}

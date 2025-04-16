@@ -35,7 +35,8 @@ public class CrusherBlock extends AbstractProcessingBlock {
 	@Override
 	public BlockEntity newBlockEntity(
 		@NotNull BlockPos pos,
-		@NotNull BlockState state) {
+		@NotNull BlockState state
+	) {
 		return new CrusherBlockEntity(pos, state);
 	}
 
@@ -43,7 +44,8 @@ public class CrusherBlock extends AbstractProcessingBlock {
 	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(
 		@NotNull Level world,
 		@NotNull BlockState state,
-		@NotNull BlockEntityType<T> type) {
+		@NotNull BlockEntityType<T> type
+	) {
 		return createModTicker(world, type, ModBlocks.CRUSHER_ENTITY.get());
 	}
 
@@ -51,7 +53,8 @@ public class CrusherBlock extends AbstractProcessingBlock {
 	protected void openContainer(
 		@NotNull Level world,
 		@NotNull BlockPos pos,
-		@NotNull Player player) {
+		@NotNull Player player
+	) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof CrusherBlockEntity processor) {
 			player.openMenu(processor);

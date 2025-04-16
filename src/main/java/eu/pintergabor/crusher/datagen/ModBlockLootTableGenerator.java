@@ -3,15 +3,13 @@ package eu.pintergabor.crusher.datagen;
 import java.util.Set;
 
 import eu.pintergabor.crusher.blocks.ModBlocks;
-
 import eu.pintergabor.crusher.main.Main;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
-
-import org.jetbrains.annotations.NotNull;
 
 
 public class ModBlockLootTableGenerator extends BlockLootSubProvider {
@@ -20,6 +18,10 @@ public class ModBlockLootTableGenerator extends BlockLootSubProvider {
 		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, lookupProvider);
 	}
 
+	/**
+	 * See <a href="https://docs.neoforged.net/docs/resources/server/loottables/#blocklootsubprovider">
+	 * Loottables in NeoForged docs</a>.
+	 */
 	@Override
 	@NotNull
 	protected Iterable<Block> getKnownBlocks() {

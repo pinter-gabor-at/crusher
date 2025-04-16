@@ -1,0 +1,12 @@
+{
+  "type": "crusher:compressing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:slime_ball",
+  "ingredient_count": 4,
+  "result": {
+    "count": 1,
+    "id": "minecraft:slime_block"
+  }
+}

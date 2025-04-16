@@ -67,10 +67,12 @@ public class ModBlocks {
 	 * Initialize block entities.
 	 */
 	private static void initEntities() {
-		CRUSHER_ENTITY = Main.BLOCK_ENTITY_TYPES.register("crusher", () ->
+		CRUSHER_ENTITY = Main.BLOCK_ENTITY_TYPES.register(
+			"crusher", () ->
 			new BlockEntityType<>(
 				CrusherBlockEntity::new, CRUSHER_BLOCK.get()));
-		COMPRESSOR_ENTITY = Main.BLOCK_ENTITY_TYPES.register("compressor", () ->
+		COMPRESSOR_ENTITY = Main.BLOCK_ENTITY_TYPES.register(
+			"compressor", () ->
 			new BlockEntityType<>(
 				CompressorBlockEntity::new, COMPRESSOR_BLOCK.get()));
 	}

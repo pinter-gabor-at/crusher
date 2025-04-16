@@ -1,0 +1,12 @@
+{
+  "type": "crusher:crushing",
+  "category": "misc",
+  "cookingtime": 150,
+  "experience": 0.1,
+  "ingredient": "minecraft:golden_horse_armor",
+  "ingredient_count": 1,
+  "result": {
+    "count": 7,
+    "id": "minecraft:raw_gold"
+  }
+}

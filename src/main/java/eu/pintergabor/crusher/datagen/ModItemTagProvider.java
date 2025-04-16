@@ -24,7 +24,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
 	 * Items crushed to gravel.
 	 */
 	public static final TagKey<Item> GRAVEL_SOURCES = createModItemTag("gravel_sources");
-
 	/**
 	 * Items crushed to sand.
 	 */

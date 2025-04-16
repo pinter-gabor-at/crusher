@@ -8,7 +8,13 @@ import eu.pintergabor.crusher.blocks.ModStats;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 
-import net.minecraft.core.registries.BuiltInRegistries;
+import eu.pintergabor.crusher.screen.ModScreenHandlers;
+
+import net.minecraft.world.inventory.MenuType;
+
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
@@ -17,28 +23,27 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
-
 
 public final class Main {
 	// Registries.
 	public static final DeferredRegister.Items ITEMS =
 		DeferredRegister.createItems(Global.MODID);
 	public static final DeferredRegister<MapCodec<? extends Block>> BLOCK_TYPES =
-		DeferredRegister.create(BuiltInRegistries.BLOCK_TYPE, Global.MODID);
+		DeferredRegister.create(Registries.BLOCK_TYPE, Global.MODID);
 	public static final DeferredRegister.Blocks BLOCKS =
 		DeferredRegister.createBlocks(Global.MODID);
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES =
 		DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Global.MODID);
 	public static final DeferredRegister<RecipeBookCategory> RECIPE_BOOK_CATEGORIES =
-			DeferredRegister.create(Registries.RECIPE_BOOK_CATEGORY, Global.MODID);
+		DeferredRegister.create(Registries.RECIPE_BOOK_CATEGORY, Global.MODID);
 	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
 		DeferredRegister.create(Registries.RECIPE_TYPE, Global.MODID);
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
 		DeferredRegister.create(Registries.RECIPE_SERIALIZER, Global.MODID);
 	public static final DeferredRegister<ResourceLocation> STATS =
 		DeferredRegister.create(Registries.CUSTOM_STAT, Global.MODID);
+	public static final DeferredRegister<MenuType<?>> MENU_TYPES =
+			DeferredRegister.create(Registries.MENU, Global.MODID);
 
 	/**
 	 * Called from {@link ModCommon}.
@@ -59,5 +64,8 @@ public final class Main {
 		// Statistics.
 		ModStats.init();
 		STATS.register(modEventBus);
+		// Menus.
+		ModScreenHandlers.init(modEventBus);
+		MENU_TYPES.register(modEventBus);
 	}
 }

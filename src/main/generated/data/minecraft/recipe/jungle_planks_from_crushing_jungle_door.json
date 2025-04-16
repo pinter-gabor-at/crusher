@@ -1,0 +1,12 @@
+{
+  "type": "crusher:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:jungle_door",
+  "ingredient_count": 1,
+  "result": {
+    "count": 2,
+    "id": "minecraft:jungle_planks"
+  }
+}

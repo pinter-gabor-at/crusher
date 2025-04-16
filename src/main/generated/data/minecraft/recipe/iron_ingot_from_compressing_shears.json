@@ -1,0 +1,12 @@
+{
+  "type": "crusher:compressing",
+  "category": "misc",
+  "cookingtime": 150,
+  "experience": 0.1,
+  "ingredient": "minecraft:shears",
+  "ingredient_count": 1,
+  "result": {
+    "count": 2,
+    "id": "minecraft:iron_ingot"
+  }
+}

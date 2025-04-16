@@ -1,0 +1,12 @@
+{
+  "type": "crusher:compressing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:ice",
+  "ingredient_count": 9,
+  "result": {
+    "count": 1,
+    "id": "minecraft:packed_ice"
+  }
+}

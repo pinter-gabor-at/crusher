@@ -24,7 +24,9 @@ public class ModModelProvider extends ModelProvider {
 	protected void registerModels(
 		@NotNull BlockModelGenerators blockModels,
 		@NotNull ItemModelGenerators itemModels) {
-		blockModels.createFurnace(ModBlocks.CRUSHER_BLOCK.get(), TexturedModel.ORIENTABLE);
-		blockModels.createFurnace(ModBlocks.COMPRESSOR_BLOCK.get(), TexturedModel.ORIENTABLE);
+		blockModels.createFurnace(ModBlocks.CRUSHER_BLOCK.get(),
+			TexturedModel.ORIENTABLE_ONLY_TOP);
+		blockModels.createFurnace(ModBlocks.COMPRESSOR_BLOCK.get(),
+			TexturedModel.ORIENTABLE_ONLY_TOP);
 	}
 }

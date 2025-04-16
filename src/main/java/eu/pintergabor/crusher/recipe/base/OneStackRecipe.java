@@ -69,7 +69,7 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	@Override
 	public abstract @NotNull RecipeType<? extends OneStackRecipe> getType();
 
-	public boolean matches(OneStackRecipeInput recipeInput, Level world) {
+	public boolean matches(OneStackRecipeInput recipeInput, @NotNull Level world) {
 		return input.test(recipeInput.getItemStack());
 	}
 
@@ -99,7 +99,10 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	}
 
 	@Override
-	public @NotNull ItemStack assemble(OneStackRecipeInput recipeInput, HolderLookup.Provider registries) {
+	public @NotNull ItemStack assemble(
+		@NotNull OneStackRecipeInput recipeInput,
+		HolderLookup.@NotNull Provider registries
+	) {
 		return result.copy();
 	}
 }

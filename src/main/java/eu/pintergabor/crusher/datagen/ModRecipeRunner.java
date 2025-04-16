@@ -19,16 +19,15 @@ public class ModRecipeRunner extends RecipeProvider.Runner {
 	}
 
 	@Override
-	@NotNull
-	protected RecipeProvider createRecipeProvider(
+	protected @NotNull RecipeProvider createRecipeProvider(
 			@NotNull HolderLookup.Provider registryLookup,
-			@NotNull RecipeOutput output) {
+			@NotNull RecipeOutput output
+	) {
 		return new ModRecipeGenerator(registryLookup, output);
 	}
 
 	@Override
-	@NotNull
-	public String getName() {
+	public @NotNull String getName() {
 		return Global.MODID + " recipes";
 	}
 }

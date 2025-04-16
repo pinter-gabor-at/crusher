@@ -1,0 +1,12 @@
+{
+  "type": "crusher:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:dark_oak_boat",
+  "ingredient_count": 1,
+  "result": {
+    "count": 5,
+    "id": "minecraft:dark_oak_planks"
+  }
+}

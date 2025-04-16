@@ -24,7 +24,7 @@ public final class DataGen {
 		// Static class.
 	}
 
-	public static void init(GatherDataEvent.Client event) {
+	public static void listener(GatherDataEvent.Client event) {
 		// Create blocks and their models first.
 		event.createProvider(ModModelProvider::new);
 		// Tag them next.

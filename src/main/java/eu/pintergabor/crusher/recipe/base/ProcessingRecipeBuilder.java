@@ -82,7 +82,7 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 	}
 
 	public @NotNull ProcessingRecipeBuilder unlockedBy(
-		String string, Criterion<?> advancementCriterion) {
+		@NotNull String string, @NotNull Criterion<?> advancementCriterion) {
 		criteria.put(string, advancementCriterion);
 		return this;
 	}
@@ -98,7 +98,7 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 	}
 
 	@Override
-	public void save(RecipeOutput output, ResourceKey<Recipe<?>> resourceKey) {
+	public void save(RecipeOutput output, @NotNull ResourceKey<Recipe<?>> resourceKey) {
 		Advancement.Builder builder = output.advancement()
 			.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceKey))
 			.rewards(AdvancementRewards.Builder.recipe(resourceKey))

@@ -1,0 +1,12 @@
+{
+  "type": "crusher:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:birch_stairs",
+  "ingredient_count": 1,
+  "result": {
+    "count": 3,
+    "id": "minecraft:stick"
+  }
+}

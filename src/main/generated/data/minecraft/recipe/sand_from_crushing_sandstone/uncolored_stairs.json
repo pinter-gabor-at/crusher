@@ -1,0 +1,12 @@
+{
+  "type": "crusher:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "#c:sandstone/uncolored_stairs",
+  "ingredient_count": 1,
+  "result": {
+    "count": 6,
+    "id": "minecraft:sand"
+  }
+}

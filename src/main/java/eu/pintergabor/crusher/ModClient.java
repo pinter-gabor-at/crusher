@@ -16,12 +16,11 @@ public final class ModClient {
 
 	@SuppressWarnings("unused")
 	public ModClient(IEventBus modEventBus, ModContainer modContainer) {
-		// GUI screens.
-		//modEventBus.addListener(ModScreenHandlers::initMenu);
-		//modEventBus.addListener(ModScreenHandlers::initScreen);
 		// Creative tabs.
-		modEventBus.addListener(CreativeTabs::init);
+		modEventBus.addListener(CreativeTabs::listener);
+		// GUI screens.
+		modEventBus.addListener(ModScreenHandlers::listener);
 		// Data generator.
-		modEventBus.addListener(DataGen::init);
+		modEventBus.addListener(DataGen::listener);
 	}
 }
