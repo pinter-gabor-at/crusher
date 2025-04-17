@@ -82,7 +82,8 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 	}
 
 	public @NotNull ProcessingRecipeBuilder unlockedBy(
-		@NotNull String string, @NotNull Criterion<?> advancementCriterion) {
+		@NotNull String string, @NotNull Criterion<?> advancementCriterion
+	) {
 		criteria.put(string, advancementCriterion);
 		return this;
 	}

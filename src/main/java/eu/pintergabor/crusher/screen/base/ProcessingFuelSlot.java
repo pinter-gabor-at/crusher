@@ -13,18 +13,18 @@ import net.minecraft.world.item.ItemStack;
  * but without special handling for buckets.
  */
 public class ProcessingFuelSlot extends Slot {
-	private final AbstractProcessingMenu handler;
+	private final AbstractProcessingMenu menu;
 
 	public ProcessingFuelSlot(
 		AbstractProcessingMenu menu, Container container,
 		int slot, int x, int y
 	) {
 		super(container, slot, x, y);
-		this.handler = menu;
+		this.menu = menu;
 	}
 
 	@Override
 	public boolean mayPlace(@NotNull ItemStack stack) {
-		return handler.isFuel(stack);
+		return menu.isFuel(stack);
 	}
 }

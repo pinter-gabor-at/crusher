@@ -39,7 +39,8 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 		String group,
 		Ingredient input,
 		int inputCount,
-		ItemStack result) {
+		ItemStack result
+	) {
 		this.group = group;
 		this.input = input;
 		this.inputCount = inputCount;
@@ -55,7 +56,8 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	public OneStackRecipe(
 		String group,
 		ItemStack input,
-		ItemStack result) {
+		ItemStack result
+	) {
 		this(
 			group,
 			Ingredient.of(input.getItem()),
@@ -69,7 +71,7 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	@Override
 	public abstract @NotNull RecipeType<? extends OneStackRecipe> getType();
 
-	public boolean matches(OneStackRecipeInput recipeInput, @NotNull Level world) {
+	public boolean matches(OneStackRecipeInput recipeInput, @NotNull Level level) {
 		return input.test(recipeInput.getItemStack());
 	}
 

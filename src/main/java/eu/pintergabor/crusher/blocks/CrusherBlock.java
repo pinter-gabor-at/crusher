@@ -42,20 +42,20 @@ public class CrusherBlock extends AbstractProcessingBlock {
 
 	@Override
 	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(
-		@NotNull Level world,
+		@NotNull Level level,
 		@NotNull BlockState state,
 		@NotNull BlockEntityType<T> type
 	) {
-		return createModTicker(world, type, ModBlocks.CRUSHER_ENTITY.get());
+		return createModTicker(level, type, ModBlocks.CRUSHER_ENTITY.get());
 	}
 
 	@Override
 	protected void openContainer(
-		@NotNull Level world,
+		@NotNull Level level,
 		@NotNull BlockPos pos,
 		@NotNull Player player
 	) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
+		BlockEntity blockEntity = level.getBlockEntity(pos);
 		if (blockEntity instanceof CrusherBlockEntity processor) {
 			player.openMenu(processor);
 			// Increment statistics.

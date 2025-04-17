@@ -94,28 +94,28 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 			final ItemStack clickItemStack = clickSlot.getItem();
 			final ItemStack returnItemStack = clickItemStack.copy();
 			if (slot == OUTPUT_SLOT_INDEX) {
-				// From output slot to inventory
-				if (!this.moveItemStackTo(clickItemStack,
+				// From output slot to inventory.
+				if (!moveItemStackTo(clickItemStack,
 					3, 39, true)) {
 					return ItemStack.EMPTY;
 				}
 				clickSlot.onQuickCraft(clickItemStack, returnItemStack);
 			} else if (slot == FUEL_SLOT_INDEX || slot == INPUT_SLOT_INDEX) {
-				// From fuel, or input slot to inventory
-				if (!this.moveItemStackTo(clickItemStack,
+				// From fuel, or input slot to inventory.
+				if (!moveItemStackTo(clickItemStack,
 					3, 39, false)) {
 					return ItemStack.EMPTY;
 				}
 			} else {
-				// From elsewhere, if it is fuel, to the fuel slot
-				if (this.isFuel(clickItemStack)) {
-					if (!this.moveItemStackTo(clickItemStack,
+				// From elsewhere, if it is fuel, to the fuel slot.
+				if (isFuel(clickItemStack)) {
+					if (!moveItemStackTo(clickItemStack,
 						FUEL_SLOT_INDEX, FUEL_SLOT_INDEX + 1, false)) {
 						return ItemStack.EMPTY;
 					}
 				} else {
-					// From elsewhere to the input slot
-					if (!this.moveItemStackTo(clickItemStack,
+					// From elsewhere to the input slot.
+					if (!moveItemStackTo(clickItemStack,
 						INPUT_SLOT_INDEX, INPUT_SLOT_INDEX + 1, false)) {
 						return ItemStack.EMPTY;
 					}

@@ -42,7 +42,7 @@ public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<A
 
 	@Override
 	protected void initFilterButtonTextures() {
-		this.filterButton.initTextureValues(FILTER_SPRITES);
+		filterButton.initTextureValues(FILTER_SPRITES);
 	}
 
 	@Override
@@ -76,7 +76,8 @@ public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<A
 	@Override
 	protected void selectMatchingRecipes(
 		RecipeCollection possibleRecipes,
-		@NotNull StackedItemContents contents) {
+		@NotNull StackedItemContents contents
+	) {
 		possibleRecipes.selectRecipes(contents, recipeDisplay ->
 			recipeDisplay instanceof FurnaceRecipeDisplay);
 	}

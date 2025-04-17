@@ -44,7 +44,8 @@ public class CrusherScreen extends AbstractProcessingScreen<CrusherMenu> {
 	);
 
 	public CrusherScreen(
-		CrusherMenu menu, Inventory playerInventory, Component title) {
+		CrusherMenu menu, Inventory playerInventory, Component title
+	) {
 		super(
 			menu, playerInventory, title,
 			FILTER_NAME, TEXTURE, LIT_PROGRESS_SPRITE, BURN_PROGRESS_SPRITE, TABS);
