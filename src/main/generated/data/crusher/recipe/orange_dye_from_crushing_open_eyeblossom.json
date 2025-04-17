@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:open_eyeblossom",
+  "ingredient_count": 1,
+  "result": {
+    "count": 2,
+    "id": "minecraft:orange_dye"
+  }
+}

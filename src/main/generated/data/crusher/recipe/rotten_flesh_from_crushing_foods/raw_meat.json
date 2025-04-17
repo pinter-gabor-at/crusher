@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "#c:foods/raw_meat",
+  "ingredient_count": 1,
+  "result": {
+    "count": 1,
+    "id": "minecraft:rotten_flesh"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:acacia_chest_boat",
+  "ingredient_count": 1,
+  "result": {
+    "count": 13,
+    "id": "minecraft:acacia_planks"
+  }
+}

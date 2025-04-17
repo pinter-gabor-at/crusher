@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:compressing",
+  "category": "misc",
+  "cookingtime": 1000,
+  "experience": 1.0,
+  "ingredient": "minecraft:coal_block",
+  "ingredient_count": 16,
+  "result": {
+    "count": 1,
+    "id": "minecraft:diamond"
+  }
+}

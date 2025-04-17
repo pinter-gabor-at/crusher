@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:pale_oak_fence_gate",
+  "ingredient_count": 1,
+  "result": {
+    "count": 8,
+    "id": "minecraft:stick"
+  }
+}

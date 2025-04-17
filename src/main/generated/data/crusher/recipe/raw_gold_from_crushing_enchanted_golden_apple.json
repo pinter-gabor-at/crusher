@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crushing",
+  "category": "misc",
+  "cookingtime": 600,
+  "experience": 0.1,
+  "ingredient": "minecraft:enchanted_golden_apple",
+  "ingredient_count": 1,
+  "result": {
+    "count": 64,
+    "id": "minecraft:raw_gold"
+  }
+}

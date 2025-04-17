@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:compressing",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "minecraft:charcoal",
+  "ingredient_count": 9,
+  "result": {
+    "count": 1,
+    "id": "minecraft:coal_block"
+  }
+}
