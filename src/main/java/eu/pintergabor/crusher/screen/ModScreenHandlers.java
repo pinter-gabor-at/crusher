@@ -2,17 +2,20 @@ package eu.pintergabor.crusher.screen;
 
 import eu.pintergabor.crusher.Global;
 
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.resource.featuretoggle.FeatureFlags;
-import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.inventory.MenuType;
 
 
+/**
+ * Screen handlers are registered similar to vanilla screen handlers in {@link MenuType}.
+ */
 public class ModScreenHandlers {
-	public static final ScreenHandlerType<CrusherScreenHandler> CRUSHER_SCREEN_HANDLER =
-		Registry.register(Registries.SCREEN_HANDLER, Global.modId("crusher"),
-			new ScreenHandlerType<>(CrusherScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
-	public static final ScreenHandlerType<CompressorScreenHandler> COMPRESSOR_SCREEN_HANDLER =
-		Registry.register(Registries.SCREEN_HANDLER, Global.modId("compressor"),
-			new ScreenHandlerType<>(CompressorScreenHandler::new, FeatureFlags.VANILLA_FEATURES));
+	public static final MenuType<CrusherMenu> CRUSHER_SCREEN_HANDLER =
+		Registry.register(BuiltInRegistries.MENU, Global.modId("crusher"),
+			new MenuType<>(CrusherMenu::new, FeatureFlags.VANILLA_SET));
+	public static final MenuType<CompressorMenu> COMPRESSOR_SCREEN_HANDLER =
+		Registry.register(BuiltInRegistries.MENU, Global.modId("compressor"),
+			new MenuType<>(CompressorMenu::new, FeatureFlags.VANILLA_SET));
 }

@@ -2,18 +2,19 @@ package eu.pintergabor.crusher.recipe;
 
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
+import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.SmeltingRecipe;
-import net.minecraft.recipe.book.CookingRecipeCategory;
-import net.minecraft.recipe.book.RecipeBookCategories;
-import net.minecraft.recipe.book.RecipeBookCategory;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeBookCategories;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 
 
 /**
@@ -27,12 +28,13 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 
 	public CompressorRecipe(
 		String group,
-		CookingRecipeCategory category,
+		CookingBookCategory category,
 		Ingredient ingredient,
 		int ingredientCount,
 		ItemStack result,
 		float experience,
-		int cookingTime) {
+		int cookingTime
+	) {
 		super(
 			group,
 			category,
@@ -40,27 +42,26 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 			ingredientCount,
 			result,
 			experience,
-			cookingTime
-		);
+			cookingTime);
 	}
 
 	@Override
-	protected Item getCookerItem() {
-		return ModBlocks.CRUSHER_ITEM;
+	protected Item getProcessorItem() {
+		return ModBlocks.COMPRESOR_ITEM;
 	}
 
 	@Override
-	public RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
+	public @NotNull RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
 		return SERIALIZER;
 	}
 
 	@Override
-	public RecipeType<? extends AbstractProcessingRecipe> getType() {
+	public @NotNull RecipeType<? extends AbstractProcessingRecipe> getType() {
 		return TYPE;
 	}
 
 	@Override
-	public RecipeBookCategory getRecipeBookCategory() {
+	public @NotNull RecipeBookCategory recipeBookCategory() {
 		return CATEGORY;
 	}
 
@@ -78,7 +79,7 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 			RecipeType.register("compressing");
 		CATEGORY =
 			Registry.register(
-				Registries.RECIPE_BOOK_CATEGORY,
+				BuiltInRegistries.RECIPE_BOOK_CATEGORY,
 				"compressor",
 				new RecipeBookCategory());
 	}

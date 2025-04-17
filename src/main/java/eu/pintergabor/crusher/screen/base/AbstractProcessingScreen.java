@@ -2,83 +2,96 @@ package eu.pintergabor.crusher.screen.base;
 
 import java.util.List;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.ScreenPos;
-import net.minecraft.client.gui.screen.ingame.RecipeBookScreen;
-import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.NotNull;
+
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.navigation.ScreenPosition;
+import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Inventory;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 
-public abstract class AbstractProcessingScreen<T extends AbstractProcessingScreenHandler>
-	extends RecipeBookScreen<T> {
-	private final Identifier background;
-	private final Identifier litProgressTexture;
-	private final Identifier burnProgressTexture;
+/**
+ * Similar to {@link AbstractFurnaceScreen}.
+ */
+@Environment(EnvType.CLIENT)
+public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
+	extends AbstractRecipeBookScreen<T> {
+	private final ResourceLocation background;
+	private final ResourceLocation litProgressSprite;
+	private final ResourceLocation burnProgressSprite;
 
 	public AbstractProcessingScreen(
-		T handler,
-		PlayerInventory playerInventory,
-		Text title,
-		Text toggleCraftableButtonText,
-		Identifier background,
-		Identifier litProgressTexture,
-		Identifier burnProgressTexture,
-		List<RecipeBookWidget.Tab> recipeBookTabs
+		T menu,
+		Inventory playerInventory,
+		Component title,
+		Component recipeFilterName,
+		ResourceLocation background,
+		ResourceLocation litProgressSprite,
+		ResourceLocation burnProgressSprite,
+		List<RecipeBookComponent.TabInfo> recipeBookTabs
 	) {
 		super(
-			handler,
-			new AbstractProcessingRecipeBookWidget(
-				handler,
-				toggleCraftableButtonText,
+			menu,
+			new AbstractProcessingRecipeBookComponent(
+				menu,
+				recipeFilterName,
 				recipeBookTabs),
 			playerInventory,
 			title);
 		this.background = background;
-		this.litProgressTexture = litProgressTexture;
-		this.burnProgressTexture = burnProgressTexture;
+		this.litProgressSprite = litProgressSprite;
+		this.burnProgressSprite = burnProgressSprite;
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
+		titleLabelX = (imageWidth - font.width(title)) / 2;
 	}
 
 	@Override
-	protected ScreenPos getRecipeBookButtonPos() {
-		return new ScreenPos(x + 20, height / 2 - 49);
+	protected @NotNull ScreenPosition getRecipeBookButtonPosition() {
+		return new ScreenPosition(leftPos + 20, height / 2 - 49);
 	}
 
 	@Override
-	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-		context.drawTexture(
-			RenderLayer::getGuiTextured,
+	protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+		// Full (176x166) size background.
+		guiGraphics.blit(
+			RenderType::guiTextured,
 			background,
-			x, y,
-			0.0f, 0.0f,
-			backgroundWidth, backgroundHeight,
-			256, 256);
-		if (handler.isBurning()) {
-			int h = MathHelper.ceil(handler.getFuelProgress() * 13.0f) + 1;
-			context.drawGuiTexture(
-				RenderLayer::getGuiTextured,
-				litProgressTexture,
+			leftPos, topPos,
+			0F, 0F,
+			imageWidth, imageHeight,
+			imageWidth, imageHeight);
+		if (menu.isLit()) {
+			// Height of the fuel consumption sprite in the middle.
+			final int h = Mth.ceil(menu.getLitProgress() * 13F) + 1;
+			guiGraphics.blitSprite(
+				RenderType::guiTextured,
+				litProgressSprite,
 				14, 14,
 				0, 14 - h,
-				x + 56, y + 36 + 14 - h,
+				leftPos + 56, topPos + 36 + 14 - h,
 				14, h);
 		}
-		int w = MathHelper.ceil(handler.getCookProgress() * 24.0f);
-		context.drawGuiTexture(
-			RenderLayer::getGuiTextured,
-			burnProgressTexture,
+		// Width of the progress sprite.
+		final int w = Mth.ceil(menu.getBurnProgress() * 24F);
+		guiGraphics.blitSprite(
+			RenderType::guiTextured,
+			burnProgressSprite,
 			24, 16,
 			0, 0,
-			x + 79, y + 34,
+			leftPos + 79, topPos + 34,
 			w, 16);
 	}
 }

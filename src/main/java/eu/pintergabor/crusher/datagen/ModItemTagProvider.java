@@ -3,13 +3,14 @@ package eu.pintergabor.crusher.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import eu.pintergabor.crusher.Global;
+import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -20,87 +21,91 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	/**
 	 * Items crushed to gravel.
 	 */
-	public static final TagKey<Item> GRAVEL_SOURCES = TagKey.of(
-		RegistryKeys.ITEM, Global.modId("gravel_sources"));
+	public static final TagKey<Item> GRAVEL_SOURCES = createModItemTag("gravel_sources");
 	/**
 	 * Items crushed to sand.
 	 */
-	public static final TagKey<Item> SAND_SOURCES = TagKey.of(
-		RegistryKeys.ITEM, Global.modId("sand_sources"));
+	public static final TagKey<Item> SAND_SOURCES = createModItemTag("sand_sources");
 	/**
 	 * Items crushed to red sand.
 	 */
-	public static final TagKey<Item> RED_SAND_SOURCES = TagKey.of(
-		RegistryKeys.ITEM, Global.modId("red_sand_sources"));
+	public static final TagKey<Item> RED_SAND_SOURCES = createModItemTag("red_sand_sources");
 	/**
 	 * Similar to {@link ConventionalItemTags#FRUIT_FOODS}, excluding the golden variants.
 	 */
-	public static final TagKey<Item> NORMAL_FRUIT_FOODS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "foods/normal_fruit"));
+	public static final TagKey<Item> NORMAL_FRUIT_FOODS = createCItemTag("foods/normal_fruit");
 	/**
 	 * Similar to {@link ConventionalItemTags#VEGETABLE_FOODS}, excluding the golden variants.
 	 */
-	public static final TagKey<Item> NORMAL_VEGETABLE_FOODS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "foods/normal_vegetable"));
+	public static final TagKey<Item> NORMAL_VEGETABLE_FOODS = createCItemTag("foods/normal_vegetable");
 	/**
 	 * Copper blocks.
 	 */
-	public static final TagKey<Item> COPPER_BLOCKS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "storage_blocks/copper"));
+	public static final TagKey<Item> COPPER_BLOCKS = createCItemTag("storage_blocks/copper");
 	/**
 	 * Cut copper blocks.
 	 */
-	public static final TagKey<Item> CUT_COPPER_BLOCKS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "cut_blocks/copper"));
+	public static final TagKey<Item> CUT_COPPER_BLOCKS = createCItemTag("cut_blocks/copper");
 	/**
 	 * Chiseled copper blocks.
 	 */
-	public static final TagKey<Item> CHISELED_COPPER_BLOCKS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "chiseled_blocks/copper"));
+	public static final TagKey<Item> CHISELED_COPPER_BLOCKS = createCItemTag("chiseled_blocks/copper");
 	/**
 	 * Copper doors.
 	 */
-	public static final TagKey<Item> COPPER_DOORS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "doors/copper"));
+	public static final TagKey<Item> COPPER_DOORS = createCItemTag("doors/copper");
 	/**
 	 * Copper trapdoors.
 	 */
-	public static final TagKey<Item> COPPER_TRAPDOORS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "trapdoors/copper"));
+	public static final TagKey<Item> COPPER_TRAPDOORS = createCItemTag("trapdoors/copper");
 	/**
 	 * Copper grates.
 	 */
-	public static final TagKey<Item> COPPER_GRATES = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "grates/copper"));
+	public static final TagKey<Item> COPPER_GRATES = createCItemTag("grates/copper");
 	/**
 	 * Copper bulbs.
 	 */
-	public static final TagKey<Item> COPPER_BULBS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "bulbs/copper"));
+	public static final TagKey<Item> COPPER_BULBS = createCItemTag("bulbs/copper");
 	/**
 	 * Copper slabs.
 	 */
-	public static final TagKey<Item> COPPER_SLABS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "slabs/copper"));
+	public static final TagKey<Item> COPPER_SLABS = createCItemTag("slabs/copper");
 	/**
 	 * Copper stairs.
 	 */
-	public static final TagKey<Item> COPPER_STAIRS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "stairs/copper"));
+	public static final TagKey<Item> COPPER_STAIRS = createCItemTag("stairs/copper");
 	/**
 	 * Buckets.
 	 */
-	public static final TagKey<Item> BUCKETS = TagKey.of(
-		RegistryKeys.ITEM, Identifier.of("c", "buckets"));
+	public static final TagKey<Item> BUCKETS = createCItemTag("buckets");
 
 	public ModItemTagProvider(
-        FabricDataOutput output,
-        CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+		FabricDataOutput output,
+		CompletableFuture<HolderLookup.Provider> completableFuture) {
 		super(output, completableFuture);
 	}
 
+	/**
+	 * Create a mod item tag.
+	 */
+	private static @NotNull TagKey<Item> createModItemTag(String path) {
+		return TagKey.create(
+			Registries.ITEM, Global.modId(path));
+	}
+
+	/**
+	 * Create a conventional item tag.
+	 */
+	private static @NotNull TagKey<Item> createCItemTag(String path) {
+		return TagKey.create(
+			Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", path));
+	}
+
+	/**
+	 * Create all tags.
+	 */
 	@Override
-	protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+	protected void addTags(HolderLookup.Provider wrapperLookup) {
 		getOrCreateTagBuilder(GRAVEL_SOURCES)
 			.forceAddTag(ConventionalItemTags.STONES)
 			.forceAddTag(ConventionalItemTags.COBBLESTONES)

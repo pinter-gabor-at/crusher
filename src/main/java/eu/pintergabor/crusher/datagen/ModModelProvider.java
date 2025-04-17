@@ -2,15 +2,16 @@ package eu.pintergabor.crusher.datagen;
 
 import eu.pintergabor.crusher.blocks.ModBlocks;
 
-import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.ItemModelGenerator;
-import net.minecraft.client.data.TexturedModel;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.TexturedModel;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 
 
 public class ModModelProvider extends FabricModelProvider {
+
 	public ModModelProvider(FabricDataOutput output) {
 		super(output);
 	}
@@ -19,16 +20,16 @@ public class ModModelProvider extends FabricModelProvider {
 	 * Generate block models and block states.
 	 */
 	@Override
-	public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-		blockStateModelGenerator.registerCooker(ModBlocks.CRUSHER_BLOCK, TexturedModel.ORIENTABLE);
-		blockStateModelGenerator.registerCooker(ModBlocks.COMPRESSOR_BLOCK, TexturedModel.ORIENTABLE);
+	public void generateBlockStateModels(BlockModelGenerators blockModelGenerator) {
+		blockModelGenerator.createFurnace(ModBlocks.CRUSHER_BLOCK, TexturedModel.ORIENTABLE_ONLY_TOP);
+		blockModelGenerator.createFurnace(ModBlocks.COMPRESSOR_BLOCK, TexturedModel.ORIENTABLE_ONLY_TOP);
 	}
 
 	/**
 	 * Generate item models.
 	 */
 	@Override
-	public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+	public void generateItemModels(ItemModelGenerators itemModelGenerator) {
 		// All item models come from the corresponding block model.
 	}
 }

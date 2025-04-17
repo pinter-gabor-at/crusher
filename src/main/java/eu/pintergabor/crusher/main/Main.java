@@ -10,7 +10,7 @@ import eu.pintergabor.crusher.recipe.CrusherRecipe;
 public final class Main {
 
 	/**
-	 * Called from {@link Mod#onInitialize()}
+	 * Called from {@link Mod#onInitialize()}.
 	 */
 	public static void init() {
 		// Items and blocks.

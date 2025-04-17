@@ -3,21 +3,45 @@ package eu.pintergabor.crusher.datagen;
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.datagen.recipebase.ProcessingRecipeGenerator;
 
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 
 public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 
-	public ModRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
-		super(registries, exporter);
+	protected ModRecipeGenerator(
+		HolderLookup.Provider registries, RecipeOutput output) {
+		super(registries, output);
 	}
 
+	/**
+	 * Generate processing machine recipes.
+	 *
+	 * @param block    Processor block to create.
+	 * @param mainItem Main ingredient.
+	 */
+	private void buildProcessor(Block block, Item mainItem) {
+		shaped(RecipeCategory.DECORATIONS, block)
+			.pattern("###")
+			.pattern("P P")
+			.pattern("###")
+			.define('#', ItemTags.STONE_CRAFTING_MATERIALS)
+			.define('P', mainItem)
+			.unlockedBy("has_cobblestone", has(ItemTags.STONE_CRAFTING_MATERIALS))
+			.unlockedBy(getHasName(mainItem), has(mainItem))
+			.save(output);
+	}
+
+	/**
+	 * Generate crusher recipes.
+	 */
 	private void generateCrusherRecipes() {
 		// Defaults.
 		experience = 0.1F;
@@ -29,7 +53,7 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.STONE_HOE, 1, Items.GRAVEL, 2);
 		createCrusherRecipe(Items.STONE_SHOVEL, 1, Items.GRAVEL, 1);
 		createCrusherRecipe(Items.STONE_SWORD, 1, Items.GRAVEL, 2);
-		// 8 cobblestones => 1 furnace => 9 gravels => 9 cobblestones
+		// 8 cobblestones => 1 furnace => 9 gravels => 9 cobblestones.
 		// This allows the free generation of cobblestone.
 		createCrusherRecipe(Items.FURNACE, 1, Items.GRAVEL, 9);
 		// Sand from sandstones and gravel.
@@ -39,7 +63,7 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(ConventionalItemTags.UNCOLORED_SANDSTONE_STAIRS, 1, Items.SAND, 6);
 		createCrusherRecipe(Items.SANDSTONE_WALL, 1, Items.SAND, 4);
 		createCrusherRecipe(ConventionalItemTags.GLASS_BLOCKS, 1, Items.SAND, 1);
-		// 6 sands => 6 glass blocks => 16 glass panes => 8 sands
+		// 6 sands => 6 glass blocks => 16 glass panes => 8 sands.
 		// This allows free generation of sand.
 		createCrusherRecipe(ConventionalItemTags.GLASS_PANES, 2, Items.SAND, 1);
 		// Red sand from red sandstones and other redish blocks.
@@ -52,7 +76,7 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.BLAZE_ROD, 1, Items.BLAZE_POWDER, 2);
 		// Bone meal from bone.
 		createCrusherRecipe(Items.BONE, 1, Items.BONE_MEAL, 6);
-		// 8 bone meals => 1 bone block => 10 bone meals
+		// 8 bone meals => 1 bone block => 10 bone meals.
 		// This allows the free generation of bone meal.
 		createCrusherRecipe(Items.BONE_BLOCK, 1, Items.BONE_MEAL, 10);
 		// Sticks from planks and other wooden things.
@@ -132,7 +156,7 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.BAMBOO_PRESSURE_PLATE, 1, Items.STICK, 4);
 		createCrusherRecipe(Items.CRIMSON_PRESSURE_PLATE, 1, Items.STICK, 4);
 		createCrusherRecipe(Items.WARPED_PRESSURE_PLATE, 1, Items.STICK, 4);
-		// 7 sticks => 3 ladders => 9 sticks
+		// 7 sticks => 3 ladders => 9 sticks.
 		// This allows free generation of sticks, for those who discover it.
 		createCrusherRecipe(Items.LADDER, 1, Items.STICK, 3);
 		// Planks from items made of planks.
@@ -204,13 +228,13 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(ConventionalItemTags.EDIBLE_WHEN_PLACED_FOODS, 1, Items.DIRT, 1);
 		createCrusherRecipe(ConventionalItemTags.SOUP_FOODS, 1, Items.DIRT, 1);
 		createCrusherRecipe(ModItemTagProvider.NORMAL_VEGETABLE_FOODS, 1, Items.DIRT, 1);
-		// 8 ingots + 1 apple => 1 golden apple => 9 ingots
+		// 8 ingots + 1 apple => 1 golden apple => 9 ingots.
 		// This allows free generation of gold, for those who discover it.
 		cookingTime = 200;
 		createCrusherRecipe(Items.GOLDEN_APPLE, 1, Items.RAW_GOLD, 9);
 		cookingTime = 600;
 		createCrusherRecipe(Items.ENCHANTED_GOLDEN_APPLE, 1, Items.RAW_GOLD, 64);
-		// 8 nugget + 1 carrot => 1 golden carrot => 1 ingots => 9 nuggets
+		// 8 nugget + 1 carrot => 1 golden carrot => 1 ingots => 9 nuggets.
 		// This allows free generation of gold, for those who discover it.
 		cookingTime = 100;
 		createCrusherRecipe(Items.GOLDEN_CARROT, 1, Items.RAW_GOLD, 1);
@@ -402,9 +426,12 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.DIAMOND, 1, Items.DIAMOND, 1);
 	}
 
+	/**
+	 * Generate compressor recipes.
+	 */
 	private void generateCompressorRecipes() {
 		// Defaults.
-		experience = 0.1f;
+		experience = 0.1F;
 		cookingTime = 100;
 		// Sandstone from sand.
 		createCompressorRecipe(Items.SAND, 4, Items.SANDSTONE, 1);
@@ -511,35 +538,20 @@ public class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCompressorRecipe(Items.GOLDEN_HORSE_ARMOR, 1, Items.GOLD_INGOT, 7);
 		createCompressorRecipe(Items.POWERED_RAIL, 1, Items.GOLD_INGOT, 1);
 		// Diamond from coal blocks, but very slowly.
-		experience = 1.0f;
+		// 144 coals => 1 diamond.
+		experience = 1.0F;
 		cookingTime = 1000;
 		createCompressorRecipe(Items.COAL_BLOCK, 16, Items.DIAMOND, 1);
 	}
 
 	@Override
-	public void generate() {
+	public void buildRecipes() {
 		// The crusher.
-		createShaped(RecipeCategory.DECORATIONS, ModBlocks.CRUSHER_BLOCK)
-			.pattern("###")
-			.pattern("P P")
-			.pattern("###")
-			.input('#', ItemTags.STONE_CRAFTING_MATERIALS)
-			.input('P', Items.IRON_PICKAXE)
-			.criterion("has_cobblestone", conditionsFromTag(ItemTags.STONE_CRAFTING_MATERIALS))
-			.criterion(hasItem(Items.IRON_PICKAXE), conditionsFromItem(Items.IRON_PICKAXE))
-			.offerTo(exporter);
+		buildProcessor(ModBlocks.CRUSHER_BLOCK, Items.IRON_PICKAXE);
 		// The crushing recipes.
 		generateCrusherRecipes();
 		// The compressor.
-		createShaped(RecipeCategory.DECORATIONS, ModBlocks.COMPRESSOR_BLOCK)
-			.pattern("###")
-			.pattern("P P")
-			.pattern("###")
-			.input('#', ItemTags.STONE_CRAFTING_MATERIALS)
-			.input('P', Items.PISTON)
-			.criterion("has_cobblestone", conditionsFromTag(ItemTags.STONE_CRAFTING_MATERIALS))
-			.criterion(hasItem(Items.PISTON), conditionsFromItem(Items.PISTON))
-			.offerTo(exporter);
+		buildProcessor(ModBlocks.COMPRESSOR_BLOCK, Items.PISTON);
 		// The compressing recipes.
 		generateCompressorRecipes();
 	}

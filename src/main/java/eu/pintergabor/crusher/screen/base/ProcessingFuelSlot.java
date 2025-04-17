@@ -1,9 +1,9 @@
 package eu.pintergabor.crusher.screen.base;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.FurnaceFuelSlot;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.FurnaceFuelSlot;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 
 /**
@@ -11,15 +11,18 @@ import net.minecraft.screen.slot.Slot;
  * but without special handling for buckets.
  */
 public class ProcessingFuelSlot extends Slot {
-	private final AbstractProcessingScreenHandler handler;
+	private final AbstractProcessingMenu menu;
 
-	public ProcessingFuelSlot(AbstractProcessingScreenHandler handler, Inventory inventory, int index, int x, int y) {
-		super(inventory, index, x, y);
-		this.handler = handler;
+	public ProcessingFuelSlot(
+		AbstractProcessingMenu menu, Container container,
+		int slot, int x, int y
+	) {
+		super(container, slot, x, y);
+		this.menu = menu;
 	}
 
 	@Override
-	public boolean canInsert(ItemStack stack) {
-		return handler.isFuel(stack);
+	public boolean mayPlace(ItemStack stack) {
+		return menu.isFuel(stack);
 	}
 }

@@ -2,54 +2,58 @@ package eu.pintergabor.crusher.blocks;
 
 import eu.pintergabor.crusher.blocks.base.AbstractProcessingBlockEntity;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
-import eu.pintergabor.crusher.screen.CompressorScreenHandler;
+import eu.pintergabor.crusher.screen.CompressorMenu;
+import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 
 /**
  * See {@link CompressorBlock}.
  */
 public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
+
 	public CompressorBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlocks.COMPRESSOR_ENTITY, pos, state, CompressorRecipe.TYPE);
 	}
 
 	@Override
-	protected Text getContainerName() {
-		return Text.translatable("block.crusher.compressor");
+	protected @NotNull Component getDefaultName() {
+		return Component.translatable("block.crusher.compressor");
 	}
 
 	@Override
-	protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-		return new CompressorScreenHandler(syncId, playerInventory, this, propertyDelegate);
+	protected @NotNull AbstractContainerMenu createMenu(
+		int containerId, @NotNull Inventory playerInventory
+	) {
+		return new CompressorMenu(containerId, playerInventory, this, dataAccess);
 	}
 
 	/**
-	 * Create special effect when TNT is crafted.
+	 * Create special effects when TNT is crafted.
 	 */
 	@Override
 	protected void crafted() {
-		// If the crafted result is TNT then create twice as large explosion as a TNT block.
-		if (world != null && inventory.get(OUTPUT_SLOT_INDEX).isOf(Items.TNT)) {
+		if (level != null && inventory.get(OUTPUT_SLOT_INDEX).is(Items.TNT)) {
+			// If the crafted result is TNT then create twice as large explosion as a TNT block.
 			inventory.set(OUTPUT_SLOT_INDEX, ItemStack.EMPTY);
-			world.createExplosion(
+			level.explode(
 				null,
 				null,
 				null,
-				pos.getX(),
-				pos.getY(),
-				pos.getZ(),
-				8.0F,
+				worldPosition.getX(),
+				worldPosition.getY(),
+				worldPosition.getZ(),
+				8F,
 				false,
-				World.ExplosionSourceType.TNT);
+				Level.ExplosionInteraction.TNT);
 		}
 	}
 }

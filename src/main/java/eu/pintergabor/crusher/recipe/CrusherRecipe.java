@@ -2,18 +2,19 @@ package eu.pintergabor.crusher.recipe;
 
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
+import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.SmeltingRecipe;
-import net.minecraft.recipe.book.CookingRecipeCategory;
-import net.minecraft.recipe.book.RecipeBookCategories;
-import net.minecraft.recipe.book.RecipeBookCategory;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeBookCategories;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 
 
 /**
@@ -27,7 +28,7 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
 
 	public CrusherRecipe(
 		String group,
-		CookingRecipeCategory category,
+		CookingBookCategory category,
 		Ingredient ingredient,
 		int ingredientCount,
 		ItemStack result,
@@ -40,27 +41,26 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
 			ingredientCount,
 			result,
 			experience,
-			cookingTime
-		);
+			cookingTime);
 	}
 
 	@Override
-	protected Item getCookerItem() {
+	protected Item getProcessorItem() {
 		return ModBlocks.CRUSHER_ITEM;
 	}
 
 	@Override
-	public RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
+	public @NotNull RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
 		return SERIALIZER;
 	}
 
 	@Override
-	public RecipeType<? extends AbstractProcessingRecipe> getType() {
+	public @NotNull RecipeType<? extends AbstractProcessingRecipe> getType() {
 		return TYPE;
 	}
 
 	@Override
-	public RecipeBookCategory getRecipeBookCategory() {
+	public @NotNull RecipeBookCategory recipeBookCategory() {
 		return CATEGORY;
 	}
 
@@ -78,7 +78,7 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
 			RecipeType.register("crushing");
 		CATEGORY =
 			Registry.register(
-				Registries.RECIPE_BOOK_CATEGORY,
+				BuiltInRegistries.RECIPE_BOOK_CATEGORY,
 				"crusher",
 				new RecipeBookCategory());
 	}
