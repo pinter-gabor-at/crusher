@@ -17,13 +17,15 @@ public class ModRecipeRunner extends FabricRecipeProvider {
 
 	public ModRecipeRunner(
 		FabricDataOutput output,
-		CompletableFuture<HolderLookup.Provider> registriesFuture) {
+		CompletableFuture<HolderLookup.Provider> registriesFuture
+	) {
 		super(output, registriesFuture);
 	}
 
 	@Override
 	protected @NotNull RecipeProvider createRecipeProvider(
-		HolderLookup.Provider registryLookup, RecipeOutput output) {
+		HolderLookup.Provider registryLookup, RecipeOutput output
+	) {
 		return new ModRecipeGenerator(registryLookup, output);
 	}
 

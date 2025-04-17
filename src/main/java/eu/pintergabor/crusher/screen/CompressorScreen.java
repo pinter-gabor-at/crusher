@@ -6,6 +6,7 @@ import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.screen.base.AbstractProcessingScreen;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.chat.Component;
@@ -19,10 +20,13 @@ import net.fabricmc.api.Environment;
 
 /**
  * Similar to {@link FurnaceScreen}, but with fewer tabs.
+ * <p>
+ * Texture and sprite sizes are defined in
+ * {@link AbstractProcessingScreen#renderBg(GuiGraphics, float, int, int)}.
  */
 @Environment(EnvType.CLIENT)
 public class CompressorScreen extends AbstractProcessingScreen<CompressorMenu> {
-	// The entire GUI (256x256). TODO: Why?
+	// The entire GUI (176x166).
 	private static final ResourceLocation TEXTURE =
 		Global.modId("textures/gui/compressor_gui.png");
 	// The fire sprite in the middle (14x14) (textures/gui/sprites/...).

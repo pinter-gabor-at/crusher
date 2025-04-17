@@ -54,7 +54,7 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 			INPUT_SLOT_INDEX, 56, 17));
 		this.addSlot(new ProcessingFuelSlot(this, container,
 			FUEL_SLOT_INDEX, 56, 53));
-		this.addSlot(new ProcessingOutputSlot(playerInventory.player, container,
+		this.addSlot(new ProcessingResultSlot(playerInventory.player, container,
 			OUTPUT_SLOT_INDEX, 116, 35));
 		this.addStandardInventorySlots(playerInventory, 8, 84);
 		this.addDataSlots(data);
@@ -73,7 +73,7 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 			new SimpleContainerData(PROPERTY_COUNT));
 	}
 
-	public void fillCraftSlotsStackedContents(StackedItemContents contents) {
+	public void fillCraftSlotsStackedContents(@NotNull StackedItemContents contents) {
 		if (container instanceof StackedContentsCompatible inputProvider) {
 			inputProvider.fillStackedContents(contents);
 		}
@@ -84,38 +84,38 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 	}
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@NotNull Player player) {
 		return container.stillValid(player);
 	}
 
-	public @NotNull ItemStack quickMoveStack(Player player, int slot) {
+	public @NotNull ItemStack quickMoveStack(@NotNull Player player, int slot) {
 		final Slot clickSlot = slots.get(slot);
 		if (clickSlot.hasItem()) {
 			final ItemStack clickItemStack = clickSlot.getItem();
 			final ItemStack returnItemStack = clickItemStack.copy();
 			if (slot == OUTPUT_SLOT_INDEX) {
-				// From output slot to inventory
-				if (!this.moveItemStackTo(clickItemStack,
+				// From output slot to inventory.
+				if (!moveItemStackTo(clickItemStack,
 					3, 39, true)) {
 					return ItemStack.EMPTY;
 				}
 				clickSlot.onQuickCraft(clickItemStack, returnItemStack);
 			} else if (slot == FUEL_SLOT_INDEX || slot == INPUT_SLOT_INDEX) {
-				// From fuel, or input slot to inventory
-				if (!this.moveItemStackTo(clickItemStack,
+				// From fuel, or input slot to inventory.
+				if (!moveItemStackTo(clickItemStack,
 					3, 39, false)) {
 					return ItemStack.EMPTY;
 				}
 			} else {
-				// From elsewhere, if it is fuel, to the fuel slot
-				if (this.isFuel(clickItemStack)) {
-					if (!this.moveItemStackTo(clickItemStack,
+				// From elsewhere, if it is fuel, to the fuel slot.
+				if (isFuel(clickItemStack)) {
+					if (!moveItemStackTo(clickItemStack,
 						FUEL_SLOT_INDEX, FUEL_SLOT_INDEX + 1, false)) {
 						return ItemStack.EMPTY;
 					}
 				} else {
-					// From elsewhere to the input slot
-					if (!this.moveItemStackTo(clickItemStack,
+					// From elsewhere to the input slot.
+					if (!moveItemStackTo(clickItemStack,
 						INPUT_SLOT_INDEX, INPUT_SLOT_INDEX + 1, false)) {
 						return ItemStack.EMPTY;
 					}
@@ -179,9 +179,10 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 	public @NotNull PostPlaceAction handlePlacement(
 		boolean craftAll,
 		boolean creative,
-		RecipeHolder<?> recipe,
-		ServerLevel level,
-		Inventory inventory) {
+		@NotNull RecipeHolder<?> recipe,
+		@NotNull ServerLevel level,
+		@NotNull Inventory inventory
+	) {
 		final List<Slot> list = List.of(getSlot(INPUT_SLOT_INDEX), getSlot(OUTPUT_SLOT_INDEX));
 		AbstractProcessingMenu parent = this;
 		return ServerPlaceRecipe.placeRecipe(

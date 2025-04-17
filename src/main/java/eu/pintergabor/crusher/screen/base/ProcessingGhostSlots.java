@@ -1,5 +1,6 @@
 package eu.pintergabor.crusher.screen.base;
 
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.screens.recipebook.GhostSlots;
 import net.minecraft.client.gui.screens.recipebook.SlotSelectTime;
@@ -23,12 +24,20 @@ public class ProcessingGhostSlots extends GhostSlots {
 	}
 
 	@Override
-	protected void setInput(Slot slot, ContextMap context, SlotDisplay display) {
+	public void setInput(
+		@NotNull Slot slot,
+		@NotNull ContextMap context,
+		@NotNull SlotDisplay display
+	) {
 		super.setInput(slot, context, display);
 	}
 
 	@Override
-	public void setResult(Slot slot, ContextMap context, SlotDisplay display) {
+	public void setResult(
+		@NotNull Slot slot,
+		@NotNull ContextMap context,
+		@NotNull SlotDisplay display
+	) {
 		super.setResult(slot, context, display);
 	}
 }

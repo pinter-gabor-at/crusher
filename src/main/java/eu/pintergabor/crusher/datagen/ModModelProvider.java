@@ -21,8 +21,8 @@ public class ModModelProvider extends FabricModelProvider {
 	 */
 	@Override
 	public void generateBlockStateModels(BlockModelGenerators blockModelGenerator) {
-		blockModelGenerator.createFurnace(ModBlocks.CRUSHER_BLOCK, TexturedModel.ORIENTABLE);
-		blockModelGenerator.createFurnace(ModBlocks.COMPRESSOR_BLOCK, TexturedModel.ORIENTABLE);
+		blockModelGenerator.createFurnace(ModBlocks.CRUSHER_BLOCK, TexturedModel.ORIENTABLE_ONLY_TOP);
+		blockModelGenerator.createFurnace(ModBlocks.COMPRESSOR_BLOCK, TexturedModel.ORIENTABLE_ONLY_TOP);
 	}
 
 	/**

@@ -11,7 +11,8 @@ public class CrusherMenu extends AbstractProcessingMenu {
 
 	public CrusherMenu(
 		int containerId, Inventory playerInventory,
-		Container container, ContainerData data) {
+		Container container, ContainerData data
+	) {
 		super(
 			ModScreenHandlers.CRUSHER_SCREEN_HANDLER,
 			containerId,
@@ -21,7 +22,8 @@ public class CrusherMenu extends AbstractProcessingMenu {
 	}
 
 	public CrusherMenu(
-		int containerId, Inventory playerInventory) {
+		int containerId, Inventory playerInventory
+	) {
 		super(
 			ModScreenHandlers.CRUSHER_SCREEN_HANDLER,
 			containerId,

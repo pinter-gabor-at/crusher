@@ -134,7 +134,10 @@ public abstract class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+	protected void loadAdditional(
+		@NotNull CompoundTag tag,
+		@NotNull HolderLookup.Provider registries
+	) {
 		super.loadAdditional(tag, registries);
 		inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(tag, inventory, registries);
@@ -150,7 +153,9 @@ public abstract class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+	protected void saveAdditional(
+		@NotNull CompoundTag tag, @NotNull HolderLookup.Provider registries
+	) {
 		super.saveAdditional(tag, registries);
 		tag.putShort("cooking_time_spent", (short) cookingTimer);
 		tag.putShort("cooking_total_time", (short) cookingTotalTime);
@@ -168,89 +173,89 @@ public abstract class AbstractProcessingBlockEntity
 	/**
 	 * Similar to {@link AbstractFurnaceBlockEntity}, but allows multiple input and output counts.
 	 */
-	public static void tick(
-		ServerLevel level, BlockPos pos, BlockState state, AbstractProcessingBlockEntity blockEntity) {
-		boolean burning = blockEntity.isBurning();
+	public static void serverTick(
+		ServerLevel level, BlockPos pos, BlockState state, AbstractProcessingBlockEntity processor) {
+		boolean burning = processor.isBurning();
 		boolean changed = false;
 		// Count down burning time.
 		if (burning) {
-			blockEntity.litTimeRemaining--;
+			processor.litTimeRemaining--;
 		}
 		// Check if starting / continuing processing is possible.
-		ItemStack inputStack = blockEntity.inventory.get(INPUT_SLOT_INDEX);
-		ItemStack fuelStack = blockEntity.inventory.get(FUEL_SLOT_INDEX);
+		ItemStack inputStack = processor.inventory.get(INPUT_SLOT_INDEX);
+		ItemStack fuelStack = processor.inventory.get(FUEL_SLOT_INDEX);
 		boolean hasInput = !inputStack.isEmpty();
 		boolean hasFuel = !fuelStack.isEmpty();
-		if (blockEntity.isBurning() || (hasFuel && hasInput)) {
+		if (processor.isBurning() || (hasFuel && hasInput)) {
 			// Get the recipe.
 			OneStackRecipeInput oneStackRecipeInput = new OneStackRecipeInput(inputStack);
 			RecipeHolder<? extends AbstractProcessingRecipe> recipeEntry;
 			if (hasInput) {
-				recipeEntry = blockEntity.matchGetter.getRecipeFor(oneStackRecipeInput, level).orElse(null);
+				recipeEntry = processor.matchGetter.getRecipeFor(oneStackRecipeInput, level).orElse(null);
 			} else {
 				recipeEntry = null;
 			}
 			// Start processing a new input item.
-			int maxCount = blockEntity.getMaxStackSize();
-			if (!blockEntity.isBurning() &&
+			int maxCount = processor.getMaxStackSize();
+			if (!processor.isBurning() &&
 				canAcceptRecipeOutput(
 					level.registryAccess(),
 					recipeEntry,
 					oneStackRecipeInput,
-					blockEntity.inventory,
+					processor.inventory,
 					maxCount)) {
-				blockEntity.litTimeRemaining = blockEntity.getFuelTime(level.fuelValues(), fuelStack);
-				blockEntity.litTotalTime = blockEntity.litTimeRemaining;
+				processor.litTimeRemaining = processor.getFuelTime(level.fuelValues(), fuelStack);
+				processor.litTotalTime = processor.litTimeRemaining;
 				// Need more fuel to continue.
-				if (blockEntity.isBurning()) {
+				if (processor.isBurning()) {
 					changed = true;
 					if (hasFuel) {
 						Item item = fuelStack.getItem();
 						fuelStack.shrink(1);
 						if (fuelStack.isEmpty()) {
-							blockEntity.inventory.set(FUEL_SLOT_INDEX, item.getCraftingRemainder());
+							processor.inventory.set(FUEL_SLOT_INDEX, item.getCraftingRemainder());
 						}
 					}
 				}
 			}
 			// End processing one input item and generate output.
-			if (blockEntity.isBurning() &&
+			if (processor.isBurning() &&
 				canAcceptRecipeOutput(
 					level.registryAccess(),
 					recipeEntry,
 					oneStackRecipeInput,
-					blockEntity.inventory,
+					processor.inventory,
 					maxCount)) {
-				blockEntity.cookingTimer++;
-				if (blockEntity.cookingTimer == blockEntity.cookingTotalTime) {
-					blockEntity.cookingTimer = 0;
-					blockEntity.cookingTotalTime = getCookTime(level, blockEntity);
+				processor.cookingTimer++;
+				if (processor.cookingTimer == processor.cookingTotalTime) {
+					processor.cookingTimer = 0;
+					processor.cookingTotalTime = getCookTime(level, processor);
 					if (craftRecipe(
 						level.registryAccess(),
 						recipeEntry,
 						oneStackRecipeInput,
-						blockEntity.inventory,
+						processor.inventory,
 						maxCount)) {
-						blockEntity.setRecipeUsed(recipeEntry);
+						processor.setRecipeUsed(recipeEntry);
 						// Special action?
-						blockEntity.crafted();
+						processor.crafted();
 					}
 					changed = true;
 				}
 			} else {
-				blockEntity.cookingTimer = 0;
+				processor.cookingTimer = 0;
 			}
 		} else {
 			// Continue processing the input item.
-			if (!blockEntity.isBurning() && blockEntity.cookingTimer > 0) {
-				blockEntity.cookingTimer = Mth.clamp(
-					blockEntity.cookingTimer - 2, 0, blockEntity.cookingTotalTime);
+			if (!processor.isBurning() && processor.cookingTimer > 0) {
+				processor.cookingTimer = Mth.clamp(
+					processor.cookingTimer - 2, 0, processor.cookingTotalTime);
 			}
 		}
 		// Burning state changed.
-		if (burning != blockEntity.isBurning()) {
+		if (burning != processor.isBurning()) {
 			changed = true;
-			state = state.setValue(AbstractFurnaceBlock.LIT, blockEntity.isBurning());
+			state = state.setValue(AbstractFurnaceBlock.LIT, processor.isBurning());
 			level.setBlock(pos, state, Block.UPDATE_ALL);
 		}
 		// Something changed -> redraw.
@@ -327,7 +332,8 @@ public abstract class AbstractProcessingBlockEntity
 		@Nullable RecipeHolder<? extends AbstractProcessingRecipe> recipe,
 		OneStackRecipeInput input,
 		NonNullList<ItemStack> inventory,
-		int maxCount) {
+		int maxCount
+	) {
 		if (recipe != null) {
 			final ItemStack inputStack = inventory.get(INPUT_SLOT_INDEX);
 			final ItemStack outputStack = inventory.get(OUTPUT_SLOT_INDEX);
@@ -355,7 +361,8 @@ public abstract class AbstractProcessingBlockEntity
 		@Nullable RecipeHolder<? extends AbstractProcessingRecipe> recipe,
 		OneStackRecipeInput input,
 		NonNullList<ItemStack> inventory,
-		int maxCount) {
+		int maxCount
+	) {
 		if (recipe != null) {
 			final ItemStack inputStack = inventory.get(INPUT_SLOT_INDEX);
 			final ItemStack outputStack = inventory.get(OUTPUT_SLOT_INDEX);
@@ -389,12 +396,15 @@ public abstract class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	private static int getCookTime(ServerLevel world, AbstractProcessingBlockEntity processor) {
+	private static int getCookTime(
+		ServerLevel level, AbstractProcessingBlockEntity processor
+	) {
 		OneStackRecipeInput oneStackRecipeInput =
 			new OneStackRecipeInput(processor.getItem(INPUT_SLOT_INDEX));
 		return processor.matchGetter
-			.getRecipeFor(oneStackRecipeInput, world)
-			.map(recipe -> recipe.value().cookingTime())
+			.getRecipeFor(oneStackRecipeInput, level)
+			.map(recipe ->
+				recipe.value().cookingTime())
 			.orElse(DEFAULT_COOK_TIME);
 	}
 
@@ -414,7 +424,9 @@ public abstract class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction dir) {
+	public boolean canPlaceItemThroughFace(
+		int slot, @NotNull ItemStack stack, @Nullable Direction dir
+	) {
 		return canPlaceItem(slot, stack);
 	}
 
@@ -422,7 +434,9 @@ public abstract class AbstractProcessingBlockEntity
 	 * Anything can be extracted from the output slot, and nothing from the fuel slot.
 	 */
 	@Override
-	public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
+	public boolean canTakeItemThroughFace(
+		int slot, @NotNull ItemStack stack, @NotNull Direction dir
+	) {
 		return slot != FUEL_SLOT_INDEX;
 	}
 
@@ -446,7 +460,7 @@ public abstract class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	protected void setItems(NonNullList<ItemStack> inventory) {
+	protected void setItems(@NotNull NonNullList<ItemStack> inventory) {
 		this.inventory = inventory;
 	}
 
@@ -470,7 +484,7 @@ public abstract class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public boolean canPlaceItem(int slot, ItemStack stack) {
+	public boolean canPlaceItem(int slot, @NotNull ItemStack stack) {
 		return switch (slot) {
 			case OUTPUT_SLOT_INDEX -> false;
 			case FUEL_SLOT_INDEX -> {
@@ -496,9 +510,8 @@ public abstract class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	@Nullable
 	@Override
-	public RecipeHolder<?> getRecipeUsed() {
+	public @Nullable RecipeHolder<?> getRecipeUsed() {
 		return null;
 	}
 
@@ -506,14 +519,15 @@ public abstract class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public void awardUsedRecipes(Player player, List<ItemStack> ingredients) {
+	public void awardUsedRecipes(@NotNull Player player, @NotNull List<ItemStack> ingredients) {
 	}
 
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	public void dropExperienceForRecipesUsed(ServerPlayer player) {
-		List<RecipeHolder<?>> list = getRecipesToAwardAndPopExperience(player.serverLevel(), player.position());
+		List<RecipeHolder<?>> list = getRecipesToAwardAndPopExperience(
+			player.serverLevel(), player.position());
 		player.awardRecipes(list);
 		for (RecipeHolder<?> recipeEntry : list) {
 			if (recipeEntry != null) {
@@ -526,12 +540,12 @@ public abstract class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	public List<RecipeHolder<?>> getRecipesToAwardAndPopExperience(ServerLevel world, Vec3 pos) {
+	public List<RecipeHolder<?>> getRecipesToAwardAndPopExperience(ServerLevel level, Vec3 pos) {
 		List<RecipeHolder<?>> list = Lists.newArrayList();
 		for (Entry<ResourceKey<Recipe<?>>> entry : recipesUsed.reference2IntEntrySet()) {
-			world.recipeAccess().byKey(entry.getKey()).ifPresent(recipe -> {
+			level.recipeAccess().byKey(entry.getKey()).ifPresent(recipe -> {
 				list.add(recipe);
-				dropExperience(world, pos, entry.getIntValue(),
+				dropExperience(level, pos, entry.getIntValue(),
 					((AbstractProcessingRecipe) recipe.value()).experience());
 			});
 		}
@@ -544,7 +558,9 @@ public abstract class AbstractProcessingBlockEntity
 	 * @param level In this world.
 	 * @param pos   Here.
 	 */
-	private static void dropExperience(ServerLevel level, Vec3 pos, int multiplier, float experience) {
+	private static void dropExperience(
+		ServerLevel level, Vec3 pos, int multiplier, float experience
+	) {
 		// Calculate.
 		final float mulExp = (float) multiplier * experience;
 		// Convert to int.
@@ -561,7 +577,7 @@ public abstract class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public void fillStackedContents(StackedItemContents finder) {
+	public void fillStackedContents(@NotNull StackedItemContents finder) {
 		for (ItemStack itemStack : inventory) {
 			finder.accountStack(itemStack);
 		}

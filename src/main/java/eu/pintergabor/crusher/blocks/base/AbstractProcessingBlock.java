@@ -1,20 +1,19 @@
 package eu.pintergabor.crusher.blocks.base;
 
 import eu.pintergabor.crusher.util.BlockUtil;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.BlastFurnaceBlock;
-import net.minecraft.world.level.block.state.BlockState;
-
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.BlastFurnaceBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
 
 /**
@@ -38,7 +37,7 @@ public abstract class AbstractProcessingBlock extends AbstractFurnaceBlock {
 			? createTickerHelper(givenType, expectedType,
 			(worldx, pos, state,
 			 blockEntity) ->
-				AbstractProcessingBlockEntity.tick(
+				AbstractProcessingBlockEntity.serverTick(
 					serverLevel, pos, state, blockEntity))
 			: null;
 	}
@@ -47,7 +46,11 @@ public abstract class AbstractProcessingBlock extends AbstractFurnaceBlock {
 	 * Based on {@link BlastFurnaceBlock#animateTick(BlockState, Level, BlockPos, RandomSource)}.
 	 */
 	@Override
-	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+	public void animateTick(
+		@NotNull BlockState state,
+		@NotNull Level world,
+		@NotNull BlockPos pos,
+		@NotNull RandomSource random) {
 		BlockUtil.randomBlockTick(state, world, pos, random);
 	}
 }

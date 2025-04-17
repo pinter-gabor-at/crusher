@@ -41,7 +41,7 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 	) {
 		super(
 			menu,
-			new AbstractProcessingRecipeBookWidget(
+			new AbstractProcessingRecipeBookComponent(
 				menu,
 				recipeFilterName,
 				recipeBookTabs),
@@ -65,15 +65,17 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 
 	@Override
 	protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+		// Full (176x166) size background.
 		guiGraphics.blit(
 			RenderType::guiTextured,
 			background,
 			leftPos, topPos,
 			0F, 0F,
 			imageWidth, imageHeight,
-			256, 256); // TODO: Why 256x256?
+			imageWidth, imageHeight);
 		if (menu.isLit()) {
-			int h = Mth.ceil(menu.getLitProgress() * 13F) + 1;
+			// Height of the fuel consumption sprite in the middle.
+			final int h = Mth.ceil(menu.getLitProgress() * 13F) + 1;
 			guiGraphics.blitSprite(
 				RenderType::guiTextured,
 				litProgressSprite,
@@ -82,7 +84,8 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 				leftPos + 56, topPos + 36 + 14 - h,
 				14, h);
 		}
-		int w = Mth.ceil(menu.getBurnProgress() * 24F);
+		// Width of the progress sprite.
+		final int w = Mth.ceil(menu.getBurnProgress() * 24F);
 		guiGraphics.blitSprite(
 			RenderType::guiTextured,
 			burnProgressSprite,

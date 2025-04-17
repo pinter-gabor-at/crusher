@@ -11,7 +11,8 @@ public class CompressorMenu extends AbstractProcessingMenu {
 
 	public CompressorMenu(
 		int containerId, Inventory playerInventory,
-		Container container, ContainerData data) {
+		Container container, ContainerData data
+	) {
 		super(
 			ModScreenHandlers.COMPRESSOR_SCREEN_HANDLER,
 			containerId,
@@ -21,7 +22,8 @@ public class CompressorMenu extends AbstractProcessingMenu {
 	}
 
 	public CompressorMenu(
-		int conteinerId, Inventory playerInventory) {
+		int conteinerId, Inventory playerInventory
+	) {
 		super(
 			ModScreenHandlers.COMPRESSOR_SCREEN_HANDLER,
 			conteinerId,

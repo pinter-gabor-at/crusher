@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-    "bottom": "crusher:block/compressor_bottom",
-    "front": "crusher:block/compressor_front_on",
-    "side": "crusher:block/compressor_side",
-    "top": "crusher:block/compressor_top"
-  }
-}

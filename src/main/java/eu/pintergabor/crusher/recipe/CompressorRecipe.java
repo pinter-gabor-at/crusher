@@ -33,7 +33,8 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 		int ingredientCount,
 		ItemStack result,
 		float experience,
-		int cookingTime) {
+		int cookingTime
+	) {
 		super(
 			group,
 			category,
@@ -41,8 +42,7 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 			ingredientCount,
 			result,
 			experience,
-			cookingTime
-		);
+			cookingTime);
 	}
 
 	@Override

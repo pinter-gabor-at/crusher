@@ -1,4 +1,4 @@
-# Crusher and Compressor (Fabric)
+# Crusher and Compressor (Fabric and NeoForge)
 
 Almost everything is crushable. Whether it is sensible and profitable to crush some things is quite another matter.
 You can even crush sand, but you will get only sand, and gain some experience.
@@ -36,7 +36,7 @@ Tutorials, written by experts, with years of experience programming on that plat
 This is why I decided to make all my Minecraft mods publicly available.
 
 
-## Requires
+## Requires (Fabric)
 - [Fabric API](https://modrinth.com/mod/fabric-api)
 
 
