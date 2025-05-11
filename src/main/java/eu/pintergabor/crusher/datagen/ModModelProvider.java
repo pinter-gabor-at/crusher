@@ -23,7 +23,8 @@ public class ModModelProvider extends ModelProvider {
 	@Override
 	protected void registerModels(
 		@NotNull BlockModelGenerators blockModels,
-		@NotNull ItemModelGenerators itemModels) {
+		@NotNull ItemModelGenerators itemModels
+	) {
 		blockModels.createFurnace(ModBlocks.CRUSHER_BLOCK.get(),
 			TexturedModel.ORIENTABLE_ONLY_TOP);
 		blockModels.createFurnace(ModBlocks.COMPRESSOR_BLOCK.get(),

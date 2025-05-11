@@ -84,7 +84,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
 	public ModItemTagProvider(
 		PackOutput output,
 		CompletableFuture<HolderLookup.Provider> lookupProvider,
-		CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider) {
+		CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider
+	) {
 		super(output, lookupProvider, blockTagProvider, Global.MODID);
 	}
 

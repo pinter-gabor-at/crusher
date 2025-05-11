@@ -7,16 +7,13 @@ import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.blocks.ModStats;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
-
 import eu.pintergabor.crusher.screen.ModScreenHandlers;
-
-import net.minecraft.world.inventory.MenuType;
-
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -43,7 +40,7 @@ public final class Main {
 	public static final DeferredRegister<ResourceLocation> STATS =
 		DeferredRegister.create(Registries.CUSTOM_STAT, Global.MODID);
 	public static final DeferredRegister<MenuType<?>> MENU_TYPES =
-			DeferredRegister.create(Registries.MENU, Global.MODID);
+		DeferredRegister.create(Registries.MENU, Global.MODID);
 
 	/**
 	 * Called from {@link ModCommon}.

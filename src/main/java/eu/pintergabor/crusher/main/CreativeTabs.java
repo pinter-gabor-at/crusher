@@ -10,6 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 
+import java.util.stream.IntStream;
+
 
 public final class CreativeTabs {
 
@@ -21,13 +23,11 @@ public final class CreativeTabs {
 	) {
 		// Insert all items in the list after the blast furnace
 		// in the same order as in the list.
-		ItemStack previous = new ItemStack(Items.BLAST_FURNACE);
-		for (ItemLike item : items) {
-			ItemStack current = new ItemStack(item);
-			event.insertAfter(previous, current,
-				TabVisibility.PARENT_AND_SEARCH_TABS);
-			previous = current;
-		}
+		final ItemStack mark = new ItemStack(Items.BLAST_FURNACE);
+		IntStream.rangeClosed(1, items.length)
+			.mapToObj(i -> items[items.length-i])
+			.forEach(item -> event.insertAfter(
+				mark, new ItemStack(item), TabVisibility.PARENT_AND_SEARCH_TABS));
 	}
 
 	/**
