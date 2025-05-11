@@ -30,7 +30,8 @@ public final class BlockUtil {
 	 * Based on {@link BlastFurnaceBlock#animateTick(BlockState, Level, BlockPos, RandomSource)}.
 	 */
 	public static void randomBlockTick(
-		BlockState state, Level level, BlockPos pos, RandomSource random) {
+		BlockState state, Level level, BlockPos pos, RandomSource random
+	) {
 		if (state.getValueOrElse(LIT, false)) {
 			// Sound comes from the center-bottom of the block.
 			double x = (double) pos.getX() + 0.5;

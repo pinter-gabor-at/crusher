@@ -17,7 +17,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 
-public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
+public final class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	/**
 	 * Items crushed to gravel.
 	 */
@@ -81,7 +81,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
 	public ModItemTagProvider(
 		FabricDataOutput output,
-		CompletableFuture<HolderLookup.Provider> completableFuture) {
+		CompletableFuture<HolderLookup.Provider> completableFuture
+	) {
 		super(output, completableFuture);
 	}
 

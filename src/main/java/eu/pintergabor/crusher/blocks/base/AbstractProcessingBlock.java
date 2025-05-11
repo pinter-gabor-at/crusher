@@ -37,7 +37,7 @@ public abstract class AbstractProcessingBlock extends AbstractFurnaceBlock {
 			? createTickerHelper(givenType, expectedType,
 			(worldx, pos, state,
 			 blockEntity) ->
-				AbstractProcessingBlockEntity.serverTick(
+				StaticProcessingBlockEntity.serverTick(
 					serverLevel, pos, state, blockEntity))
 			: null;
 	}
@@ -50,7 +50,8 @@ public abstract class AbstractProcessingBlock extends AbstractFurnaceBlock {
 		@NotNull BlockState state,
 		@NotNull Level world,
 		@NotNull BlockPos pos,
-		@NotNull RandomSource random) {
+		@NotNull RandomSource random
+	) {
 		BlockUtil.randomBlockTick(state, world, pos, random);
 	}
 }

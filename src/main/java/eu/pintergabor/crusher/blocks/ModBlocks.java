@@ -25,7 +25,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 /**
  * Mod blocks, items and entities.
  */
-public class ModBlocks {
+public final class ModBlocks {
 	public static Block CRUSHER_BLOCK;
 	public static Block COMPRESSOR_BLOCK;
 	public static Item CRUSHER_ITEM;
