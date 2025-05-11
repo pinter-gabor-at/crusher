@@ -164,6 +164,112 @@ public abstract sealed class StaticProcessingBlockEntity
 			.orElse(AbstractProcessingBlockEntity.DEFAULT_COOK_TIME);
 	}
 
+	private static @Nullable RecipeHolder<? extends AbstractProcessingRecipe> getRecipeEntry(
+		ServerLevel level, AbstractProcessingBlockEntity processor,
+		OneStackRecipeInput oneStackRecipeInput
+	) {
+		return processor.matchGetter.getRecipeFor(oneStackRecipeInput, level).orElse(null);
+	}
+
+	/**
+	 * Can the processor start processing?
+	 *
+	 * @return true if the state or appearance of the processor must be updated.
+	 */
+	private static boolean canStart(
+		ServerLevel level, AbstractProcessingBlockEntity processor,
+		ItemStack fuelStack
+	) {
+		boolean changed = false;
+		processor.litTimeRemaining = processor.getFuelTime(level.fuelValues(), fuelStack);
+		processor.litTotalTime = processor.litTimeRemaining;
+		// Need more fuel to continue.
+		if (processor.isBurning()) {
+			changed = true;
+			if (!fuelStack.isEmpty()) {
+				final Item item = fuelStack.getItem();
+				fuelStack.shrink(1);
+				if (fuelStack.isEmpty()) {
+					processor.inventory.set(AbstractProcessingBlockEntity.FUEL_SLOT_INDEX, item.getCraftingRemainder());
+				}
+			}
+		}
+		return changed;
+	}
+
+	/**
+	 * Can the processor end processing and generate an output?
+	 *
+	 * @return true if the state or appearance of the processor must be updated.
+	 */
+	private static boolean canEnd(
+		ServerLevel level, AbstractProcessingBlockEntity processor,
+		RecipeHolder<? extends AbstractProcessingRecipe> recipeEntry, OneStackRecipeInput oneStackRecipeInput
+	) {
+		processor.cookingTimer++;
+		if (processor.cookingTimer == processor.cookingTotalTime) {
+			processor.cookingTimer = 0;
+			processor.cookingTotalTime = getCookTime(level, processor);
+			if (craftRecipe(
+				level.registryAccess(),
+				recipeEntry,
+				oneStackRecipeInput,
+				processor.inventory,
+				processor.getMaxStackSize())
+			) {
+				processor.setRecipeUsed(recipeEntry);
+				// Special action?
+				processor.crafted();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Start or end processing.
+	 *
+	 * @return true if the state or appearance of the processor must be updated.
+	 */
+	private static boolean canWork(
+		ServerLevel level, AbstractProcessingBlockEntity processor,
+		ItemStack inputStack, ItemStack fuelStack
+	) {
+		boolean changed = false;
+		// Get the recipe.
+		final OneStackRecipeInput oneStackRecipeInput = new OneStackRecipeInput(inputStack);
+		final RecipeHolder<? extends AbstractProcessingRecipe> recipeEntry =
+			getRecipeEntry(level, processor, oneStackRecipeInput);
+		// Can the processor create an output?
+		final boolean canMakeOutput = canAcceptRecipeOutput(
+			level.registryAccess(),
+			recipeEntry,
+			oneStackRecipeInput,
+			processor.inventory,
+			processor.getMaxStackSize());
+		if (!processor.isBurning() && canMakeOutput) {
+			// Start processing a new input item.
+			changed = canStart(level, processor, fuelStack);
+		}
+		if (processor.isBurning() && canMakeOutput) {
+			// End processing one input item and generate output.
+			changed = changed || canEnd(level, processor, recipeEntry, oneStackRecipeInput);
+		} else {
+			processor.cookingTimer = 0;
+		}
+		return changed;
+	}
+
+	/**
+	 * Continue processing the input item.
+	 */
+	private static void continueWork(AbstractProcessingBlockEntity processor) {
+		if (!processor.isBurning() && 0 < processor.cookingTimer) {
+			processor.cookingTimer = Mth.clamp(
+				processor.cookingTimer - 2, 0, processor.cookingTotalTime);
+		}
+	}
+
 	/**
 	 * Similar to {@link AbstractFurnaceBlockEntity}, but allows multiple input and output counts.
 	 */
@@ -182,70 +288,11 @@ public abstract sealed class StaticProcessingBlockEntity
 		final boolean hasInput = !inputStack.isEmpty();
 		final boolean hasFuel = !fuelStack.isEmpty();
 		if (processor.isBurning() || (hasFuel && hasInput)) {
-			// Get the recipe.
-			final OneStackRecipeInput oneStackRecipeInput = new OneStackRecipeInput(inputStack);
-			RecipeHolder<? extends AbstractProcessingRecipe> recipeEntry;
-			if (hasInput) {
-				recipeEntry = processor.matchGetter.getRecipeFor(oneStackRecipeInput, level).orElse(null);
-			} else {
-				recipeEntry = null;
-			}
-			// Start processing a new input item.
-			final int maxCount = processor.getMaxStackSize();
-			if (!processor.isBurning() &&
-				canAcceptRecipeOutput(
-					level.registryAccess(),
-					recipeEntry,
-					oneStackRecipeInput,
-					processor.inventory,
-					maxCount)) {
-				processor.litTimeRemaining = processor.getFuelTime(level.fuelValues(), fuelStack);
-				processor.litTotalTime = processor.litTimeRemaining;
-				// Need more fuel to continue.
-				if (processor.isBurning()) {
-					changed = true;
-					if (hasFuel) {
-						final Item item = fuelStack.getItem();
-						fuelStack.shrink(1);
-						if (fuelStack.isEmpty()) {
-							processor.inventory.set(AbstractProcessingBlockEntity.FUEL_SLOT_INDEX, item.getCraftingRemainder());
-						}
-					}
-				}
-			}
-			// End processing one input item and generate output.
-			if (processor.isBurning() &&
-				canAcceptRecipeOutput(
-					level.registryAccess(),
-					recipeEntry,
-					oneStackRecipeInput,
-					processor.inventory,
-					maxCount)) {
-				processor.cookingTimer++;
-				if (processor.cookingTimer == processor.cookingTotalTime) {
-					processor.cookingTimer = 0;
-					processor.cookingTotalTime = getCookTime(level, processor);
-					if (craftRecipe(
-						level.registryAccess(),
-						recipeEntry,
-						oneStackRecipeInput,
-						processor.inventory,
-						maxCount)) {
-						processor.setRecipeUsed(recipeEntry);
-						// Special action?
-						processor.crafted();
-					}
-					changed = true;
-				}
-			} else {
-				processor.cookingTimer = 0;
-			}
+			// Can the processor start or end processing?
+			changed = canWork(level, processor, inputStack, fuelStack);
 		} else {
-			// Continue processing the input item.
-			if (!processor.isBurning() && processor.cookingTimer > 0) {
-				processor.cookingTimer = Mth.clamp(
-					processor.cookingTimer - 2, 0, processor.cookingTotalTime);
-			}
+			// Can the processor continue processing?
+			continueWork(processor);
 		}
 		// Burning state changed.
 		if (burning != processor.isBurning()) {
