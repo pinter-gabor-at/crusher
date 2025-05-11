@@ -2,6 +2,7 @@ package eu.pintergabor.crusher.blocks.base;
 
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import eu.pintergabor.crusher.recipe.base.OneStackRecipeInput;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -14,16 +15,22 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-import org.jetbrains.annotations.Nullable;
 
+/**
+ * Static methods of {@link AbstractProcessingBlockEntity}.
+ */
+public abstract sealed class StaticProcessingBlockEntity
+	extends BaseContainerBlockEntity
+	permits AbstractProcessingBlockEntity {
 
-public final class StaticProcessingBlock {
-
-	private StaticProcessingBlock() {
-		// Static class.
+	protected StaticProcessingBlockEntity(
+		BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState
+	) {
+		super(blockEntityType, blockPos, blockState);
 	}
 
 	/**
@@ -31,7 +38,7 @@ public final class StaticProcessingBlock {
 	 * and enough space in the output slot to craft new items.
 	 *
 	 * @param inputStack  {@link ItemStack} in the input slot.
-	 * @param outputStack {@link ItemStack} in the ouput slot.
+	 * @param outputStack {@link ItemStack} in the output slot.
 	 * @param inputCount  Number of items needed to craft {@code resultStack}.
 	 * @param resultStack {@link ItemStack} that will be crafted.
 	 * @param maxCount    Optional to further limit the max size of the new {@code outputStack}.
@@ -248,7 +255,7 @@ public final class StaticProcessingBlock {
 		}
 		// Something changed -> redraw.
 		if (changed) {
-			BlockEntity.setChanged(level, pos, state);
+			setChanged(level, pos, state);
 		}
 	}
 }

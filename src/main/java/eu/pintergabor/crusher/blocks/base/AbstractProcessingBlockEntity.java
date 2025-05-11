@@ -2,6 +2,7 @@ package eu.pintergabor.crusher.blocks.base;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
@@ -36,7 +37,6 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.FuelValues;
 import net.minecraft.world.level.block.state.BlockState;
@@ -49,8 +49,8 @@ import net.minecraft.world.phys.Vec3;
  * <li>And adds a hook for special processing.
  * <li>And removes the special handling of buckets in the fuel slot.
  */
-public abstract class AbstractProcessingBlockEntity
-	extends BaseContainerBlockEntity
+public abstract non-sealed class AbstractProcessingBlockEntity
+	extends StaticProcessingBlockEntity
 	implements WorldlyContainer, RecipeCraftingHolder, StackedContentsCompatible {
 	public static final int INPUT_SLOT_INDEX = 0;
 	public static final int FUEL_SLOT_INDEX = 1;
@@ -246,7 +246,7 @@ public abstract class AbstractProcessingBlockEntity
 		inventory.set(slot, stack);
 		stack.limitSize(getMaxStackSize(stack));
 		if (slot == INPUT_SLOT_INDEX && !same && level instanceof ServerLevel serverLevel) {
-			cookingTotalTime = StaticProcessingBlock.getCookTime(serverLevel, this);
+			cookingTotalTime = StaticProcessingBlockEntity.getCookTime(serverLevel, this);
 			cookingTimer = 0;
 			setChanged();
 		}
@@ -298,30 +298,14 @@ public abstract class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	public void dropExperienceForRecipesUsed(ServerPlayer player) {
-		List<RecipeHolder<?>> list = getRecipesToAwardAndPopExperience(
+		final List<RecipeHolder<?>> list = getRecipesToAwardAndPopExperience(
 			player.serverLevel(), player.position());
 		player.awardRecipes(list);
-		for (RecipeHolder<?> recipeEntry : list) {
-			if (recipeEntry != null) {
-				player.triggerRecipeCrafted(recipeEntry, inventory);
-			}
-		}
+		list.stream()
+			.filter(Objects::nonNull)
+			.forEach(recipeEntry ->
+				player.triggerRecipeCrafted(recipeEntry, inventory));
 		recipesUsed.clear();
-	}
-
-	/**
-	 * Same as in {@link AbstractFurnaceBlockEntity}.
-	 */
-	public List<RecipeHolder<?>> getRecipesToAwardAndPopExperience(ServerLevel level, Vec3 pos) {
-		List<RecipeHolder<?>> list = Lists.newArrayList();
-		for (Entry<ResourceKey<Recipe<?>>> entry : recipesUsed.reference2IntEntrySet()) {
-			level.recipeAccess().byKey(entry.getKey()).ifPresent(recipe -> {
-				list.add(recipe);
-				dropExperience(level, pos, entry.getIntValue(),
-					((AbstractProcessingRecipe) recipe.value()).experience());
-			});
-		}
-		return list;
 	}
 
 	/**
@@ -348,10 +332,23 @@ public abstract class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
+	public List<RecipeHolder<?>> getRecipesToAwardAndPopExperience(ServerLevel level, Vec3 pos) {
+		List<RecipeHolder<?>> list = Lists.newArrayList();
+		for (Entry<ResourceKey<Recipe<?>>> entry : recipesUsed.reference2IntEntrySet()) {
+			level.recipeAccess().byKey(entry.getKey()).ifPresent(recipe -> {
+				list.add(recipe);
+				dropExperience(level, pos, entry.getIntValue(),
+					((AbstractProcessingRecipe) recipe.value()).experience());
+			});
+		}
+		return list;
+	}
+
+	/**
+	 * Same as in {@link AbstractFurnaceBlockEntity}.
+	 */
 	@Override
 	public void fillStackedContents(@NotNull StackedItemContents finder) {
-		for (ItemStack itemStack : inventory) {
-			finder.accountStack(itemStack);
-		}
+		inventory.forEach(finder::accountStack);
 	}
 }
