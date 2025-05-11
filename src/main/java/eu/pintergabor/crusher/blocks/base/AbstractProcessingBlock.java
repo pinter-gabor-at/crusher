@@ -37,7 +37,7 @@ public abstract class AbstractProcessingBlock extends AbstractFurnaceBlock {
 			? createTickerHelper(givenType, expectedType,
 			(worldx, pos, state,
 			 blockEntity) ->
-				AbstractProcessingBlockEntity.serverTick(
+				StaticProcessingBlock.serverTick(
 					serverLevel, pos, state, blockEntity))
 			: null;
 	}
