@@ -44,7 +44,8 @@ public class CompressorScreen extends AbstractProcessingScreen<CompressorMenu> {
 	);
 
 	public CompressorScreen(
-		CompressorMenu menu, Inventory playerInventory, Component title) {
+		CompressorMenu menu, Inventory playerInventory, Component title
+	) {
 		super(
 			menu, playerInventory, title,
 			FILTER_NAME, TEXTURE, LIT_PROGRESS_SPRITE, BURN_PROGRESS_SPRITE, TABS);

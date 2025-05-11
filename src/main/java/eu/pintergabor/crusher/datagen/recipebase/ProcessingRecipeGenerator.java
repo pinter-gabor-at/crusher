@@ -41,7 +41,8 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	private <T extends AbstractProcessingRecipe> void createRecipe(
 		ItemLike input, int inputCount,
 		ItemLike result, int resultCount,
-		AbstractProcessingRecipe.RecipeFactory<T> factory, String from) {
+		AbstractProcessingRecipe.RecipeFactory<T> factory, String from
+	) {
 		final Ingredient ingredient = Ingredient.of(input);
 		ProcessingRecipeBuilder.create(
 				ingredient,
@@ -67,24 +68,26 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
 		ItemLike input, int inputCount,
-		ItemLike result, int resultCount) {
+		ItemLike result, int resultCount
+	) {
 		createRecipe(input, inputCount,
 			result, resultCount,
 			CrusherRecipe::new, "_from_crushing_");
 	}
 
 	/**
-	 * Create compressing recipe from input item
+	 * Create compressing recipe from input item.
 	 *
-	 * @param input       Input item
-	 * @param inputCount  Number of input items
-	 * @param result      Output item
-	 * @param resultCount Number of output items
+	 * @param input       Input item.
+	 * @param inputCount  Number of input items.
+	 * @param result      Output item.
+	 * @param resultCount Number of output items.
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCompressorRecipe(
 		ItemLike input, int inputCount,
-		ItemLike result, int resultCount) {
+		ItemLike result, int resultCount
+	) {
 		createRecipe(input, inputCount,
 			result, resultCount,
 			CompressorRecipe::new, "_from_compressing_");
@@ -103,7 +106,8 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	private <T extends AbstractProcessingRecipe> void createRecipe(
 		TagKey<Item> tag, int tagCount,
 		ItemLike result, int resultCount,
-		AbstractProcessingRecipe.RecipeFactory<T> factory, String from) {
+		AbstractProcessingRecipe.RecipeFactory<T> factory, String from
+	) {
 		try {
 			final HolderLookup.RegistryLookup<Item> registryLookup =
 				registries.lookupOrThrow(Registries.ITEM);
@@ -135,7 +139,8 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
 		TagKey<Item> tag, int tagCount,
-		ItemLike result, int resultCount) {
+		ItemLike result, int resultCount
+	) {
 		createRecipe(tag, tagCount,
 			result, resultCount,
 			CrusherRecipe::new, "_from_crushing_");
@@ -152,7 +157,8 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCompressorRecipe(
 		TagKey<Item> tag, int tagCount,
-		ItemLike result, int resultCount) {
+		ItemLike result, int resultCount
+	) {
 		createRecipe(tag, tagCount,
 			result, resultCount,
 			CompressorRecipe::new, "_from_compressing_");

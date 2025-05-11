@@ -14,10 +14,11 @@ import net.minecraft.world.level.block.Block;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 
-public class ModRecipeGenerator extends ProcessingRecipeGenerator {
+public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 
-	protected ModRecipeGenerator(
-		HolderLookup.Provider registries, RecipeOutput output) {
+	public ModRecipeGenerator(
+		HolderLookup.Provider registries, RecipeOutput output
+	) {
 		super(registries, output);
 	}
 

@@ -10,7 +10,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 
 
-public class ModBlockLootTableGenerator extends FabricBlockLootTableProvider {
+public final class ModBlockLootTableGenerator extends FabricBlockLootTableProvider {
 
 	public ModBlockLootTableGenerator(
 		FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
