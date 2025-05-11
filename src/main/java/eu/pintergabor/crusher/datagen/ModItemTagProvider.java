@@ -18,7 +18,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 
 
-public class ModItemTagProvider extends ItemTagsProvider {
+public final class ModItemTagProvider extends ItemTagsProvider {
 
 	/**
 	 * Items crushed to gravel.

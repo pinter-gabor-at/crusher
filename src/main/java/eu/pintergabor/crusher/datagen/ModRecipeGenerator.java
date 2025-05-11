@@ -13,7 +13,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 
 
-public class ModRecipeGenerator extends ProcessingRecipeGenerator {
+public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 
 	protected ModRecipeGenerator(
 		HolderLookup.Provider registries, RecipeOutput output) {

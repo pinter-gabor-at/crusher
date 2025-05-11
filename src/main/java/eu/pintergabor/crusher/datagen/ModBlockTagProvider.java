@@ -13,7 +13,7 @@ import net.minecraft.tags.BlockTags;
 import org.jetbrains.annotations.NotNull;
 
 
-public class ModBlockTagProvider extends BlockTagsProvider {
+public final class ModBlockTagProvider extends BlockTagsProvider {
 
 	public ModBlockTagProvider(
 		PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {

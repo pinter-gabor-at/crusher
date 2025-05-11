@@ -11,7 +11,7 @@ import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.data.PackOutput;
 
 
-public class ModModelProvider extends ModelProvider {
+public final class ModModelProvider extends ModelProvider {
 
 	public ModModelProvider(PackOutput output) {
 		super(output, Global.MODID);

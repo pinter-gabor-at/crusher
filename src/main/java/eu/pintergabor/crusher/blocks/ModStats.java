@@ -9,9 +9,9 @@ import net.minecraft.resources.ResourceLocation;
 
 public final class ModStats {
 	public static final DeferredHolder<ResourceLocation, ResourceLocation> CRUSHER_STAT =
-		Main.STATS.register("crusher_interactions", () -> Global.modId("crusher"));
+		Main.STATS.register("crusher_interactions", () -> Global.modId("crusher_interactions"));
 	public static final DeferredHolder<ResourceLocation, ResourceLocation> COMPRESSOR_STAT =
-		Main.STATS.register("compressor_interactions", () -> Global.modId("compressor"));
+		Main.STATS.register("compressor_interactions", () -> Global.modId("compressor_interactions"));
 
 	private ModStats() {
 		// Static class.

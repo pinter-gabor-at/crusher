@@ -12,7 +12,7 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 
 
-public class ModBlockLootTableGenerator extends BlockLootSubProvider {
+public final class ModBlockLootTableGenerator extends BlockLootSubProvider {
 
 	public ModBlockLootTableGenerator(HolderLookup.Provider lookupProvider) {
 		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, lookupProvider);

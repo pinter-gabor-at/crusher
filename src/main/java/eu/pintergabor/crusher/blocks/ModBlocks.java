@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 /**
  * Mod blocks, items and entities.
  */
-public class ModBlocks {
+public final class ModBlocks {
 	// Blocks.
 	public static DeferredBlock<Block> CRUSHER_BLOCK;
 	public static DeferredBlock<Block> COMPRESSOR_BLOCK;
