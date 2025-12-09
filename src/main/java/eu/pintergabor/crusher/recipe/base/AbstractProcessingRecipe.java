@@ -42,10 +42,11 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	public AbstractProcessingRecipe(
 		String group,
 		CookingBookCategory category,
-		ItemStack input,
-		ItemStack result,
+		@NotNull ItemStack input,
+		@NotNull ItemStack result,
 		float experience,
-		int cookingTime) {
+		int cookingTime
+	) {
 		super(group, input, result);
 		this.category = category;
 		this.experience = experience;
@@ -63,11 +64,12 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	public AbstractProcessingRecipe(
 		String group,
 		CookingBookCategory category,
-		Ingredient input,
+		@NotNull Ingredient input,
 		int inputCount,
-		ItemStack result,
+		@NotNull ItemStack result,
 		float experience,
-		int cookingTime) {
+		int cookingTime
+	) {
 		super(group, input, inputCount, result);
 		this.category = category;
 		this.experience = experience;
@@ -98,12 +100,12 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	public @NotNull List<RecipeDisplay> display() {
 		return List.of(
 			new FurnaceRecipeDisplay(
-				this.input().display(),
+				input().display(),
 				SlotDisplay.AnyFuel.INSTANCE,
 				new SlotDisplay.ItemStackSlotDisplay(result()),
 				new SlotDisplay.ItemSlotDisplay(getProcessorItem()),
-				this.cookingTime,
-				this.experience));
+				cookingTime,
+				experience));
 	}
 
 	@FunctionalInterface
@@ -128,7 +130,7 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 		private final MapCodec<T> codec;
 		private final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
 
-		public Serializer(RecipeFactory<T> factory) {
+		public Serializer(@NotNull RecipeFactory<T> factory, int defaultCookingTime) {
 			codec = RecordCodecBuilder.mapCodec(
 				instance -> instance.group(
 						Codec.STRING.optionalFieldOf("group", "")
@@ -147,7 +149,7 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 							.orElse(0F)
 							.forGetter(AbstractProcessingRecipe::experience),
 						Codec.INT.fieldOf("cookingtime")
-							.orElse(100)
+							.orElse(defaultCookingTime)
 							.forGetter(AbstractProcessingRecipe::cookingTime)
 					)
 					.apply(instance, factory::create)
@@ -168,6 +170,12 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 			return codec;
 		}
 
+		/**
+		 * {@inheritDoc}
+		 * <p>
+		 * Although it is deprecated, {@link AbstractCookingRecipe.Serializer} still uses it.
+		 */
+		@Deprecated
 		@Override
 		public @NotNull StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
 			return streamCodec;

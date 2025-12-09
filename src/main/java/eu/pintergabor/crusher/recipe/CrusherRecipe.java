@@ -35,7 +35,7 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
 			});
 	public static Supplier<RecipeSerializer<CrusherRecipe>> SERIALIZER =
 		Main.RECIPE_SERIALIZERS.register("crushing", () ->
-			new Serializer<>(CrusherRecipe::new));
+			new Serializer<>(CrusherRecipe::new, 100));
 
 	public CrusherRecipe(
 		String group,

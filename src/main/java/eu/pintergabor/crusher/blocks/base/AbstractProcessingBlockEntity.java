@@ -129,7 +129,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	protected void loadAdditional(ValueInput input) {
+	protected void loadAdditional(@NotNull ValueInput input) {
 		super.loadAdditional(input);
 		items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(input, items);
@@ -145,7 +145,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	protected void saveAdditional(ValueOutput output) {
+	protected void saveAdditional(@NotNull ValueOutput output) {
 		super.saveAdditional(output);
 		output.putShort("cooking_time_spent", (short) cookingTimer);
 		output.putShort("cooking_total_time", (short) cookingTotalTime);

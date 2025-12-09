@@ -35,15 +35,15 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 			});
 	public static Supplier<RecipeSerializer<CompressorRecipe>> SERIALIZER =
 		Main.RECIPE_SERIALIZERS.register("compressing", () ->
-			new Serializer<>(CompressorRecipe::new));
+			new Serializer<>(CompressorRecipe::new, 100));
 
 
 	public CompressorRecipe(
 		String group,
 		CookingBookCategory category,
-		Ingredient ingredient,
+		@NotNull Ingredient ingredient,
 		int ingredientCount,
-		ItemStack result,
+		@NotNull ItemStack result,
 		float experience,
 		int cookingTime
 	) {
