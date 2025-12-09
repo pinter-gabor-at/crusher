@@ -100,12 +100,12 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	public @NotNull List<RecipeDisplay> display() {
 		return List.of(
 			new FurnaceRecipeDisplay(
-				this.input().display(),
+				input().display(),
 				SlotDisplay.AnyFuel.INSTANCE,
 				new SlotDisplay.ItemStackSlotDisplay(result()),
 				new SlotDisplay.ItemSlotDisplay(getProcessorItem()),
-				this.cookingTime,
-				this.experience));
+				cookingTime,
+				experience));
 	}
 
 	@FunctionalInterface
@@ -170,6 +170,12 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 			return codec;
 		}
 
+		/**
+		 * {@inheritDoc}
+		 * <p>
+		 * Although it is deprecated, {@link AbstractCookingRecipe.Serializer} still uses it.
+		 */
+		@Deprecated
 		@Override
 		public @NotNull StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
 			return streamCodec;
