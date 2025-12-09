@@ -2,8 +2,6 @@ package eu.pintergabor.crusher.screen.base;
 
 import java.util.List;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -11,7 +9,7 @@ import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -21,7 +19,6 @@ import net.minecraft.world.entity.player.Inventory;
 /**
  * Similar to {@link AbstractFurnaceScreen}.
  */
-@OnlyIn(Dist.CLIENT)
 public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 	extends AbstractRecipeBookScreen<T> {
 	private final ResourceLocation background;
@@ -63,10 +60,13 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+	protected void renderBg(
+		@NotNull GuiGraphics guiGraphics,
+		float partialTick, int mouseX, int mouseY
+	) {
 		// Full (176x166) size background.
 		guiGraphics.blit(
-			RenderType::guiTextured,
+			RenderPipelines.GUI_TEXTURED,
 			background,
 			leftPos, topPos,
 			0F, 0F,
@@ -76,7 +76,7 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 			// Height of the fuel consumption sprite in the middle.
 			final int h = Mth.ceil(menu.getLitProgress() * 13F) + 1;
 			guiGraphics.blitSprite(
-				RenderType::guiTextured,
+				RenderPipelines.GUI_TEXTURED,
 				litProgressSprite,
 				14, 14,
 				0, 14 - h,
@@ -86,7 +86,7 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 		// Width of the progress sprite.
 		final int w = Mth.ceil(menu.getBurnProgress() * 24F);
 		guiGraphics.blitSprite(
-			RenderType::guiTextured,
+			RenderPipelines.GUI_TEXTURED,
 			burnProgressSprite,
 			24, 16,
 			0, 0,

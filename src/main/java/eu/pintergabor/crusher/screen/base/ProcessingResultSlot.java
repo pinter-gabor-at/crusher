@@ -55,7 +55,7 @@ public class ProcessingResultSlot extends Slot {
 		stack.onCraftedBy(player, removeCount);
 		if (player instanceof ServerPlayer serverPlayer &&
 			container instanceof AbstractProcessingBlockEntity processor) {
-			processor.dropExperienceForRecipesUsed(serverPlayer);
+			processor.awardUsedRecipesAndPopExperience(serverPlayer);
 		}
 		removeCount = 0;
 	}

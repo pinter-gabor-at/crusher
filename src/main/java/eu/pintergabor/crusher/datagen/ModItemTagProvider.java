@@ -4,12 +4,12 @@ import java.util.concurrent.CompletableFuture;
 
 import eu.pintergabor.crusher.Global;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -105,12 +105,13 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 	 */
 	public static final TagKey<Item> BUCKETS = createCItemTag("buckets");
 
+	@SuppressWarnings("unused")
 	public ModItemTagProvider(
 		PackOutput output,
 		CompletableFuture<HolderLookup.Provider> lookupProvider,
 		CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider
 	) {
-		super(output, lookupProvider, blockTagProvider, Global.MODID);
+		super(output, lookupProvider, Global.MODID);
 	}
 
 	/**

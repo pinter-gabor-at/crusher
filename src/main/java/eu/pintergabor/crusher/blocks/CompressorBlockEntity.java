@@ -41,9 +41,9 @@ public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
 	 */
 	@Override
 	protected void crafted() {
-		if (level != null && inventory.get(OUTPUT_SLOT_INDEX).is(Items.TNT)) {
+		if (level != null && items.get(OUTPUT_SLOT_INDEX).is(Items.TNT)) {
 			// If the crafted result is TNT then create twice as large explosion as a TNT block.
-			inventory.set(OUTPUT_SLOT_INDEX, ItemStack.EMPTY);
+			items.set(OUTPUT_SLOT_INDEX, ItemStack.EMPTY);
 			level.explode(
 				null,
 				null,
