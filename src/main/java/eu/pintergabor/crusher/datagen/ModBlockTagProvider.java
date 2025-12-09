@@ -22,7 +22,7 @@ public final class ModBlockTagProvider extends FabricTagProvider.BlockTagProvide
 	@Override
 	protected void addTags(HolderLookup.Provider wrapperLookup) {
 		// Mineable with pickaxe.
-		getOrCreateTagBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
+		valueLookupBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
 			.add(ModBlocks.CRUSHER_BLOCK)
 			.add(ModBlocks.COMPRESSOR_BLOCK);
 	}

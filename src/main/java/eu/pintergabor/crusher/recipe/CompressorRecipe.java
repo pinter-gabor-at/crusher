@@ -29,9 +29,9 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 	public CompressorRecipe(
 		String group,
 		CookingBookCategory category,
-		Ingredient ingredient,
+		@NotNull Ingredient ingredient,
 		int ingredientCount,
-		ItemStack result,
+		@NotNull ItemStack result,
 		float experience,
 		int cookingTime
 	) {

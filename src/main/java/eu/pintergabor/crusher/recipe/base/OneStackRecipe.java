@@ -37,9 +37,9 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	@SuppressWarnings("unused")
 	public OneStackRecipe(
 		String group,
-		Ingredient input,
+		@NotNull Ingredient input,
 		int inputCount,
-		ItemStack result
+		@NotNull ItemStack result
 	) {
 		this.group = group;
 		this.input = input;
@@ -56,7 +56,7 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	public OneStackRecipe(
 		String group,
 		@NotNull ItemStack input,
-		ItemStack result
+		@NotNull ItemStack result
 	) {
 		this(
 			group,
@@ -80,7 +80,7 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 		return group;
 	}
 
-	public Ingredient input() {
+	public @NotNull Ingredient input() {
 		return input;
 	}
 
@@ -88,7 +88,7 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 		return inputCount;
 	}
 
-	public ItemStack result() {
+	public @NotNull ItemStack result() {
 		return result;
 	}
 

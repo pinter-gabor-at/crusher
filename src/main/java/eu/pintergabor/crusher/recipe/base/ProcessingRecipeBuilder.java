@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,8 +45,8 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 	private ProcessingRecipeBuilder(
 		RecipeCategory category,
 		CookingBookCategory cookingCategory,
-		ItemStack result,
-		Ingredient ingredient,
+		@NotNull ItemStack result,
+		@NotNull Ingredient ingredient,
 		int ingregientCount,
 		float experience,
 		int cookingTime,
@@ -61,11 +62,12 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 		this.recipeFactory = recipeFactory;
 	}
 
-	public static <T extends AbstractProcessingRecipe> ProcessingRecipeBuilder create(
-		Ingredient ingredient,
+	@Contract("_, _, _, _, _, _, _ -> new")
+	public static <T extends AbstractProcessingRecipe> @NotNull ProcessingRecipeBuilder create(
+		@NotNull Ingredient ingredient,
 		int ingregientCount,
 		RecipeCategory category,
-		ItemStack output,
+		@NotNull ItemStack output,
 		float experience,
 		int cookingTime,
 		AbstractProcessingRecipe.RecipeFactory<T> recipeFactory

@@ -15,9 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,6 +38,8 @@ import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.FuelValues;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 
@@ -66,7 +66,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	public static final int DEFAULT_COOK_TIME = 200;
 	private static final Codec<Map<ResourceKey<Recipe<?>>, Integer>> CODEC =
 		Codec.unboundedMap(Recipe.KEY_CODEC, Codec.INT);
-	protected NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
+	protected NonNullList<ItemStack> items = NonNullList.withSize(3, ItemStack.EMPTY);
 	protected int litTimeRemaining;
 	protected int litTotalTime;
 	protected int cookingTimer;
@@ -122,48 +122,37 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	protected boolean isBurning() {
+	protected boolean isLit() {
 		return 0 < litTimeRemaining;
 	}
 
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	@Override
-	protected void loadAdditional(
-		@NotNull CompoundTag tag,
-		@NotNull HolderLookup.Provider registries
-	) {
-		super.loadAdditional(tag, registries);
-		inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
-		ContainerHelper.loadAllItems(tag, inventory, registries);
-		cookingTimer = tag.getShortOr("cooking_time_spent", (short) 0);
-		cookingTotalTime = tag.getShortOr("cooking_total_time", (short) 0);
-		litTimeRemaining = tag.getShortOr("lit_time_remaining", (short) 0);
-		litTotalTime = tag.getShortOr("lit_total_time", (short) 0);
+	protected void loadAdditional(ValueInput input) {
+		super.loadAdditional(input);
+		items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
+		ContainerHelper.loadAllItems(input, items);
+		cookingTimer = input.getShortOr("cooking_time_spent", (short) 0);
+		cookingTotalTime = input.getShortOr("cooking_total_time", (short) 0);
+		litTimeRemaining = input.getShortOr("lit_time_remaining", (short) 0);
+		litTotalTime = input.getShortOr("lit_total_time", (short) 0);
 		recipesUsed.clear();
-		recipesUsed.putAll(tag.read("RecipesUsed", CODEC).orElse(Map.of()));
+		recipesUsed.putAll(input.read("RecipesUsed", CODEC).orElse(Map.of()));
 	}
 
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	protected void saveAdditional(
-		@NotNull CompoundTag tag, @NotNull HolderLookup.Provider registries
-	) {
-		super.saveAdditional(tag, registries);
-		tag.putShort("cooking_time_spent", (short) cookingTimer);
-		tag.putShort("cooking_total_time", (short) cookingTotalTime);
-		tag.putShort("lit_time_remaining", (short) litTimeRemaining);
-		tag.putShort("lit_total_time", (short) litTotalTime);
-		ContainerHelper.saveAllItems(tag, inventory, registries);
-		CompoundTag nbtCompound = new CompoundTag();
-		recipesUsed.forEach((recipeKey, count) ->
-			nbtCompound.putInt(
-				recipeKey.location().toString(),
-				count));
-		tag.put("RecipesUsed", nbtCompound);
+	protected void saveAdditional(ValueOutput output) {
+		super.saveAdditional(output);
+		output.putShort("cooking_time_spent", (short) cookingTimer);
+		output.putShort("cooking_total_time", (short) cookingTotalTime);
+		output.putShort("lit_time_remaining", (short) litTimeRemaining);
+		output.putShort("lit_total_time", (short) litTotalTime);
+		ContainerHelper.saveAllItems(output, items);
+		output.store("RecipesUsed", CODEC, recipesUsed);
 	}
 
 	/**
@@ -176,7 +165,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	protected int getFuelTime(FuelValues fuelValues, ItemStack stack) {
+	protected int getFuelTime(@NotNull FuelValues fuelValues, ItemStack stack) {
 		return fuelValues.burnDuration(stack);
 	}
 
@@ -184,7 +173,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public int @NotNull [] getSlotsForFace(Direction side) {
+	public int @NotNull [] getSlotsForFace(@NotNull Direction side) {
 		return switch (side) {
 			case DOWN -> BOTTOM_SLOTS;
 			case UP -> TOP_SLOTS;
@@ -217,7 +206,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 */
 	@Override
 	public int getContainerSize() {
-		return inventory.size();
+		return items.size();
 	}
 
 	/**
@@ -225,7 +214,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 */
 	@Override
 	protected @NotNull NonNullList<ItemStack> getItems() {
-		return inventory;
+		return items;
 	}
 
 	/**
@@ -233,17 +222,17 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 */
 	@Override
 	protected void setItems(@NotNull NonNullList<ItemStack> inventory) {
-		this.inventory = inventory;
+		this.items = inventory;
 	}
 
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public void setItem(int slot, ItemStack stack) {
-		final ItemStack oldStack = inventory.get(slot);
+	public void setItem(int slot, @NotNull ItemStack stack) {
+		final ItemStack oldStack = items.get(slot);
 		final boolean same = !stack.isEmpty() && ItemStack.isSameItemSameComponents(oldStack, stack);
-		inventory.set(slot, stack);
+		items.set(slot, stack);
 		stack.limitSize(getMaxStackSize(stack));
 		if (slot == INPUT_SLOT_INDEX && !same && level instanceof ServerLevel serverLevel) {
 			cookingTotalTime = StaticProcessingBlockEntity.getCookTime(serverLevel, this);
@@ -260,7 +249,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 		return switch (slot) {
 			case OUTPUT_SLOT_INDEX -> false;
 			case FUEL_SLOT_INDEX -> {
-				ItemStack fuelStack = inventory.get(FUEL_SLOT_INDEX);
+				ItemStack fuelStack = items.get(FUEL_SLOT_INDEX);
 				yield ((level != null) && level.fuelValues().isFuel(stack)) ||
 					(stack.is(Items.BUCKET) && !fuelStack.is(Items.BUCKET));
 			}
@@ -297,14 +286,14 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	public void dropExperienceForRecipesUsed(ServerPlayer player) {
+	public void awardUsedRecipesAndPopExperience(@NotNull ServerPlayer player) {
 		final List<RecipeHolder<?>> list = getRecipesToAwardAndPopExperience(
-			player.serverLevel(), player.position());
+			player.level(), player.position());
 		player.awardRecipes(list);
 		list.stream()
 			.filter(Objects::nonNull)
-			.forEach(recipeEntry ->
-				player.triggerRecipeCrafted(recipeEntry, inventory));
+			.forEach(recipeHolder ->
+				player.triggerRecipeCrafted(recipeHolder, items));
 		recipesUsed.clear();
 	}
 
@@ -314,7 +303,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * @param level In this world.
 	 * @param pos   Here.
 	 */
-	private static void dropExperience(
+	private static void createExperience(
 		ServerLevel level, Vec3 pos, int multiplier, float experience
 	) {
 		// Calculate.
@@ -337,7 +326,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 		for (Entry<ResourceKey<Recipe<?>>> entry : recipesUsed.reference2IntEntrySet()) {
 			level.recipeAccess().byKey(entry.getKey()).ifPresent(recipe -> {
 				list.add(recipe);
-				dropExperience(level, pos, entry.getIntValue(),
+				createExperience(level, pos, entry.getIntValue(),
 					((AbstractProcessingRecipe) recipe.value()).experience());
 			});
 		}
@@ -348,7 +337,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public void fillStackedContents(@NotNull StackedItemContents finder) {
-		inventory.forEach(finder::accountStack);
+	public void fillStackedContents(@NotNull StackedItemContents stackedItemContents) {
+		items.forEach(stackedItemContents::accountStack);
 	}
 }

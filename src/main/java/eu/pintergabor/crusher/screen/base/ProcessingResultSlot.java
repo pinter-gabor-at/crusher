@@ -26,7 +26,7 @@ public class ProcessingResultSlot extends Slot {
 	}
 
 	@Override
-	public boolean mayPlace(ItemStack stack) {
+	public boolean mayPlace(@NotNull ItemStack stack) {
 		return false;
 	}
 
@@ -39,12 +39,12 @@ public class ProcessingResultSlot extends Slot {
 	}
 
 	@Override
-	public void onTake(Player player, ItemStack stack) {
+	public void onTake(@NotNull Player player, @NotNull ItemStack stack) {
 		checkTakeAchievements(stack);
 		super.onTake(player, stack);
 	}
 
-	protected void onQuickCraft(ItemStack stack, int amount) {
+	protected void onQuickCraft(@NotNull ItemStack stack, int amount) {
 		removeCount += amount;
 		checkTakeAchievements(stack);
 	}
@@ -54,7 +54,7 @@ public class ProcessingResultSlot extends Slot {
 		stack.onCraftedBy(player, removeCount);
 		if (player instanceof ServerPlayer serverPlayerEntity &&
 			container instanceof AbstractProcessingBlockEntity abstractProcessingBlockEntity) {
-			abstractProcessingBlockEntity.dropExperienceForRecipesUsed(serverPlayerEntity);
+			abstractProcessingBlockEntity.awardUsedRecipesAndPopExperience(serverPlayerEntity);
 		}
 		removeCount = 0;
 	}

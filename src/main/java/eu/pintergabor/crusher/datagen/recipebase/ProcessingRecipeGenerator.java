@@ -16,6 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 
+import org.jetbrains.annotations.NotNull;
+
 
 /**
  * Generate crusher and compressor recipes.
@@ -39,8 +41,8 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 * @param from        "_from_crushing_" or "_from_compressing_"
 	 */
 	private <T extends AbstractProcessingRecipe> void createRecipe(
-		ItemLike input, int inputCount,
-		ItemLike result, int resultCount,
+		@NotNull ItemLike input, int inputCount,
+		@NotNull ItemLike result, int resultCount,
 		AbstractProcessingRecipe.RecipeFactory<T> factory, String from
 	) {
 		final Ingredient ingredient = Ingredient.of(input);
@@ -67,8 +69,8 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
-		ItemLike input, int inputCount,
-		ItemLike result, int resultCount
+		@NotNull ItemLike input, int inputCount,
+		@NotNull ItemLike result, int resultCount
 	) {
 		createRecipe(input, inputCount,
 			result, resultCount,
@@ -85,8 +87,8 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCompressorRecipe(
-		ItemLike input, int inputCount,
-		ItemLike result, int resultCount
+		@NotNull ItemLike input, int inputCount,
+		@NotNull ItemLike result, int resultCount
 	) {
 		createRecipe(input, inputCount,
 			result, resultCount,
@@ -104,9 +106,9 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 * @param from        "_from_crushing_" or "_from_compressing_"
 	 */
 	private <T extends AbstractProcessingRecipe> void createRecipe(
-		TagKey<Item> tag, int tagCount,
-		ItemLike result, int resultCount,
-		AbstractProcessingRecipe.RecipeFactory<T> factory, String from
+		@NotNull TagKey<Item> tag, int tagCount,
+		@NotNull ItemLike result, int resultCount,
+		@NotNull AbstractProcessingRecipe.RecipeFactory<T> factory, String from
 	) {
 		try {
 			final HolderLookup.RegistryLookup<Item> registryLookup =
@@ -138,8 +140,8 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
-		TagKey<Item> tag, int tagCount,
-		ItemLike result, int resultCount
+		@NotNull TagKey<Item> tag, int tagCount,
+		@NotNull ItemLike result, int resultCount
 	) {
 		createRecipe(tag, tagCount,
 			result, resultCount,
@@ -156,8 +158,8 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCompressorRecipe(
-		TagKey<Item> tag, int tagCount,
-		ItemLike result, int resultCount
+		@NotNull TagKey<Item> tag, int tagCount,
+		@NotNull ItemLike result, int resultCount
 	) {
 		createRecipe(tag, tagCount,
 			result, resultCount,

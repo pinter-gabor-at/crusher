@@ -2,6 +2,7 @@ package eu.pintergabor.crusher.blocks.base;
 
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import eu.pintergabor.crusher.recipe.base.OneStackRecipeInput;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
@@ -45,10 +46,10 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * @return true if nothing prevents crafting.
 	 */
 	static boolean canCraft(
-		ItemStack inputStack,
-		ItemStack outputStack,
+		@NotNull ItemStack inputStack,
+		@NotNull ItemStack outputStack,
 		int inputCount,
-		ItemStack resultStack,
+		@NotNull ItemStack resultStack,
 		int maxCount
 	) {
 		if (inputStack.isEmpty() || inputStack.getCount() < inputCount) {
@@ -153,7 +154,7 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	static int getCookTime(
-		ServerLevel level, AbstractProcessingBlockEntity processor
+		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor
 	) {
 		final OneStackRecipeInput oneStackRecipeInput =
 			new OneStackRecipeInput(processor.getItem(AbstractProcessingBlockEntity.INPUT_SLOT_INDEX));
@@ -165,7 +166,7 @@ public abstract sealed class StaticProcessingBlockEntity
 	}
 
 	private static @Nullable RecipeHolder<? extends AbstractProcessingRecipe> getRecipeEntry(
-		ServerLevel level, AbstractProcessingBlockEntity processor,
+		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor,
 		OneStackRecipeInput oneStackRecipeInput
 	) {
 		return processor.matchGetter.getRecipeFor(oneStackRecipeInput, level).orElse(null);
@@ -177,20 +178,20 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * @return true if the state or appearance of the processor must be updated.
 	 */
 	private static boolean canStart(
-		ServerLevel level, AbstractProcessingBlockEntity processor,
+		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor,
 		ItemStack fuelStack
 	) {
 		boolean changed = false;
 		processor.litTimeRemaining = processor.getFuelTime(level.fuelValues(), fuelStack);
 		processor.litTotalTime = processor.litTimeRemaining;
 		// Need more fuel to continue.
-		if (processor.isBurning()) {
+		if (processor.isLit()) {
 			changed = true;
 			if (!fuelStack.isEmpty()) {
 				final Item item = fuelStack.getItem();
 				fuelStack.shrink(1);
 				if (fuelStack.isEmpty()) {
-					processor.inventory.set(AbstractProcessingBlockEntity.FUEL_SLOT_INDEX, item.getCraftingRemainder());
+					processor.items.set(AbstractProcessingBlockEntity.FUEL_SLOT_INDEX, item.getCraftingRemainder());
 				}
 			}
 		}
@@ -203,7 +204,7 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * @return true if the state or appearance of the processor must be updated.
 	 */
 	private static boolean canEnd(
-		ServerLevel level, AbstractProcessingBlockEntity processor,
+		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor,
 		RecipeHolder<? extends AbstractProcessingRecipe> recipeEntry, OneStackRecipeInput oneStackRecipeInput
 	) {
 		processor.cookingTimer++;
@@ -214,7 +215,7 @@ public abstract sealed class StaticProcessingBlockEntity
 				level.registryAccess(),
 				recipeEntry,
 				oneStackRecipeInput,
-				processor.inventory,
+				processor.items,
 				processor.getMaxStackSize())
 			) {
 				processor.setRecipeUsed(recipeEntry);
@@ -232,7 +233,7 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * @return true if the state or appearance of the processor must be updated.
 	 */
 	private static boolean canWork(
-		ServerLevel level, AbstractProcessingBlockEntity processor,
+		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor,
 		ItemStack inputStack, ItemStack fuelStack
 	) {
 		boolean changed = false;
@@ -245,13 +246,13 @@ public abstract sealed class StaticProcessingBlockEntity
 			level.registryAccess(),
 			recipeEntry,
 			oneStackRecipeInput,
-			processor.inventory,
+			processor.items,
 			processor.getMaxStackSize());
-		if (!processor.isBurning() && canMakeOutput) {
+		if (!processor.isLit() && canMakeOutput) {
 			// Start processing a new input item.
 			changed = canStart(level, processor, fuelStack);
 		}
-		if (processor.isBurning() && canMakeOutput) {
+		if (processor.isLit() && canMakeOutput) {
 			// End processing one input item and generate output.
 			changed = changed || canEnd(level, processor, recipeEntry, oneStackRecipeInput);
 		} else {
@@ -263,8 +264,8 @@ public abstract sealed class StaticProcessingBlockEntity
 	/**
 	 * Continue processing the input item.
 	 */
-	private static void continueWork(AbstractProcessingBlockEntity processor) {
-		if (!processor.isBurning() && 0 < processor.cookingTimer) {
+	private static void continueWork(@NotNull AbstractProcessingBlockEntity processor) {
+		if (!processor.isLit() && 0 < processor.cookingTimer) {
 			processor.cookingTimer = Mth.clamp(
 				processor.cookingTimer - 2, 0, processor.cookingTotalTime);
 		}
@@ -274,20 +275,23 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * Similar to {@link AbstractFurnaceBlockEntity}, but allows multiple input and output counts.
 	 */
 	public static void serverTick(
-		ServerLevel level, BlockPos pos, BlockState state, AbstractProcessingBlockEntity processor
+		@NotNull ServerLevel level,
+		@NotNull BlockPos pos,
+		@NotNull BlockState state,
+		@NotNull AbstractProcessingBlockEntity processor
 	) {
-		final boolean burning = processor.isBurning();
+		final boolean burning = processor.isLit();
 		boolean changed = false;
 		// Count down burning time.
 		if (burning) {
 			processor.litTimeRemaining--;
 		}
 		// Check if starting / continuing processing is possible.
-		final ItemStack inputStack = processor.inventory.get(AbstractProcessingBlockEntity.INPUT_SLOT_INDEX);
-		final ItemStack fuelStack = processor.inventory.get(AbstractProcessingBlockEntity.FUEL_SLOT_INDEX);
+		final ItemStack inputStack = processor.items.get(AbstractProcessingBlockEntity.INPUT_SLOT_INDEX);
+		final ItemStack fuelStack = processor.items.get(AbstractProcessingBlockEntity.FUEL_SLOT_INDEX);
 		final boolean hasInput = !inputStack.isEmpty();
 		final boolean hasFuel = !fuelStack.isEmpty();
-		if (processor.isBurning() || (hasFuel && hasInput)) {
+		if (processor.isLit() || (hasFuel && hasInput)) {
 			// Can the processor start or end processing?
 			changed = canWork(level, processor, inputStack, fuelStack);
 		} else {
@@ -295,9 +299,9 @@ public abstract sealed class StaticProcessingBlockEntity
 			continueWork(processor);
 		}
 		// Burning state changed.
-		if (burning != processor.isBurning()) {
+		if (burning != processor.isLit()) {
 			changed = true;
-			state = state.setValue(AbstractFurnaceBlock.LIT, processor.isBurning());
+			state = state.setValue(AbstractFurnaceBlock.LIT, processor.isLit());
 			level.setBlock(pos, state, Block.UPDATE_ALL);
 		}
 		// Something changed -> redraw.

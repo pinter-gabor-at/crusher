@@ -9,6 +9,8 @@ import net.minecraft.client.data.models.model.TexturedModel;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public final class ModModelProvider extends FabricModelProvider {
 
@@ -20,7 +22,7 @@ public final class ModModelProvider extends FabricModelProvider {
 	 * Generate block models and block states.
 	 */
 	@Override
-	public void generateBlockStateModels(BlockModelGenerators blockModelGenerator) {
+	public void generateBlockStateModels(@NotNull BlockModelGenerators blockModelGenerator) {
 		blockModelGenerator.createFurnace(ModBlocks.CRUSHER_BLOCK, TexturedModel.ORIENTABLE_ONLY_TOP);
 		blockModelGenerator.createFurnace(ModBlocks.COMPRESSOR_BLOCK, TexturedModel.ORIENTABLE_ONLY_TOP);
 	}
@@ -29,7 +31,7 @@ public final class ModModelProvider extends FabricModelProvider {
 	 * Generate item models.
 	 */
 	@Override
-	public void generateItemModels(ItemModelGenerators itemModelGenerator) {
+	public void generateItemModels(@NotNull ItemModelGenerators itemModelGenerator) {
 		// All item models come from the corresponding block model.
 	}
 }
