@@ -15,8 +15,9 @@ import net.minecraft.world.level.block.Block;
 
 public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 
-	protected ModRecipeGenerator(
-		HolderLookup.Provider registries, RecipeOutput output) {
+	public ModRecipeGenerator(
+		HolderLookup.Provider registries, RecipeOutput output
+	) {
 		super(registries, output);
 	}
 
@@ -248,6 +249,13 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.GREEN_CONCRETE, 1, Items.GREEN_CONCRETE_POWDER, 1);
 		createCrusherRecipe(Items.RED_CONCRETE, 1, Items.RED_CONCRETE_POWDER, 1);
 		createCrusherRecipe(Items.BLACK_CONCRETE, 1, Items.BLACK_CONCRETE_POWDER, 1);
+		// Copper nuggets from copper things.
+		// 11 nuggets => 2 nuggets + 1 ingot => 1 chain => 11 nuggets
+		createCrusherRecipe(Items.COPPER_CHAIN, 1, Items.COPPER_NUGGET, 11);
+		// 54 nuggets => 6 ingots => 16 copper bars => 64 nuggets
+		// This allows free generation of copper, for those who discover it.
+		createCrusherRecipe(Items.COPPER_BARS, 1, Items.COPPER_NUGGET, 4);
+		createCrusherRecipe(Items.COPPER_LANTERN, 1, Items.COPPER_NUGGET, 8);
 		// Copper from things made of copper.
 		createCrusherRecipe(Items.COPPER_ORE, 1, Items.RAW_COPPER, 4);
 		createCrusherRecipe(Items.DEEPSLATE_COPPER_ORE, 1, Items.RAW_COPPER, 4);
@@ -311,10 +319,11 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.STICKY_PISTON, 1, Items.RAW_IRON, 1);
 		// Iron nuggets from iron things.
 		// 11 nuggets => 2 nuggets + 1 ingot => 1 chain => 11 nuggets
-		createCrusherRecipe(Items.CHAIN, 1, Items.IRON_NUGGET, 11);
+		createCrusherRecipe(Items.IRON_CHAIN, 1, Items.IRON_NUGGET, 11);
 		// 54 nuggets => 6 ingots => 16 iron bars => 64 nuggets
 		// This allows free generation of iron, for those who discover it.
 		createCrusherRecipe(Items.IRON_BARS, 1, Items.IRON_NUGGET, 4);
+		createCrusherRecipe(Items.LANTERN, 1, Items.IRON_NUGGET, 8);
 		// Gold from things made of gold.
 		cookingTime = 150;
 		createCrusherRecipe(Items.GOLD_ORE, 1, Items.RAW_GOLD, 4);
