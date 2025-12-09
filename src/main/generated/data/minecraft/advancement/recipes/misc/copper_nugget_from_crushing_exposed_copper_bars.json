@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_chain": {
+    "has_exposed_copper_bars": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:chain"
+            "items": "minecraft:exposed_copper_bars"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:iron_nugget_from_crushing_chain"
+        "recipe": "minecraft:copper_nugget_from_crushing_exposed_copper_bars"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_chain"
+      "has_exposed_copper_bars"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:iron_nugget_from_crushing_chain"
+      "minecraft:copper_nugget_from_crushing_exposed_copper_bars"
     ]
   }
 }
