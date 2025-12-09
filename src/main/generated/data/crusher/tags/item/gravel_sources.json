@@ -1,7 +1,13 @@
 {
   "values": [
-    "#c:stones",
-    "#c:cobblestones",
+    {
+      "id": "#c:stones",
+      "required": false
+    },
+    {
+      "id": "#c:cobblestones",
+      "required": false
+    },
     "minecraft:basalt",
     "minecraft:blackstone",
     "minecraft:cobblestone_slab",
