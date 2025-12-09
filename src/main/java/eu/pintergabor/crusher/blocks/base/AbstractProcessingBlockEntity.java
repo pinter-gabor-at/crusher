@@ -166,7 +166,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@SuppressWarnings("deprecation")
-	protected int getFuelTime(FuelValues fuelValues, ItemStack stack) {
+	protected int getFuelTime(@NotNull FuelValues fuelValues, ItemStack stack) {
 		return fuelValues.burnDuration(stack);
 	}
 

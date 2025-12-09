@@ -10,7 +10,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
@@ -181,21 +180,20 @@ public abstract sealed class StaticProcessingBlockEntity
 		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor,
 		ItemStack fuelStack
 	) {
-		boolean changed = false;
 		processor.litTimeRemaining = processor.getFuelTime(level.fuelValues(), fuelStack);
 		processor.litTotalTime = processor.litTimeRemaining;
 		// Need more fuel to continue.
 		if (processor.isLit()) {
-			changed = true;
 			if (!fuelStack.isEmpty()) {
-				final Item item = fuelStack.getItem();
+				final ItemStack remainder = fuelStack.getCraftingRemainder();
 				fuelStack.shrink(1);
 				if (fuelStack.isEmpty()) {
-					processor.items.set(AbstractProcessingBlockEntity.FUEL_SLOT_INDEX, item.getCraftingRemainder());
+					processor.items.set(AbstractProcessingBlockEntity.FUEL_SLOT_INDEX, remainder);
 				}
 			}
+			return true;
 		}
-		return changed;
+		return false;
 	}
 
 	/**
