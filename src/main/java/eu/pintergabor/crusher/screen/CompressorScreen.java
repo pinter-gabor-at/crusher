@@ -5,8 +5,6 @@ import java.util.List;
 import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.screen.base.AbstractProcessingScreen;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
@@ -23,7 +21,6 @@ import net.minecraft.world.item.Items;
  * Texture and sprite sizes are defined in
  * {@link AbstractProcessingScreen#renderBg(GuiGraphics, float, int, int)}.
  */
-@OnlyIn(Dist.CLIENT)
 public class CompressorScreen extends AbstractProcessingScreen<CompressorMenu> {
 	// The entire GUI (176x166).
 	private static final ResourceLocation TEXTURE =

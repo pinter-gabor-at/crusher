@@ -2,8 +2,6 @@ package eu.pintergabor.crusher.screen.base;
 
 import java.util.List;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -23,7 +21,6 @@ import net.minecraft.world.item.crafting.display.RecipeDisplay;
 /**
  * Similar to {@link FurnaceRecipeBookComponent}.
  */
-@OnlyIn(Dist.CLIENT)
 public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<AbstractProcessingMenu> {
 	private static final WidgetSprites FILTER_SPRITES = new WidgetSprites(
 		ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_enabled"),
@@ -46,7 +43,7 @@ public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<A
 	}
 
 	@Override
-	protected boolean isCraftingSlot(Slot slot) {
+	protected boolean isCraftingSlot(@NotNull Slot slot) {
 		return 0 <= slot.index && slot.index <= 2;
 	}
 
@@ -75,7 +72,7 @@ public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<A
 
 	@Override
 	protected void selectMatchingRecipes(
-		RecipeCollection possibleRecipes,
+		@NotNull RecipeCollection possibleRecipes,
 		@NotNull StackedItemContents contents
 	) {
 		possibleRecipes.selectRecipes(contents, recipeDisplay ->

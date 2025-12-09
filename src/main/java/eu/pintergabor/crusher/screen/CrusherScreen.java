@@ -14,9 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Items;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-
 
 /**
  * Similar to {@link FurnaceScreen}, but with fewer tabs.
@@ -24,7 +21,6 @@ import net.neoforged.api.distmarker.OnlyIn;
  * Texture and sprite sizes are defined in
  * {@link AbstractProcessingScreen#renderBg(GuiGraphics, float, int, int)}.
  */
-@OnlyIn(Dist.CLIENT)
 public class CrusherScreen extends AbstractProcessingScreen<CrusherMenu> {
 	// The entire GUI (176x166).
 	private static final ResourceLocation TEXTURE =

@@ -1,7 +1,5 @@
 package eu.pintergabor.crusher.screen.base;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.screens.recipebook.GhostSlots;
@@ -15,7 +13,6 @@ import net.minecraft.world.item.crafting.display.SlotDisplay;
  * Same as {@link GhostSlots},
  * but with access wideners.
  */
-@OnlyIn(Dist.CLIENT)
 public class ProcessingGhostSlots extends GhostSlots {
 
 	public ProcessingGhostSlots(SlotSelectTime slotSelectTime) {
