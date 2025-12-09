@@ -4,6 +4,7 @@ import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import eu.pintergabor.crusher.recipe.base.ProcessingRecipeBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -13,10 +14,9 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.WeatheringCopperItems;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-
-import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -31,7 +31,7 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	}
 
 	/**
-	 * Create a crushing or a compressing recipe from input item.
+	 * Create a crushing or a compressing recipe from an input item.
 	 *
 	 * @param input       Input item.
 	 * @param inputCount  Number of input items.
@@ -60,7 +60,7 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	}
 
 	/**
-	 * Create crushing recipe from input item.
+	 * Create crushing recipe from an input item.
 	 *
 	 * @param input       Input item.
 	 * @param inputCount  Number of input items.
@@ -78,7 +78,7 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	}
 
 	/**
-	 * Create compressing recipe from input item.
+	 * Create compressing recipe from an input item.
 	 *
 	 * @param input       Input item.
 	 * @param inputCount  Number of input items.
@@ -96,7 +96,7 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	}
 
 	/**
-	 * Create a crushing or a compressing recipe from input item tag.
+	 * Create a crushing or a compressing recipe from an input item tag.
 	 *
 	 * @param tag         Input item tag.
 	 * @param tagCount    Number of input items.
@@ -131,7 +131,7 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	}
 
 	/**
-	 * Create crushing recipe from input item tag.
+	 * Create crushing recipe from an input item tag.
 	 *
 	 * @param tag         Input item tag.
 	 * @param tagCount    Number of input items.
@@ -149,7 +149,7 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	}
 
 	/**
-	 * Create compressing recipe from input item tag.
+	 * Create compressing recipe from an input item tag.
 	 *
 	 * @param tag         Input item tag.
 	 * @param tagCount    Number of input items.
@@ -164,5 +164,21 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 		createRecipe(tag, tagCount,
 			result, resultCount,
 			CompressorRecipe::new, "_from_compressing_");
+	}
+
+	/**
+	 * Create crushing recipe from a wheathering copper input item.
+	 *
+	 * @param copperItem  Input item.
+	 * @param inputCount  Number of input items.
+	 * @param result      Output item.
+	 * @param resultCount Number of output items.
+	 */
+	@SuppressWarnings({"unused", "SameParameterValue"})
+	protected void createCrusherRecipe(
+		@NotNull WeatheringCopperItems copperItem, int inputCount,
+		@NotNull ItemLike result, int resultCount
+	) {
+		copperItem.forEach(item -> createCrusherRecipe(item, inputCount, result, resultCount));
 	}
 }

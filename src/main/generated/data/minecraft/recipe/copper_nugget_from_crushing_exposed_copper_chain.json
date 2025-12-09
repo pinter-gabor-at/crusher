@@ -3,10 +3,10 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.1,
-  "ingredient": "minecraft:chain",
+  "ingredient": "minecraft:exposed_copper_chain",
   "ingredient_count": 1,
   "result": {
     "count": 11,
-    "id": "minecraft:iron_nugget"
+    "id": "minecraft:copper_nugget"
   }
 }
