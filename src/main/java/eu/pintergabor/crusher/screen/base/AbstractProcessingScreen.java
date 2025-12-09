@@ -64,7 +64,7 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+	protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
 		// Full (176x166) size background.
 		guiGraphics.blit(
 			RenderType::guiTextured,

@@ -46,7 +46,7 @@ public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<A
 	}
 
 	@Override
-	protected boolean isCraftingSlot(Slot slot) {
+	protected boolean isCraftingSlot(@NotNull Slot slot) {
 		return 0 <= slot.index && slot.index <= 2;
 	}
 
@@ -75,7 +75,7 @@ public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<A
 
 	@Override
 	protected void selectMatchingRecipes(
-		RecipeCollection possibleRecipes,
+		@NotNull RecipeCollection possibleRecipes,
 		@NotNull StackedItemContents contents
 	) {
 		possibleRecipes.selectRecipes(contents, recipeDisplay ->

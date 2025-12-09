@@ -16,6 +16,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BlastFurnaceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public final class BlockUtil {
 
@@ -30,7 +32,10 @@ public final class BlockUtil {
 	 * Based on {@link BlastFurnaceBlock#animateTick(BlockState, Level, BlockPos, RandomSource)}.
 	 */
 	public static void randomBlockTick(
-		BlockState state, Level level, BlockPos pos, RandomSource random
+		@NotNull BlockState state,
+		@NotNull Level level,
+		@NotNull BlockPos pos,
+		@NotNull RandomSource random
 	) {
 		if (state.getValueOrElse(LIT, false)) {
 			// Sound comes from the center-bottom of the block.

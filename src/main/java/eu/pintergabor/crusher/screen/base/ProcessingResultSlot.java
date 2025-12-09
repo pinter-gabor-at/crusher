@@ -50,7 +50,7 @@ public class ProcessingResultSlot extends Slot {
 	}
 
 	@Override
-	protected void checkTakeAchievements(ItemStack stack) {
+	protected void checkTakeAchievements(@NotNull ItemStack stack) {
 		stack.onCraftedBy(player, removeCount);
 		if (player instanceof ServerPlayer serverPlayerEntity &&
 			container instanceof AbstractProcessingBlockEntity abstractProcessingBlockEntity) {
