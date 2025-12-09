@@ -29,9 +29,9 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
 	public CrusherRecipe(
 		String group,
 		CookingBookCategory category,
-		Ingredient ingredient,
+		@NotNull Ingredient ingredient,
 		int ingredientCount,
-		ItemStack result,
+		@NotNull ItemStack result,
 		float experience,
 		int cookingTime) {
 		super(

@@ -1,9 +1,10 @@
 package eu.pintergabor.crusher.recipe.base;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
-import org.jetbrains.annotations.NotNull;
 
 
 /**

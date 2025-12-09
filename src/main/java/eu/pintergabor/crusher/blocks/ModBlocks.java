@@ -35,6 +35,7 @@ public final class ModBlocks {
 
 	/**
 	 * Create and register a {@link Block}.
+	 *
 	 * @param path    The name of the entity, without MODID.
 	 * @param factory The constructor of the block.
 	 * @return The new block.

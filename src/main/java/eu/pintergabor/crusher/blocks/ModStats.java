@@ -1,6 +1,7 @@
 package eu.pintergabor.crusher.blocks;
 
 import eu.pintergabor.crusher.Global;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,7 +22,7 @@ public final class ModStats {
 	/**
 	 * Register statistics.
 	 */
-	private static Stat<ResourceLocation> register(String path) {
+	private static @NotNull Stat<ResourceLocation> register(@NotNull String path) {
 		ResourceLocation id = Global.modId(path);
 		return Stats.CUSTOM.get(
 			Registry.register(BuiltInRegistries.CUSTOM_STAT, id, id),

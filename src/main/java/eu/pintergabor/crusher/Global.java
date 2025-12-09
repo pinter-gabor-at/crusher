@@ -31,7 +31,7 @@ public final class Global {
 	 */
 	@Contract(pure = true)
 	@SuppressWarnings("unused")
-	public static @NotNull String modName(String path) {
+	public static @NotNull String modName(@NotNull String path) {
 		return MODID + ":" + path;
 	}
 
@@ -42,7 +42,7 @@ public final class Global {
 	 */
 	@Contract("_ -> new")
 	@SuppressWarnings("unused")
-	public static @NotNull ResourceLocation modId(String path) {
+	public static @NotNull ResourceLocation modId(@NotNull String path) {
 		return ResourceLocation.fromNamespaceAndPath(MODID, path);
 	}
 }

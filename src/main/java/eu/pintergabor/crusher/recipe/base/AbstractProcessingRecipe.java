@@ -42,10 +42,11 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	public AbstractProcessingRecipe(
 		String group,
 		CookingBookCategory category,
-		ItemStack input,
-		ItemStack result,
+		@NotNull ItemStack input,
+		@NotNull ItemStack result,
 		float experience,
-		int cookingTime) {
+		int cookingTime
+	) {
 		super(group, input, result);
 		this.category = category;
 		this.experience = experience;
@@ -63,11 +64,12 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	public AbstractProcessingRecipe(
 		String group,
 		CookingBookCategory category,
-		Ingredient input,
+		@NotNull Ingredient input,
 		int inputCount,
-		ItemStack result,
+		@NotNull ItemStack result,
 		float experience,
-		int cookingTime) {
+		int cookingTime
+	) {
 		super(group, input, inputCount, result);
 		this.category = category;
 		this.experience = experience;
