@@ -22,7 +22,7 @@
       "eu.pintergabor.crusher.ModClient"
     ],
     "fabric-datagen": [
-      "eu.pintergabor.crusher.DataGen"
+      "eu.pintergabor.crusher.ModDataGenerator"
     ]
   },
   "depends": {

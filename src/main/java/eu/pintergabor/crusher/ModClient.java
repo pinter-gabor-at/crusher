@@ -21,6 +21,6 @@ public final class ModClient {
 		// GUI screens.
 		modEventBus.addListener(ModScreenHandlers::listener);
 		// Data generator.
-		modEventBus.addListener(DataGen::listener);
+		modEventBus.addListener(ModDataGenerator::listener);
 	}
 }

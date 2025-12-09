@@ -41,6 +41,30 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 	 */
 	public static final TagKey<Item> FOODS_NORMAL_VEGETABLE = createCItemTag("foods/normal_vegetable");
 	/**
+	 * Wooden stairs.
+	 */
+	public static final TagKey<Item> WOODEN_STAIRS = createCItemTag("stairs/wood");
+	/**
+	 * Wooden slabs.
+	 */
+	public static final TagKey<Item> WOODEN_SLABS = createCItemTag("slabs/wood");
+	/**
+	 * Wooden pressure plates.
+	 */
+	public static final TagKey<Item> WOODEN_PRESSURE_PLATES = createCItemTag("pressure_plates/wood");
+	/**
+	 * Wooden signs.
+	 */
+	public static final TagKey<Item> WOODEN_SIGNS = createCItemTag("signs/wood");
+	/**
+	 * Wooden fences.
+	 */
+	public static final TagKey<Item> WOODEN_FENCES = createCItemTag("fences/wood");
+	/**
+	 * Wooden fence gates.
+	 */
+	public static final TagKey<Item> WOODEN_FENCE_GATES = createCItemTag("fence_gates/wood");
+	/**
 	 * Copper blocks.
 	 */
 	public static final TagKey<Item> COPPER_BLOCKS = createCItemTag("storage_blocks/copper");
@@ -161,6 +185,36 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 		tag(FOODS_NORMAL_VEGETABLE)
 			.add(
 				Items.CARROT, Items.POTATO, Items.BEETROOT);
+		tag(WOODEN_STAIRS)
+			.add(Items.OAK_STAIRS, Items.SPRUCE_STAIRS, Items.BIRCH_STAIRS,
+				Items.JUNGLE_STAIRS, Items.ACACIA_STAIRS, Items.DARK_OAK_STAIRS,
+				Items.MANGROVE_STAIRS, Items.CHERRY_STAIRS, Items.PALE_OAK_STAIRS,
+				Items.BAMBOO_STAIRS, Items.CRIMSON_STAIRS, Items.WARPED_STAIRS);
+		tag(WOODEN_SLABS)
+			.add(Items.OAK_SLAB, Items.SPRUCE_SLAB, Items.BIRCH_SLAB,
+				Items.JUNGLE_SLAB, Items.ACACIA_SLAB, Items.DARK_OAK_SLAB,
+				Items.MANGROVE_SLAB, Items.CHERRY_SLAB, Items.PALE_OAK_SLAB,
+				Items.BAMBOO_SLAB, Items.CRIMSON_SLAB, Items.WARPED_SLAB);
+		tag(WOODEN_PRESSURE_PLATES)
+			.add(Items.OAK_PRESSURE_PLATE, Items.SPRUCE_PRESSURE_PLATE, Items.BIRCH_PRESSURE_PLATE,
+				Items.JUNGLE_PRESSURE_PLATE, Items.ACACIA_PRESSURE_PLATE, Items.DARK_OAK_PRESSURE_PLATE,
+				Items.MANGROVE_PRESSURE_PLATE, Items.CHERRY_PRESSURE_PLATE, Items.PALE_OAK_PRESSURE_PLATE,
+				Items.BAMBOO_PRESSURE_PLATE, Items.CRIMSON_PRESSURE_PLATE, Items.WARPED_PRESSURE_PLATE);
+		tag(WOODEN_SIGNS)
+			.add(Items.OAK_SIGN, Items.SPRUCE_SIGN, Items.BIRCH_SIGN,
+				Items.JUNGLE_SIGN, Items.ACACIA_SIGN, Items.DARK_OAK_SIGN,
+				Items.MANGROVE_SIGN, Items.CHERRY_SIGN, Items.PALE_OAK_SIGN,
+				Items.BAMBOO_SIGN, Items.CRIMSON_SIGN, Items.WARPED_SIGN);
+		tag(WOODEN_FENCES)
+			.add(Items.OAK_FENCE, Items.SPRUCE_FENCE, Items.BIRCH_FENCE,
+				Items.JUNGLE_FENCE, Items.ACACIA_FENCE, Items.DARK_OAK_FENCE,
+				Items.MANGROVE_FENCE, Items.CHERRY_FENCE, Items.PALE_OAK_FENCE,
+				Items.BAMBOO_FENCE, Items.CRIMSON_FENCE, Items.WARPED_FENCE);
+		tag(WOODEN_FENCE_GATES)
+			.add(Items.OAK_FENCE_GATE, Items.SPRUCE_FENCE_GATE, Items.BIRCH_FENCE_GATE,
+				Items.JUNGLE_FENCE_GATE, Items.ACACIA_FENCE_GATE, Items.DARK_OAK_FENCE_GATE,
+				Items.MANGROVE_FENCE_GATE, Items.CHERRY_FENCE_GATE, Items.PALE_OAK_FENCE_GATE,
+				Items.BAMBOO_FENCE_GATE, Items.CRIMSON_FENCE_GATE, Items.WARPED_FENCE_GATE);
 		tag(COPPER_BLOCKS)
 			.add(
 				Items.COPPER_BLOCK, Items.WAXED_COPPER_BLOCK,
