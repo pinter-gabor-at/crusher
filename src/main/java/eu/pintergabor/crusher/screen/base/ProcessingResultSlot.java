@@ -20,7 +20,8 @@ public class ProcessingResultSlot extends Slot {
 
 	public ProcessingResultSlot(
 		Player player, Container container,
-		int slot, int x, int y) {
+		int slot, int x, int y
+	) {
 		super(container, slot, x, y);
 		this.player = player;
 	}
@@ -50,11 +51,11 @@ public class ProcessingResultSlot extends Slot {
 	}
 
 	@Override
-	protected void checkTakeAchievements(@NotNull ItemStack stack) {
+	protected void checkTakeAchievements(ItemStack stack) {
 		stack.onCraftedBy(player, removeCount);
-		if (player instanceof ServerPlayer serverPlayerEntity &&
-			container instanceof AbstractProcessingBlockEntity abstractProcessingBlockEntity) {
-			abstractProcessingBlockEntity.awardUsedRecipesAndPopExperience(serverPlayerEntity);
+		if (player instanceof ServerPlayer serverPlayer &&
+			container instanceof AbstractProcessingBlockEntity processor) {
+			processor.awardUsedRecipesAndPopExperience(serverPlayer);
 		}
 		removeCount = 0;
 	}
