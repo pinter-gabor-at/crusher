@@ -40,8 +40,8 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 	protected AbstractProcessingMenu(
 		MenuType<?> menuType,
 		int containerId,
-		Inventory playerInventory,
-		Container container,
+		@NotNull Inventory playerInventory,
+		@NotNull Container container,
 		ContainerData data
 	) {
 		super(menuType, containerId);
@@ -61,12 +61,12 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 	}
 
 	protected AbstractProcessingMenu(
-		MenuType<?> type,
+		MenuType<?> menuType,
 		int syncId,
 		Inventory playerInventory
 	) {
 		this(
-			type,
+			menuType,
 			syncId,
 			playerInventory,
 			new SimpleContainer(3),

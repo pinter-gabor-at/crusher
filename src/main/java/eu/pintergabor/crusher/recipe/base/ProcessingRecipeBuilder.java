@@ -99,7 +99,7 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 	}
 
 	@Override
-	public void save(RecipeOutput output, @NotNull ResourceKey<Recipe<?>> resourceKey) {
+	public void save(@NotNull RecipeOutput output, @NotNull ResourceKey<Recipe<?>> resourceKey) {
 		Advancement.Builder builder = output.advancement()
 			.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceKey))
 			.rewards(AdvancementRewards.Builder.recipe(resourceKey))
