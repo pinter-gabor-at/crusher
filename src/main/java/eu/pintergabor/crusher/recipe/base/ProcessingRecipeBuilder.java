@@ -12,7 +12,7 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -119,7 +119,7 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 		output.accept(
 			resourceKey,
 			abstractProcessingRecipe,
-			builder.build(resourceKey.location()
+			builder.build(resourceKey.identifier()
 				.withPrefix("recipes/" + category.getFolderName() + "/")));
 	}
 }

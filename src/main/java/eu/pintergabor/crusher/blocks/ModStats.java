@@ -5,15 +5,15 @@ import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.stats.Stat;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
 
 
 public final class ModStats {
-	public static final Stat<ResourceLocation> CRUSHER_STAT = register("crusher_interactions");
-	public static final Stat<ResourceLocation> COMPRESSOR_STAT = register("compressor_interactions");
+	public static final Stat<Identifier> CRUSHER_STAT = register("crusher_interactions");
+	public static final Stat<Identifier> COMPRESSOR_STAT = register("compressor_interactions");
 
 	private ModStats() {
 		// Static class.
@@ -22,8 +22,8 @@ public final class ModStats {
 	/**
 	 * Register statistics.
 	 */
-	private static @NotNull Stat<ResourceLocation> register(@NotNull String path) {
-		ResourceLocation id = Global.modId(path);
+	private static @NotNull Stat<Identifier> register(@NotNull String path) {
+		Identifier id = Global.modId(path);
 		return Stats.CUSTOM.get(
 			Registry.register(BuiltInRegistries.CUSTOM_STAT, id, id),
 			StatFormatter.DEFAULT);
