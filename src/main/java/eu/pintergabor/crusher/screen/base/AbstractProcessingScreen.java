@@ -11,7 +11,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -21,18 +21,18 @@ import net.minecraft.world.entity.player.Inventory;
  */
 public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 	extends AbstractRecipeBookScreen<T> {
-	private final ResourceLocation background;
-	private final ResourceLocation litProgressSprite;
-	private final ResourceLocation burnProgressSprite;
+	private final Identifier background;
+	private final Identifier litProgressSprite;
+	private final Identifier burnProgressSprite;
 
 	public AbstractProcessingScreen(
 		T menu,
 		Inventory playerInventory,
 		Component title,
 		Component recipeFilterName,
-		ResourceLocation background,
-		ResourceLocation litProgressSprite,
-		ResourceLocation burnProgressSprite,
+		Identifier background,
+		Identifier litProgressSprite,
+		Identifier burnProgressSprite,
 		List<RecipeBookComponent.TabInfo> recipeBookTabs
 	) {
 		super(

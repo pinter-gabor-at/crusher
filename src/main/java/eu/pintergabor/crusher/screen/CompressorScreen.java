@@ -10,7 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Items;
 
@@ -23,13 +23,13 @@ import net.minecraft.world.item.Items;
  */
 public class CompressorScreen extends AbstractProcessingScreen<CompressorMenu> {
 	// The entire GUI (176x166).
-	private static final ResourceLocation TEXTURE =
+	private static final Identifier TEXTURE =
 		Global.modId("textures/gui/compressor_gui.png");
 	// The fire sprite in the middle (14x14) (textures/gui/sprites/...).
-	private static final ResourceLocation LIT_PROGRESS_SPRITE =
+	private static final Identifier LIT_PROGRESS_SPRITE =
 		Global.modId("container/compressor/lit_progress");
 	// The arrow sprite on the right (24x16) (textures/gui/sprites/...).
-	private static final ResourceLocation BURN_PROGRESS_SPRITE =
+	private static final Identifier BURN_PROGRESS_SPRITE =
 		Global.modId("container/compressor/burn_progress");
 	// The mouseover toggle text in the recipe book.
 	private static final Component FILTER_NAME =

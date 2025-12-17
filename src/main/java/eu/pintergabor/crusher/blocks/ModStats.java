@@ -4,13 +4,13 @@ import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.main.Main;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 
 public final class ModStats {
-	public static final DeferredHolder<ResourceLocation, ResourceLocation> CRUSHER_STAT =
+	public static final DeferredHolder<Identifier, Identifier> CRUSHER_STAT =
 		Main.STATS.register("crusher_interactions", () -> Global.modId("crusher_interactions"));
-	public static final DeferredHolder<ResourceLocation, ResourceLocation> COMPRESSOR_STAT =
+	public static final DeferredHolder<Identifier, Identifier> COMPRESSOR_STAT =
 		Main.STATS.register("compressor_interactions", () -> Global.modId("compressor_interactions"));
 
 	private ModStats() {
