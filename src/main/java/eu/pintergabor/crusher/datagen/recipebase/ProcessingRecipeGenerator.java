@@ -1,5 +1,6 @@
 package eu.pintergabor.crusher.datagen.recipebase;
 
+import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
@@ -23,7 +24,7 @@ import net.minecraft.world.level.ItemLike;
  */
 public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	public float experience = 0.1F;
-	public int cookingTime = 100;
+	public int processingTime = 100;
 
 	public ProcessingRecipeGenerator(HolderLookup.Provider registries, RecipeOutput output) {
 		super(registries, output);
@@ -46,18 +47,18 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 		final @NonNull String from
 	) {
 		final Ingredient ingredient = Ingredient.of(input);
+		final String recipeName = Global.modName(
+			getItemName(result.asItem()) + from + getItemName(input));
 		ProcessingRecipeBuilder.create(
 				ingredient,
 				inputCount,
 				new ItemStackTemplate(result.asItem(), resultCount),
 				experience,
-				cookingTime,
+				processingTime,
 				factory
 			)
 			.unlockedBy(getHasName(input), has(input))
-			.save(output,
-				getItemName(result.asItem()) + from + getItemName(input)
-			);
+			.save(output, recipeName);
 	}
 
 	/**
@@ -73,9 +74,11 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 		final @NonNull ItemLike input, final int inputCount,
 		final @NonNull ItemLike result, final int resultCount
 	) {
-		createRecipe(input, inputCount,
+		createRecipe(
+			input, inputCount,
 			result, resultCount,
-			CrusherRecipe::new, "_from_crushing_");
+			CrusherRecipe::new, "_from_crushing_"
+		);
 	}
 
 	/**
@@ -88,12 +91,14 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCompressorRecipe(
-		@NonNull ItemLike input, int inputCount,
-		@NonNull ItemLike result, int resultCount
+		final @NonNull ItemLike input, final int inputCount,
+		final @NonNull ItemLike result, final int resultCount
 	) {
-		createRecipe(input, inputCount,
+		createRecipe(
+			input, inputCount,
 			result, resultCount,
-			CompressorRecipe::new, "_from_compressing_");
+			CompressorRecipe::new, "_from_compressing_"
+		);
 	}
 
 	/**
@@ -116,19 +121,18 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 			final HolderLookup.RegistryLookup<Item> registryLookup =
 				registries.lookupOrThrow(Registries.ITEM);
 			final Ingredient ingredient = Ingredient.of(registryLookup.getOrThrow(tag));
+			final String recipeName = Global.modName(
+				getItemName(result.asItem()) + from + tag.location().getPath());
 			ProcessingRecipeBuilder.create(
 					ingredient,
 					tagCount,
 					new ItemStackTemplate(result.asItem(), resultCount),
 					experience,
-					cookingTime,
+					processingTime,
 					factory
 				)
 				.unlockedBy("has_" + tag.location().getPath(), has(tag))
-				.save(
-					output,
-					getItemName(result.asItem()) + from + tag.location().getPath()
-				);
+				.save(output, recipeName);
 		} catch (IllegalStateException e) {
 			// If the tag does not exist, then do not generate the recipe.
 		}
