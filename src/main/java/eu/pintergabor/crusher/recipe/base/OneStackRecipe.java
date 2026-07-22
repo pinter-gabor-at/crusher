@@ -99,42 +99,4 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	) {
 		return result.create();
 	}
-
-//	@Contract("_ -> new")
-//	public static <T extends OneStackRecipe> @NonNull MapCodec<T> simpleMapCodec(
-//		final OneStackRecipe.@NonNull Factory<T> factory
-//	) {
-//		return RecordCodecBuilder.mapCodec((i) -> i.group(
-//				CommonInfo.MAP_CODEC
-//					.forGetter(OneStackRecipe::commonInfo),
-//				Ingredient.CODEC.fieldOf("ingredient")
-//					.forGetter(OneStackRecipe::input),
-//				Codec.INT.fieldOf("ingredient_count")
-//					.orElse(1)
-//					.forGetter(OneStackRecipe::inputCount),
-//				ItemStackTemplate.CODEC.fieldOf("result")
-//					.forGetter(OneStackRecipe::result))
-//			.apply(i, factory::create));
-//	}
-//
-//	public static <T extends OneStackRecipe> @NonNull StreamCodec<RegistryFriendlyByteBuf, T> simpleStreamCodec(
-//		final OneStackRecipe.@NonNull Factory<T> factory
-//	) {
-//		return StreamCodec.composite(
-//			CommonInfo.STREAM_CODEC, OneStackRecipe::commonInfo,
-//			Ingredient.CONTENTS_STREAM_CODEC, OneStackRecipe::input,
-//			ByteBufCodecs.INT, OneStackRecipe::inputCount,
-//			ItemStackTemplate.STREAM_CODEC, OneStackRecipe::result,
-//			factory::create);
-//	}
-//
-//	@FunctionalInterface
-//	public interface Factory<T extends OneStackRecipe> {
-//		T create(
-//			Recipe.CommonInfo commonInfo,
-//			Ingredient ingredient,
-//			int ingredientCount,
-//			ItemStackTemplate result
-//		);
-//	}
 }

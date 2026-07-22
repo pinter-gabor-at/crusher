@@ -129,7 +129,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	protected void loadAdditional(ValueInput input) {
+	protected void loadAdditional(final @NonNull ValueInput input) {
 		super.loadAdditional(input);
 		items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(input, items);
@@ -165,7 +165,10 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	protected int getFuelTime(final @NonNull FuelValues fuelValues, ItemStack stack) {
+	protected int getFuelTime(
+		final @NonNull FuelValues fuelValues,
+		final @NonNull ItemStack stack
+	) {
 		return fuelValues.burnDuration(stack);
 	}
 
@@ -173,7 +176,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public int @NonNull [] getSlotsForFace(@NonNull Direction side) {
+	public int @NonNull [] getSlotsForFace(final @NonNull Direction side) {
 		return switch (side) {
 			case DOWN -> BOTTOM_SLOTS;
 			case UP -> TOP_SLOTS;

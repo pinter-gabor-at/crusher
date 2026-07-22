@@ -189,6 +189,7 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 		final @NonNull WeatheringCopperItems copperItem, final int inputCount,
 		final @NonNull ItemLike result, final int resultCount
 	) {
-		copperItem.forEach(item -> createCrusherRecipe(item, inputCount, result, resultCount));
+		copperItem.forEach(item ->
+			createCrusherRecipe(item, inputCount, result, resultCount));
 	}
 }

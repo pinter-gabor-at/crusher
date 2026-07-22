@@ -26,7 +26,7 @@ public abstract class AbstractProcessingBlock extends AbstractFurnaceBlock {
 	}
 
 	/**
-	 * Almost the same as {@link AbstractFurnaceBlock#createFurnaceTicker}.
+	 * Almost the same as {@link AbstractFurnaceBlock#createFurnaceTicker}, but with a different entity.
 	 */
 	protected static @Nullable <T extends BlockEntity> BlockEntityTicker<T>
 	createModTicker(
