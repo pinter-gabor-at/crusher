@@ -24,6 +24,7 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
  * but with unique serializer, type and category.
  */
 public class CrusherRecipe extends AbstractProcessingRecipe {
+	public static final String PROCESSING_NAME = "crushing";
 	public static final MapCodec<CrusherRecipe> MAP_CODEC =
 		processingMapCodec(CrusherRecipe::new, 100);
 	public static final StreamCodec<RegistryFriendlyByteBuf, CrusherRecipe> STREAM_CODEC =
@@ -54,11 +55,6 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
 	}
 
 	@Override
-	public @NonNull String group() {
-		return "crusher";
-	}
-
-	@Override
 	public @NonNull RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
 		return SERIALIZER;
 	}
@@ -82,15 +78,15 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
 		SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 		Registry.register(
 			BuiltInRegistries.RECIPE_SERIALIZER,
-			"crushing",
+			PROCESSING_NAME,
 			SERIALIZER
 		);
 		TYPE =
-			RecipeType.register("crushing");
+			RecipeType.register(PROCESSING_NAME);
 		CATEGORY =
 			Registry.register(
 				BuiltInRegistries.RECIPE_BOOK_CATEGORY,
-				"crusher",
+				PROCESSING_NAME,
 				new RecipeBookCategory()
 			);
 	}

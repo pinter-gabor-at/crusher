@@ -85,6 +85,16 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 
 	protected abstract Item getProcessorItem();
 
+	/**
+	 * No grouping by default.
+	 *
+	 * @return ""
+	 */
+	@Override
+	public @NonNull String group() {
+		return "";
+	}
+
 	@Override
 	public @NonNull List<RecipeDisplay> display() {
 		return List.of(
@@ -94,7 +104,9 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 				new SlotDisplay.ItemStackSlotDisplay(result()),
 				new SlotDisplay.ItemSlotDisplay(getProcessorItem()),
 				cookingTime,
-				experience));
+				experience
+			)
+		);
 	}
 
 	@FunctionalInterface
@@ -104,7 +116,8 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 			int ingredientCount,
 			ItemStackTemplate result,
 			float experience,
-			int cookingTime);
+			int cookingTime
+		);
 	}
 
 	public static <T extends AbstractProcessingRecipe> @NonNull MapCodec<T>
@@ -113,21 +126,20 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 		int defaultCookingTime
 	) {
 		return RecordCodecBuilder.mapCodec((i) -> i.group(
-				Ingredient.CODEC.fieldOf("ingredient")
-					.forGetter(OneStackRecipe::input),
-				Codec.INT.fieldOf("ingredient_count")
-					.orElse(1)
-					.forGetter(OneStackRecipe::inputCount),
-				ItemStackTemplate.CODEC.fieldOf("result")
-					.forGetter(OneStackRecipe::result),
-				Codec.FLOAT.fieldOf("experience")
-					.orElse(0F)
-					.forGetter(AbstractProcessingRecipe::experience),
-				Codec.INT.fieldOf("cookingtime")
-					.orElse(defaultCookingTime)
-					.forGetter(AbstractProcessingRecipe::cookingTime)
-			)
-			.apply(i, factory::create));
+			Ingredient.CODEC.fieldOf("ingredient")
+				.forGetter(OneStackRecipe::input),
+			Codec.INT.fieldOf("ingredient_count")
+				.orElse(1)
+				.forGetter(OneStackRecipe::inputCount),
+			ItemStackTemplate.CODEC.fieldOf("result")
+				.forGetter(OneStackRecipe::result),
+			Codec.FLOAT.fieldOf("experience")
+				.orElse(0F)
+				.forGetter(AbstractProcessingRecipe::experience),
+			Codec.INT.fieldOf("cookingtime")
+				.orElse(defaultCookingTime)
+				.forGetter(AbstractProcessingRecipe::cookingTime)
+		).apply(i, factory::create));
 	}
 
 	public static <T extends AbstractProcessingRecipe> @NonNull StreamCodec<RegistryFriendlyByteBuf, T>
@@ -140,6 +152,7 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 			ItemStackTemplate.STREAM_CODEC, OneStackRecipe::result,
 			ByteBufCodecs.FLOAT, AbstractProcessingRecipe::experience,
 			ByteBufCodecs.INT, AbstractProcessingRecipe::cookingTime,
-			factory::create);
+			factory::create
+		);
 	}
 }

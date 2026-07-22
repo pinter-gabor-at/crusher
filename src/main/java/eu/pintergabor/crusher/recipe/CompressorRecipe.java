@@ -3,9 +3,6 @@ package eu.pintergabor.crusher.recipe;
 import com.mojang.serialization.MapCodec;
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
-
-import net.minecraft.world.item.crafting.RecipeSerializers;
-
 import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.Registry;
@@ -27,6 +24,7 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
  * but with unique serializer, type and category.
  */
 public class CompressorRecipe extends AbstractProcessingRecipe {
+	public static final String PROCESSING_NAME = "compressing";
 	public static final MapCodec<CompressorRecipe> MAP_CODEC =
 		processingMapCodec(CompressorRecipe::new, 100);
 	public static final StreamCodec<RegistryFriendlyByteBuf, CompressorRecipe> STREAM_CODEC =
@@ -57,11 +55,6 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 	}
 
 	@Override
-	public @NonNull String group() {
-		return "compressor";
-	}
-
-	@Override
 	public @NonNull RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
 		return SERIALIZER;
 	}
@@ -83,17 +76,17 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 	 */
 	public static void register() {
 		SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
-			Registry.register(
-				BuiltInRegistries.RECIPE_SERIALIZER,
-				"compressing",
-				SERIALIZER
-			);
+		Registry.register(
+			BuiltInRegistries.RECIPE_SERIALIZER,
+			PROCESSING_NAME,
+			SERIALIZER
+		);
 		TYPE =
-			RecipeType.register("compressing");
+			RecipeType.register(PROCESSING_NAME);
 		CATEGORY =
 			Registry.register(
 				BuiltInRegistries.RECIPE_BOOK_CATEGORY,
-				"compressor",
+				PROCESSING_NAME,
 				new RecipeBookCategory()
 			);
 	}
