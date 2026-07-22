@@ -1,6 +1,5 @@
 {
   "type": "minecraft:compressing",
-  "category": "misc",
   "cookingtime": 200,
   "experience": 0.1,
   "ingredient": "minecraft:golden_pickaxe",

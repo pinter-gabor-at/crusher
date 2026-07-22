@@ -1,14 +1,16 @@
 package eu.pintergabor.crusher.recipe;
 
+import com.mojang.serialization.MapCodec;
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeBookCategories;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
@@ -22,26 +24,28 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
  * but with unique serializer, type and category.
  */
 public class CrusherRecipe extends AbstractProcessingRecipe {
-	public static RecipeSerializer<AbstractProcessingRecipe> SERIALIZER;
+	public static final MapCodec<CrusherRecipe> MAP_CODEC =
+		processingMapCodec(CrusherRecipe::new, 100);
+	public static final StreamCodec<RegistryFriendlyByteBuf, CrusherRecipe> STREAM_CODEC =
+		processingStreamCodec(CrusherRecipe::new);
+	public static RecipeSerializer<CrusherRecipe> SERIALIZER;
 	public static RecipeType<AbstractProcessingRecipe> TYPE;
 	public static RecipeBookCategory CATEGORY;
 
 	public CrusherRecipe(
-		String group,
-		CookingBookCategory category,
-		@NotNull Ingredient ingredient,
+		@NonNull Ingredient ingredient,
 		int ingredientCount,
-		@NotNull ItemStack result,
+		@NonNull ItemStackTemplate result,
 		float experience,
-		int cookingTime) {
+		int cookingTime
+	) {
 		super(
-			group,
-			category,
 			ingredient,
 			ingredientCount,
 			result,
 			experience,
-			cookingTime);
+			cookingTime
+		);
 	}
 
 	@Override
@@ -50,17 +54,22 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
 	}
 
 	@Override
-	public @NotNull RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
+	public @NonNull String group() {
+		return "crusher";
+	}
+
+	@Override
+	public @NonNull RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
 		return SERIALIZER;
 	}
 
 	@Override
-	public @NotNull RecipeType<? extends AbstractProcessingRecipe> getType() {
+	public @NonNull RecipeType<? extends AbstractProcessingRecipe> getType() {
 		return TYPE;
 	}
 
 	@Override
-	public @NotNull RecipeBookCategory recipeBookCategory() {
+	public @NonNull RecipeBookCategory recipeBookCategory() {
 		return CATEGORY;
 	}
 
@@ -70,16 +79,19 @@ public class CrusherRecipe extends AbstractProcessingRecipe {
 	 * See {@link RecipeSerializer}, {@link RecipeType} and {@link RecipeBookCategories} for examples.
 	 */
 	public static void register() {
-		SERIALIZER =
-			RecipeSerializer.register(
-				"crushing",
-				new Serializer<>(CrusherRecipe::new, 100));
+		SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
+		Registry.register(
+			BuiltInRegistries.RECIPE_SERIALIZER,
+			"crushing",
+			SERIALIZER
+		);
 		TYPE =
 			RecipeType.register("crushing");
 		CATEGORY =
 			Registry.register(
 				BuiltInRegistries.RECIPE_BOOK_CATEGORY,
 				"crusher",
-				new RecipeBookCategory());
+				new RecipeBookCategory()
+			);
 	}
 }

@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crushing",
-  "category": "misc",
   "cookingtime": 200,
   "experience": 0.1,
   "ingredient": "minecraft:diamond_boots",

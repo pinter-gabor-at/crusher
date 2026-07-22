@@ -1,14 +1,19 @@
 package eu.pintergabor.crusher.recipe;
 
+import com.mojang.serialization.MapCodec;
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
-import org.jetbrains.annotations.NotNull;
+
+import net.minecraft.world.item.crafting.RecipeSerializers;
+
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeBookCategories;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
@@ -22,46 +27,52 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
  * but with unique serializer, type and category.
  */
 public class CompressorRecipe extends AbstractProcessingRecipe {
-	public static RecipeSerializer<AbstractProcessingRecipe> SERIALIZER;
+	public static final MapCodec<CompressorRecipe> MAP_CODEC =
+		processingMapCodec(CompressorRecipe::new, 100);
+	public static final StreamCodec<RegistryFriendlyByteBuf, CompressorRecipe> STREAM_CODEC =
+		processingStreamCodec(CompressorRecipe::new);
+	public static RecipeSerializer<CompressorRecipe> SERIALIZER;
 	public static RecipeType<AbstractProcessingRecipe> TYPE;
 	public static RecipeBookCategory CATEGORY;
 
 	public CompressorRecipe(
-		String group,
-		CookingBookCategory category,
-		@NotNull Ingredient ingredient,
+		@NonNull Ingredient ingredient,
 		int ingredientCount,
-		@NotNull ItemStack result,
+		@NonNull ItemStackTemplate result,
 		float experience,
 		int cookingTime
 	) {
 		super(
-			group,
-			category,
 			ingredient,
 			ingredientCount,
 			result,
 			experience,
-			cookingTime);
+			cookingTime
+		);
 	}
 
 	@Override
 	protected Item getProcessorItem() {
-		return ModBlocks.COMPRESOR_ITEM;
+		return ModBlocks.COMPRESSOR_ITEM;
 	}
 
 	@Override
-	public @NotNull RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
+	public @NonNull String group() {
+		return "compressor";
+	}
+
+	@Override
+	public @NonNull RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer() {
 		return SERIALIZER;
 	}
 
 	@Override
-	public @NotNull RecipeType<? extends AbstractProcessingRecipe> getType() {
+	public @NonNull RecipeType<? extends AbstractProcessingRecipe> getType() {
 		return TYPE;
 	}
 
 	@Override
-	public @NotNull RecipeBookCategory recipeBookCategory() {
+	public @NonNull RecipeBookCategory recipeBookCategory() {
 		return CATEGORY;
 	}
 
@@ -71,16 +82,19 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 	 * See {@link RecipeSerializer}, {@link RecipeType} and {@link RecipeBookCategories} for examples.
 	 */
 	public static void register() {
-		SERIALIZER =
-			RecipeSerializer.register(
+		SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
+			Registry.register(
+				BuiltInRegistries.RECIPE_SERIALIZER,
 				"compressing",
-				new Serializer<>(CompressorRecipe::new, 100));
+				SERIALIZER
+			);
 		TYPE =
 			RecipeType.register("compressing");
 		CATEGORY =
 			Registry.register(
 				BuiltInRegistries.RECIPE_BOOK_CATEGORY,
 				"compressor",
-				new RecipeBookCategory());
+				new RecipeBookCategory()
+			);
 	}
 }

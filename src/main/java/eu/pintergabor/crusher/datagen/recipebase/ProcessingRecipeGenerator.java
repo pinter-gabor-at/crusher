@@ -8,12 +8,11 @@ import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.WeatheringCopperItems;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -43,17 +42,17 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	private <T extends AbstractProcessingRecipe> void createRecipe(
 		@NotNull ItemLike input, int inputCount,
 		@NotNull ItemLike result, int resultCount,
-		AbstractProcessingRecipe.RecipeFactory<T> factory, String from
+		AbstractProcessingRecipe.Factory<T> factory, String from
 	) {
 		final Ingredient ingredient = Ingredient.of(input);
 		ProcessingRecipeBuilder.create(
 				ingredient,
 				inputCount,
-				RecipeCategory.MISC,
-				new ItemStack(result, resultCount),
+				new ItemStackTemplate(result.asItem(), resultCount),
 				experience,
 				cookingTime,
-				factory)
+				factory
+			)
 			.unlockedBy(getHasName(input), has(input))
 			.save(output,
 				getItemName(result.asItem()) + from + getItemName(input));
@@ -108,7 +107,7 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	private <T extends AbstractProcessingRecipe> void createRecipe(
 		@NotNull TagKey<Item> tag, int tagCount,
 		@NotNull ItemLike result, int resultCount,
-		@NotNull AbstractProcessingRecipe.RecipeFactory<T> factory, String from
+		@NotNull AbstractProcessingRecipe.Factory<T> factory, String from
 	) {
 		try {
 			final HolderLookup.RegistryLookup<Item> registryLookup =
@@ -117,11 +116,11 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 			ProcessingRecipeBuilder.create(
 					ingredient,
 					tagCount,
-					RecipeCategory.MISC,
-					new ItemStack(result, resultCount),
+					new ItemStackTemplate(result.asItem(), resultCount),
 					experience,
 					cookingTime,
-					factory)
+					factory
+				)
 				.unlockedBy("has_" + tag.location().getPath(), has(tag))
 				.save(output,
 					getItemName(result.asItem()) + from + tag.location().getPath());

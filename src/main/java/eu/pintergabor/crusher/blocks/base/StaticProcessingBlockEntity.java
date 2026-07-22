@@ -11,6 +11,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.Block;
@@ -101,7 +102,7 @@ public abstract sealed class StaticProcessingBlockEntity
 			final ItemStack inputStack = inventory.get(AbstractProcessingBlockEntity.INPUT_SLOT_INDEX);
 			final ItemStack outputStack = inventory.get(AbstractProcessingBlockEntity.OUTPUT_SLOT_INDEX);
 			final int inputCount = recipe.value().inputCount();
-			final ItemStack resultStack = recipe.value().assemble(input, registryAccess);
+			final ItemStack resultStack = recipe.value().assemble(input);
 			return canCraft(inputStack, outputStack, inputCount, resultStack, maxCount);
 		}
 		return false;
@@ -130,7 +131,7 @@ public abstract sealed class StaticProcessingBlockEntity
 			final ItemStack inputStack = inventory.get(AbstractProcessingBlockEntity.INPUT_SLOT_INDEX);
 			final ItemStack outputStack = inventory.get(AbstractProcessingBlockEntity.OUTPUT_SLOT_INDEX);
 			final int inputCount = recipe.value().inputCount();
-			final ItemStack resultStack = recipe.value().assemble(input, dynamicRegistryManager);
+			final ItemStack resultStack = recipe.value().assemble(input);
 			if (canCraft(inputStack, outputStack, inputCount, resultStack, maxCount)) {
 				// Craft.
 				final int resultCount = resultStack.getCount();
@@ -185,10 +186,13 @@ public abstract sealed class StaticProcessingBlockEntity
 		// Need more fuel to continue.
 		if (processor.isLit()) {
 			if (!fuelStack.isEmpty()) {
-				final ItemStack remainder = fuelStack.getRecipeRemainder();
+				final ItemStackTemplate remainderStackTemplate = fuelStack.getCraftingRemainder();
+				final ItemStack remainderStack = remainderStackTemplate == null ?
+					ItemStack.EMPTY :
+					remainderStackTemplate.create();
 				fuelStack.shrink(1);
 				if (fuelStack.isEmpty()) {
-					processor.items.set(AbstractProcessingBlockEntity.FUEL_SLOT_INDEX, remainder);
+					processor.items.set(AbstractProcessingBlockEntity.FUEL_SLOT_INDEX, remainderStack);
 				}
 			}
 			return true;

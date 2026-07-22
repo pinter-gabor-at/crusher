@@ -1,6 +1,5 @@
 {
   "type": "minecraft:compressing",
-  "category": "misc",
   "cookingtime": 150,
   "experience": 0.1,
   "ingredient": "minecraft:hopper_minecart",
