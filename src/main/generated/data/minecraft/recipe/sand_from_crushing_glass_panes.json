@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crushing",
-  "cookingtime": 100,
   "experience": 0.1,
   "ingredient": "#c:glass_panes",
   "ingredient_count": 2,
+  "processingtime": 100,
   "result": {
     "id": "minecraft:sand"
   }

@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crushing",
-  "cookingtime": 150,
   "experience": 0.1,
   "ingredient": "minecraft:raw_gold_block",
   "ingredient_count": 1,
+  "processingtime": 150,
   "result": {
     "count": 9,
     "id": "minecraft:raw_gold"

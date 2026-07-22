@@ -34,18 +34,18 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 	public static RecipeBookCategory CATEGORY;
 
 	public CompressorRecipe(
-		@NonNull Ingredient ingredient,
-		int ingredientCount,
-		@NonNull ItemStackTemplate result,
-		float experience,
-		int cookingTime
+		final @NonNull Ingredient ingredient,
+		final int ingredientCount,
+		final @NonNull ItemStackTemplate result,
+		final float experience,
+		final int processingTime
 	) {
 		super(
 			ingredient,
 			ingredientCount,
 			result,
 			experience,
-			cookingTime
+			processingTime
 		);
 	}
 

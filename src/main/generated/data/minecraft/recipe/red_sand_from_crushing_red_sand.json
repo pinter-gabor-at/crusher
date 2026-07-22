@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crushing",
-  "cookingtime": 10,
   "experience": 1.0,
   "ingredient": "minecraft:red_sand",
   "ingredient_count": 1,
+  "processingtime": 10,
   "result": {
     "id": "minecraft:red_sand"
   }

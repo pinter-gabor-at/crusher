@@ -29,7 +29,7 @@ import net.minecraft.world.item.crafting.display.SlotDisplay;
  */
 public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	private final float experience;
-	private final int cookingTime;
+	private final int processingTime;
 
 	/**
 	 * Create recipe.
@@ -39,14 +39,14 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	 */
 	@SuppressWarnings("unused")
 	public AbstractProcessingRecipe(
-		@NonNull ItemStack input,
-		@NonNull ItemStackTemplate result,
-		float experience,
-		int cookingTime
+		final @NonNull ItemStack input,
+		final @NonNull ItemStackTemplate result,
+		final float experience,
+		final int processingTime
 	) {
 		super(input, result);
 		this.experience = experience;
-		this.cookingTime = cookingTime;
+		this.processingTime = processingTime;
 	}
 
 	/**
@@ -58,15 +58,15 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	 */
 	@SuppressWarnings("unused")
 	public AbstractProcessingRecipe(
-		@NonNull Ingredient input,
-		int inputCount,
-		@NonNull ItemStackTemplate result,
-		float experience,
-		int cookingTime
+		final @NonNull Ingredient input,
+		final int inputCount,
+		final @NonNull ItemStackTemplate result,
+		final float experience,
+		final int processingTime
 	) {
 		super(input, inputCount, result);
 		this.experience = experience;
-		this.cookingTime = cookingTime;
+		this.processingTime = processingTime;
 	}
 
 	@Override
@@ -79,8 +79,8 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 		return experience;
 	}
 
-	public int cookingTime() {
-		return cookingTime;
+	public int processingTime() {
+		return processingTime;
 	}
 
 	protected abstract Item getProcessorItem();
@@ -103,7 +103,7 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 				SlotDisplay.AnyFuel.INSTANCE,
 				new SlotDisplay.ItemStackSlotDisplay(result()),
 				new SlotDisplay.ItemSlotDisplay(getProcessorItem()),
-				cookingTime,
+				processingTime,
 				experience
 			)
 		);
@@ -116,14 +116,14 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 			int ingredientCount,
 			ItemStackTemplate result,
 			float experience,
-			int cookingTime
+			int processingTime
 		);
 	}
 
 	public static <T extends AbstractProcessingRecipe> @NonNull MapCodec<T>
 	processingMapCodec(
 		final AbstractProcessingRecipe.@NonNull Factory<T> factory,
-		int defaultCookingTime
+		int defaultProcessingTime
 	) {
 		return RecordCodecBuilder.mapCodec((i) -> i.group(
 			Ingredient.CODEC.fieldOf("ingredient")
@@ -136,9 +136,9 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 			Codec.FLOAT.fieldOf("experience")
 				.orElse(0F)
 				.forGetter(AbstractProcessingRecipe::experience),
-			Codec.INT.fieldOf("cookingtime")
-				.orElse(defaultCookingTime)
-				.forGetter(AbstractProcessingRecipe::cookingTime)
+			Codec.INT.fieldOf("processingtime")
+				.orElse(defaultProcessingTime)
+				.forGetter(AbstractProcessingRecipe::processingTime)
 		).apply(i, factory::create));
 	}
 
@@ -151,7 +151,7 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 			ByteBufCodecs.INT, OneStackRecipe::inputCount,
 			ItemStackTemplate.STREAM_CODEC, OneStackRecipe::result,
 			ByteBufCodecs.FLOAT, AbstractProcessingRecipe::experience,
-			ByteBufCodecs.INT, AbstractProcessingRecipe::cookingTime,
+			ByteBufCodecs.INT, AbstractProcessingRecipe::processingTime,
 			factory::create
 		);
 	}

@@ -60,17 +60,17 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	private static final int[] SIDE_SLOTS = new int[]{FUEL_SLOT_INDEX};
 	public static final int BURN_TIME_PROPERTY_INDEX = 0;
 	public static final int FUEL_TIME_PROPERTY_INDEX = 1;
-	public static final int COOK_TIME_PROPERTY_INDEX = 2;
-	public static final int COOK_TIME_TOTAL_PROPERTY_INDEX = 3;
+	public static final int PROCESS_TIME_PROPERTY_INDEX = 2;
+	public static final int PROCESS_TIME_TOTAL_PROPERTY_INDEX = 3;
 	public static final int PROPERTY_COUNT = 4;
-	public static final int DEFAULT_COOK_TIME = 200;
+	public static final int DEFAULT_PROCESS_TIME = 200;
 	private static final Codec<Map<ResourceKey<Recipe<?>>, Integer>> CODEC =
 		Codec.unboundedMap(Recipe.KEY_CODEC, Codec.INT);
 	protected NonNullList<ItemStack> items = NonNullList.withSize(3, ItemStack.EMPTY);
 	protected int litTimeRemaining;
 	protected int litTotalTime;
-	protected int cookingTimer;
-	protected int cookingTotalTime;
+	protected int processingTimer;
+	protected int processingTotalTime;
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
@@ -80,8 +80,8 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 			return switch (index) {
 				case BURN_TIME_PROPERTY_INDEX -> litTimeRemaining;
 				case FUEL_TIME_PROPERTY_INDEX -> litTotalTime;
-				case COOK_TIME_PROPERTY_INDEX -> cookingTimer;
-				case COOK_TIME_TOTAL_PROPERTY_INDEX -> cookingTotalTime;
+				case PROCESS_TIME_PROPERTY_INDEX -> processingTimer;
+				case PROCESS_TIME_TOTAL_PROPERTY_INDEX -> processingTotalTime;
 				default -> 0;
 			};
 		}
@@ -91,8 +91,8 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 			switch (index) {
 				case BURN_TIME_PROPERTY_INDEX -> litTimeRemaining = value;
 				case FUEL_TIME_PROPERTY_INDEX -> litTotalTime = value;
-				case COOK_TIME_PROPERTY_INDEX -> cookingTimer = value;
-				case COOK_TIME_TOTAL_PROPERTY_INDEX -> cookingTotalTime = value;
+				case PROCESS_TIME_PROPERTY_INDEX -> processingTimer = value;
+				case PROCESS_TIME_TOTAL_PROPERTY_INDEX -> processingTotalTime = value;
 			}
 		}
 
@@ -111,9 +111,9 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 */
 	protected AbstractProcessingBlockEntity(
 		final @NonNull BlockEntityType<?> blockEntityType,
-		BlockPos pos,
-		BlockState state,
-		RecipeType<? extends AbstractProcessingRecipe> recipeType
+		final @NonNull BlockPos pos,
+		final @NonNull BlockState state,
+		final @NonNull RecipeType<? extends AbstractProcessingRecipe> recipeType
 	) {
 		super(blockEntityType, pos, state);
 		matchGetter = RecipeManager.createCheck(recipeType);
@@ -133,8 +133,8 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 		super.loadAdditional(input);
 		items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
 		ContainerHelper.loadAllItems(input, items);
-		cookingTimer = input.getShortOr("cooking_time_spent", (short) 0);
-		cookingTotalTime = input.getShortOr("cooking_total_time", (short) 0);
+		processingTimer = input.getShortOr("processing_time_spent", (short) 0);
+		processingTotalTime = input.getShortOr("processing_total_time", (short) 0);
 		litTimeRemaining = input.getShortOr("lit_time_remaining", (short) 0);
 		litTotalTime = input.getShortOr("lit_total_time", (short) 0);
 		recipesUsed.clear();
@@ -147,8 +147,8 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	@Override
 	protected void saveAdditional(final @NonNull ValueOutput output) {
 		super.saveAdditional(output);
-		output.putShort("cooking_time_spent", (short) cookingTimer);
-		output.putShort("cooking_total_time", (short) cookingTotalTime);
+		output.putShort("processing_time_spent", (short) processingTimer);
+		output.putShort("processing_total_time", (short) processingTotalTime);
 		output.putShort("lit_time_remaining", (short) litTimeRemaining);
 		output.putShort("lit_total_time", (short) litTotalTime);
 		ContainerHelper.saveAllItems(output, items);
@@ -242,8 +242,8 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 		items.set(slot, stack);
 		stack.limitSize(getMaxStackSize(stack));
 		if (slot == INPUT_SLOT_INDEX && !same && level instanceof ServerLevel serverLevel) {
-			cookingTotalTime = StaticProcessingBlockEntity.getCookTime(serverLevel, this);
-			cookingTimer = 0;
+			processingTotalTime = StaticProcessingBlockEntity.getCookTime(serverLevel, this);
+			processingTimer = 0;
 			setChanged();
 		}
 	}

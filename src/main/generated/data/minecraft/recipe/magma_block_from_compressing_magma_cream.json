@@ -1,9 +1,9 @@
 {
   "type": "minecraft:compressing",
-  "cookingtime": 100,
   "experience": 0.1,
   "ingredient": "minecraft:magma_cream",
   "ingredient_count": 4,
+  "processingtime": 100,
   "result": {
     "id": "minecraft:magma_block"
   }

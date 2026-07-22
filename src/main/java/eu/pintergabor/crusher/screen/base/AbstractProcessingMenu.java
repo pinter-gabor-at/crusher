@@ -146,8 +146,8 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 	 * @return Progress (0.0 ... 1.0)
 	 */
 	public float getBurnProgress() {
-		final int progress = data.get(COOK_TIME_PROPERTY_INDEX);
-		final int total = data.get(COOK_TIME_TOTAL_PROPERTY_INDEX);
+		final int progress = data.get(PROCESS_TIME_PROPERTY_INDEX);
+		final int total = data.get(PROCESS_TIME_TOTAL_PROPERTY_INDEX);
 		return total != 0 ?
 			Mth.clamp((float) progress / (float) total, 0F, 1F) :
 			0.0f;
@@ -161,7 +161,7 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 	public float getLitProgress() {
 		int total = data.get(FUEL_TIME_PROPERTY_INDEX);
 		if (total == 0) {
-			total = DEFAULT_COOK_TIME;
+			total = DEFAULT_PROCESS_TIME;
 		}
 		final int progress = data.get(BURN_TIME_PROPERTY_INDEX);
 		return Mth.clamp((float) progress / (float) total, 0F, 1F);

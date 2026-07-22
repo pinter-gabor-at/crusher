@@ -159,8 +159,8 @@ public abstract sealed class StaticProcessingBlockEntity
 		return processor.matchGetter
 			.getRecipeFor(oneStackRecipeInput, level)
 			.map(recipe ->
-				recipe.value().cookingTime())
-			.orElse(AbstractProcessingBlockEntity.DEFAULT_COOK_TIME);
+				recipe.value().processingTime())
+			.orElse(AbstractProcessingBlockEntity.DEFAULT_PROCESS_TIME);
 	}
 
 	private static @Nullable RecipeHolder<? extends AbstractProcessingRecipe> getRecipeEntry(
@@ -211,10 +211,10 @@ public abstract sealed class StaticProcessingBlockEntity
 		final RecipeHolder<? extends AbstractProcessingRecipe> recipeEntry,
 		final @NonNull OneStackRecipeInput oneStackRecipeInput
 	) {
-		processor.cookingTimer++;
-		if (processor.cookingTimer == processor.cookingTotalTime) {
-			processor.cookingTimer = 0;
-			processor.cookingTotalTime = getCookTime(level, processor);
+		processor.processingTimer++;
+		if (processor.processingTimer == processor.processingTotalTime) {
+			processor.processingTimer = 0;
+			processor.processingTotalTime = getCookTime(level, processor);
 			if (craftRecipe(
 				recipeEntry,
 				oneStackRecipeInput,
@@ -260,7 +260,7 @@ public abstract sealed class StaticProcessingBlockEntity
 			// End processing one input item and generate output.
 			changed = changed || canEnd(level, processor, recipeEntry, oneStackRecipeInput);
 		} else {
-			processor.cookingTimer = 0;
+			processor.processingTimer = 0;
 		}
 		return changed;
 	}
@@ -269,9 +269,9 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * Continue processing the input item.
 	 */
 	private static void continueWork(final @NonNull AbstractProcessingBlockEntity processor) {
-		if (!processor.isLit() && 0 < processor.cookingTimer) {
-			processor.cookingTimer = Mth.clamp(
-				processor.cookingTimer - 2, 0, processor.cookingTotalTime);
+		if (!processor.isLit() && 0 < processor.processingTimer) {
+			processor.processingTimer = Mth.clamp(
+				processor.processingTimer - 2, 0, processor.processingTotalTime);
 		}
 	}
 

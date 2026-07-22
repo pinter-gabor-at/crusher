@@ -26,7 +26,7 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 	private final int ingredientCount;
 	private final ItemStackTemplate result;
 	private final float experience;
-	private final int cookingTime;
+	private final int processingTime;
 	private final RecipeUnlockAdvancementBuilder advancementBuilder;
 	private final AbstractProcessingRecipe.Factory<?> factory;
 
@@ -35,7 +35,7 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 		int ingredientCount,
 		@NonNull ItemStackTemplate result,
 		float experience,
-		int cookingTime,
+		int processingTime,
 		AbstractProcessingRecipe.@NonNull Factory<?> recipeFactory
 	) {
 		advancementBuilder = new RecipeUnlockAdvancementBuilder();
@@ -43,7 +43,7 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 		this.ingredientCount = ingredientCount;
 		this.result = result;
 		this.experience = experience;
-		this.cookingTime = cookingTime;
+		this.processingTime = processingTime;
 		this.factory = recipeFactory;
 	}
 
@@ -93,7 +93,7 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 				ingredientCount,
 				result,
 				experience,
-				cookingTime
+				processingTime
 			);
 		final AdvancementHolder advancement =
 			advancementBuilder.build(output, id, RecipeCategory.MISC);

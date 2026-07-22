@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crushing",
-  "cookingtime": 100,
   "experience": 0.1,
   "ingredient": "minecraft:redstone_block",
   "ingredient_count": 1,
+  "processingtime": 100,
   "result": {
     "count": 32,
     "id": "minecraft:red_dye"

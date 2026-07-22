@@ -1,9 +1,9 @@
 {
   "type": "minecraft:compressing",
-  "cookingtime": 100,
   "experience": 0.1,
   "ingredient": "minecraft:emerald",
   "ingredient_count": 9,
+  "processingtime": 100,
   "result": {
     "id": "minecraft:emerald_block"
   }

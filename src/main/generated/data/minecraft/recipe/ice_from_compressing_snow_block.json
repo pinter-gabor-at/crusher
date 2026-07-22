@@ -1,9 +1,9 @@
 {
   "type": "minecraft:compressing",
-  "cookingtime": 100,
   "experience": 0.1,
   "ingredient": "minecraft:snow_block",
   "ingredient_count": 2,
+  "processingtime": 100,
   "result": {
     "id": "minecraft:ice"
   }

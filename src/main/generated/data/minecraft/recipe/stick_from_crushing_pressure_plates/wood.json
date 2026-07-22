@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crushing",
-  "cookingtime": 100,
   "experience": 0.1,
   "ingredient": "#c:pressure_plates/wood",
   "ingredient_count": 1,
+  "processingtime": 100,
   "result": {
     "count": 4,
     "id": "minecraft:stick"
