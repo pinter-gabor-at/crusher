@@ -5,7 +5,7 @@ import eu.pintergabor.crusher.datagen.ModBlockTagProvider;
 import eu.pintergabor.crusher.datagen.ModItemTagProvider;
 import eu.pintergabor.crusher.datagen.ModModelProvider;
 import eu.pintergabor.crusher.datagen.ModRecipeRunner;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -14,7 +14,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 public final class ModDataGenerator implements DataGeneratorEntrypoint {
 
 	@Override
-	public void onInitializeDataGenerator(@NotNull FabricDataGenerator fabricDataGenerator) {
+	public void onInitializeDataGenerator(final @NonNull FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 		// Create blocks and their models first.
 		pack.addProvider(ModModelProvider::new);

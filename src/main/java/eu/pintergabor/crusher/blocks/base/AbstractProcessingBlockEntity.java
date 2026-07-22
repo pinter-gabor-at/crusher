@@ -10,8 +10,8 @@ import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import eu.pintergabor.crusher.recipe.base.OneStackRecipeInput;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap.Entry;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -110,7 +110,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	protected AbstractProcessingBlockEntity(
-		BlockEntityType<?> blockEntityType,
+		final @NonNull BlockEntityType<?> blockEntityType,
 		BlockPos pos,
 		BlockState state,
 		RecipeType<? extends AbstractProcessingRecipe> recipeType
@@ -145,7 +145,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	protected void saveAdditional(ValueOutput output) {
+	protected void saveAdditional(final @NonNull ValueOutput output) {
 		super.saveAdditional(output);
 		output.putShort("cooking_time_spent", (short) cookingTimer);
 		output.putShort("cooking_total_time", (short) cookingTotalTime);
@@ -165,7 +165,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	protected int getFuelTime(@NotNull FuelValues fuelValues, ItemStack stack) {
+	protected int getFuelTime(final @NonNull FuelValues fuelValues, ItemStack stack) {
 		return fuelValues.burnDuration(stack);
 	}
 
@@ -173,7 +173,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public int @NotNull [] getSlotsForFace(@NotNull Direction side) {
+	public int @NonNull [] getSlotsForFace(@NonNull Direction side) {
 		return switch (side) {
 			case DOWN -> BOTTOM_SLOTS;
 			case UP -> TOP_SLOTS;
@@ -186,7 +186,9 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 */
 	@Override
 	public boolean canPlaceItemThroughFace(
-		int slot, @NotNull ItemStack stack, @Nullable Direction dir
+		final int slot,
+		final @NonNull ItemStack stack,
+		final @Nullable Direction dir
 	) {
 		return canPlaceItem(slot, stack);
 	}
@@ -196,7 +198,9 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 */
 	@Override
 	public boolean canTakeItemThroughFace(
-		int slot, @NotNull ItemStack stack, @NotNull Direction dir
+		final int slot,
+		final @NonNull ItemStack stack,
+		final @NonNull Direction dir
 	) {
 		return slot != FUEL_SLOT_INDEX;
 	}
@@ -213,7 +217,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	protected @NotNull NonNullList<ItemStack> getItems() {
+	protected @NonNull NonNullList<ItemStack> getItems() {
 		return items;
 	}
 
@@ -221,7 +225,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	protected void setItems(@NotNull NonNullList<ItemStack> inventory) {
+	protected void setItems(@NonNull NonNullList<ItemStack> inventory) {
 		this.items = inventory;
 	}
 
@@ -229,7 +233,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public void setItem(int slot, @NotNull ItemStack stack) {
+	public void setItem(final int slot, final @NonNull ItemStack stack) {
 		final ItemStack oldStack = items.get(slot);
 		final boolean same = !stack.isEmpty() && ItemStack.isSameItemSameComponents(oldStack, stack);
 		items.set(slot, stack);
@@ -245,7 +249,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public boolean canPlaceItem(int slot, @NotNull ItemStack stack) {
+	public boolean canPlaceItem(final int slot, final @NonNull ItemStack stack) {
 		return switch (slot) {
 			case OUTPUT_SLOT_INDEX -> false;
 			case FUEL_SLOT_INDEX -> {
@@ -261,7 +265,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public void setRecipeUsed(@Nullable RecipeHolder<?> recipe) {
+	public void setRecipeUsed(final @Nullable RecipeHolder<?> recipe) {
 		if (recipe != null) {
 			ResourceKey<Recipe<?>> ResourceKey = recipe.id();
 			recipesUsed.addTo(ResourceKey, 1);
@@ -280,13 +284,16 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public void awardUsedRecipes(@NotNull Player player, @NotNull List<ItemStack> ingredients) {
+	public void awardUsedRecipes(
+		final @NonNull Player player,
+		final @NonNull List<ItemStack> ingredients
+	) {
 	}
 
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	public void awardUsedRecipesAndPopExperience(@NotNull ServerPlayer player) {
+	public void awardUsedRecipesAndPopExperience(final @NonNull ServerPlayer player) {
 		final List<RecipeHolder<?>> list = getRecipesToAwardAndPopExperience(
 			player.level(), player.position());
 		player.awardRecipes(list);
@@ -304,11 +311,13 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * @param pos   Here.
 	 */
 	private static void createExperience(
-		ServerLevel level, Vec3 pos, int multiplier, float experience
+		final @NonNull ServerLevel level,
+		final @NonNull Vec3 pos,
+		final int multiplier, final float experience
 	) {
 		// Calculate.
 		final float mulExp = (float) multiplier * experience;
-		// Convert to int.
+		// Convert it to int.
 		int intExp = Mth.floor(mulExp);
 		final double fraction = Mth.frac(mulExp);
 		if (Math.random() < fraction) {
@@ -321,8 +330,11 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	public List<RecipeHolder<?>> getRecipesToAwardAndPopExperience(ServerLevel level, Vec3 pos) {
-		List<RecipeHolder<?>> list = Lists.newArrayList();
+	public List<RecipeHolder<?>> getRecipesToAwardAndPopExperience(
+		final @NonNull ServerLevel level,
+		final @NonNull Vec3 pos
+	) {
+		final List<RecipeHolder<?>> list = Lists.newArrayList();
 		for (Entry<ResourceKey<Recipe<?>>> entry : recipesUsed.reference2IntEntrySet()) {
 			level.recipeAccess().byKey(entry.getKey()).ifPresent(recipe -> {
 				list.add(recipe);
@@ -337,7 +349,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	public void fillStackedContents(@NotNull StackedItemContents stackedItemContents) {
+	public void fillStackedContents(final @NonNull StackedItemContents stackedItemContents) {
 		items.forEach(stackedItemContents::accountStack);
 	}
 }

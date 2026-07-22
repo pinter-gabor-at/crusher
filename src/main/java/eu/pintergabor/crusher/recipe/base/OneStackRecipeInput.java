@@ -1,6 +1,6 @@
 package eu.pintergabor.crusher.recipe.base;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -16,7 +16,7 @@ public record OneStackRecipeInput(ItemStack itemStack) implements RecipeInput {
 	/**
 	 * @return The one and only {@link ItemStack}.
 	 */
-	public @NotNull ItemStack getItemStack() {
+	public @NonNull ItemStack getItemStack() {
 		return itemStack;
 	}
 
@@ -27,7 +27,7 @@ public record OneStackRecipeInput(ItemStack itemStack) implements RecipeInput {
 	 * @return The one and only {@link ItemStack}.
 	 */
 	@Override
-	public @NotNull ItemStack getItem(int slot) {
+	public @NonNull ItemStack getItem(final int slot) {
 		return itemStack;
 	}
 

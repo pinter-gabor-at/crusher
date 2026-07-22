@@ -2,12 +2,11 @@ package eu.pintergabor.crusher.blocks.base;
 
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import eu.pintergabor.crusher.recipe.base.OneStackRecipeInput;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +28,9 @@ public abstract sealed class StaticProcessingBlockEntity
 	permits AbstractProcessingBlockEntity {
 
 	protected StaticProcessingBlockEntity(
-		BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState
+		final @NonNull BlockEntityType<?> blockEntityType,
+		final @NonNull BlockPos blockPos,
+		final @NonNull BlockState blockState
 	) {
 		super(blockEntityType, blockPos, blockState);
 	}
@@ -46,11 +47,11 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * @return true if nothing prevents crafting.
 	 */
 	static boolean canCraft(
-		@NotNull ItemStack inputStack,
-		@NotNull ItemStack outputStack,
-		int inputCount,
-		@NotNull ItemStack resultStack,
-		int maxCount
+		final @NonNull ItemStack inputStack,
+		final @NonNull ItemStack outputStack,
+		final int inputCount,
+		final @NonNull ItemStack resultStack,
+		final int maxCount
 	) {
 		if (inputStack.isEmpty() || inputStack.getCount() < inputCount) {
 			// If the input slot does not contain enough items for crafting.
@@ -82,21 +83,19 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * <p>
 	 * Similar to {@link AbstractFurnaceBlockEntity}, but allows multiple input counts.
 	 *
-	 * @param registryAccess Lookup table
-	 * @param recipe         Using this recipe
-	 * @param input          To craft from this item
-	 * @param inventory      Inventory of the entity
-	 * @param maxCount       To further limit the craftable items in the output slot
+	 * @param recipe    Using this recipe
+	 * @param input     To craft from this item
+	 * @param inventory Inventory of the entity
+	 * @param maxCount  To further limit the craftable items in the output slot
 	 * @return true if the recipe is craftable,
 	 * and there are enough items in the input slot,
 	 * and there is enough space in the output slot for the new items.
 	 */
 	public static boolean canAcceptRecipeOutput(
-		RegistryAccess registryAccess,
-		@Nullable RecipeHolder<? extends AbstractProcessingRecipe> recipe,
-		OneStackRecipeInput input,
-		NonNullList<ItemStack> inventory,
-		int maxCount
+		final @Nullable RecipeHolder<? extends AbstractProcessingRecipe> recipe,
+		final @NonNull OneStackRecipeInput input,
+		final @NonNull NonNullList<ItemStack> inventory,
+		final int maxCount
 	) {
 		if (recipe != null) {
 			final ItemStack inputStack = inventory.get(AbstractProcessingBlockEntity.INPUT_SLOT_INDEX);
@@ -113,19 +112,17 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * <p>
 	 * Similar to {@link AbstractFurnaceBlockEntity}, but allows multiple input and output counts.
 	 *
-	 * @param dynamicRegistryManager Lookup table
-	 * @param recipe                 Using this recipe
-	 * @param input                  To craft from this item
-	 * @param inventory              Inventory of the entity
-	 * @param maxCount               To further limit the craftable items in the output slot
+	 * @param recipe    Using this recipe
+	 * @param input     To craft from this item
+	 * @param inventory Inventory of the entity
+	 * @param maxCount  To further limit the craftable items in the output slot
 	 * @return true if the new items are crafted.
 	 */
 	private static boolean craftRecipe(
-		RegistryAccess dynamicRegistryManager,
-		@Nullable RecipeHolder<? extends AbstractProcessingRecipe> recipe,
-		OneStackRecipeInput input,
-		NonNullList<ItemStack> inventory,
-		int maxCount
+		final @Nullable RecipeHolder<? extends AbstractProcessingRecipe> recipe,
+		final @NonNull OneStackRecipeInput input,
+		final @NonNull NonNullList<ItemStack> inventory,
+		final int maxCount
 	) {
 		if (recipe != null) {
 			final ItemStack inputStack = inventory.get(AbstractProcessingBlockEntity.INPUT_SLOT_INDEX);
@@ -154,7 +151,8 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	static int getCookTime(
-		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor
+		final @NonNull ServerLevel level,
+		final @NonNull AbstractProcessingBlockEntity processor
 	) {
 		final OneStackRecipeInput oneStackRecipeInput =
 			new OneStackRecipeInput(processor.getItem(AbstractProcessingBlockEntity.INPUT_SLOT_INDEX));
@@ -166,8 +164,9 @@ public abstract sealed class StaticProcessingBlockEntity
 	}
 
 	private static @Nullable RecipeHolder<? extends AbstractProcessingRecipe> getRecipeEntry(
-		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor,
-		OneStackRecipeInput oneStackRecipeInput
+		final @NonNull ServerLevel level,
+		final @NonNull AbstractProcessingBlockEntity processor,
+		final @NonNull OneStackRecipeInput oneStackRecipeInput
 	) {
 		return processor.matchGetter.getRecipeFor(oneStackRecipeInput, level).orElse(null);
 	}
@@ -178,8 +177,9 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * @return true if the state or appearance of the processor must be updated.
 	 */
 	private static boolean canStart(
-		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor,
-		ItemStack fuelStack
+		final @NonNull ServerLevel level,
+		final @NonNull AbstractProcessingBlockEntity processor,
+		final @NonNull ItemStack fuelStack
 	) {
 		processor.litTimeRemaining = processor.getFuelTime(level.fuelValues(), fuelStack);
 		processor.litTotalTime = processor.litTimeRemaining;
@@ -206,15 +206,16 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * @return true if the state or appearance of the processor must be updated.
 	 */
 	private static boolean canEnd(
-		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor,
-		RecipeHolder<? extends AbstractProcessingRecipe> recipeEntry, OneStackRecipeInput oneStackRecipeInput
+		final @NonNull ServerLevel level,
+		final @NonNull AbstractProcessingBlockEntity processor,
+		final RecipeHolder<? extends AbstractProcessingRecipe> recipeEntry,
+		final @NonNull OneStackRecipeInput oneStackRecipeInput
 	) {
 		processor.cookingTimer++;
 		if (processor.cookingTimer == processor.cookingTotalTime) {
 			processor.cookingTimer = 0;
 			processor.cookingTotalTime = getCookTime(level, processor);
 			if (craftRecipe(
-				level.registryAccess(),
 				recipeEntry,
 				oneStackRecipeInput,
 				processor.items,
@@ -235,8 +236,10 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * @return true if the state or appearance of the processor must be updated.
 	 */
 	private static boolean canWork(
-		@NotNull ServerLevel level, @NotNull AbstractProcessingBlockEntity processor,
-		ItemStack inputStack, ItemStack fuelStack
+		final @NonNull ServerLevel level,
+		final @NonNull AbstractProcessingBlockEntity processor,
+		final ItemStack inputStack,
+		final ItemStack fuelStack
 	) {
 		boolean changed = false;
 		// Get the recipe.
@@ -245,7 +248,6 @@ public abstract sealed class StaticProcessingBlockEntity
 			getRecipeEntry(level, processor, oneStackRecipeInput);
 		// Can the processor create an output?
 		final boolean canMakeOutput = canAcceptRecipeOutput(
-			level.registryAccess(),
 			recipeEntry,
 			oneStackRecipeInput,
 			processor.items,
@@ -266,7 +268,7 @@ public abstract sealed class StaticProcessingBlockEntity
 	/**
 	 * Continue processing the input item.
 	 */
-	private static void continueWork(@NotNull AbstractProcessingBlockEntity processor) {
+	private static void continueWork(final @NonNull AbstractProcessingBlockEntity processor) {
 		if (!processor.isLit() && 0 < processor.cookingTimer) {
 			processor.cookingTimer = Mth.clamp(
 				processor.cookingTimer - 2, 0, processor.cookingTotalTime);
@@ -277,10 +279,10 @@ public abstract sealed class StaticProcessingBlockEntity
 	 * Similar to {@link AbstractFurnaceBlockEntity}, but allows multiple input and output counts.
 	 */
 	public static void serverTick(
-		@NotNull ServerLevel level,
-		@NotNull BlockPos pos,
-		@NotNull BlockState state,
-		@NotNull AbstractProcessingBlockEntity processor
+		final @NonNull ServerLevel level,
+		final @NonNull BlockPos pos,
+		@NonNull BlockState state,
+		final @NonNull AbstractProcessingBlockEntity processor
 	) {
 		final boolean burning = processor.isLit();
 		boolean changed = false;

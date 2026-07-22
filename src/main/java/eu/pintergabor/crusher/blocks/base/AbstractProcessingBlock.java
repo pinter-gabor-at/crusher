@@ -1,8 +1,8 @@
 package eu.pintergabor.crusher.blocks.base;
 
 import eu.pintergabor.crusher.util.BlockUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 
 /**
- * Same as {@link AbstractFurnaceBlock}, but with a different entity.
+ * Based on {@link AbstractFurnaceBlock} with a different entity.
  */
 public abstract class AbstractProcessingBlock extends AbstractFurnaceBlock {
 
@@ -30,12 +30,13 @@ public abstract class AbstractProcessingBlock extends AbstractFurnaceBlock {
 	 */
 	protected static @Nullable <T extends BlockEntity> BlockEntityTicker<T>
 	createModTicker(
-		Level level, BlockEntityType<T> givenType,
-		BlockEntityType<? extends AbstractProcessingBlockEntity> expectedType
+		final @NonNull Level level,
+		final @NonNull BlockEntityType<T> givenType,
+		final @NonNull BlockEntityType<? extends AbstractProcessingBlockEntity> expectedType
 	) {
 		return level instanceof ServerLevel serverLevel
 			? createTickerHelper(givenType, expectedType,
-			(worldx, pos, state,
+			(_, pos, state,
 			 blockEntity) ->
 				StaticProcessingBlockEntity.serverTick(
 					serverLevel, pos, state, blockEntity))
@@ -47,10 +48,10 @@ public abstract class AbstractProcessingBlock extends AbstractFurnaceBlock {
 	 */
 	@Override
 	public void animateTick(
-		@NotNull BlockState state,
-		@NotNull Level world,
-		@NotNull BlockPos pos,
-		@NotNull RandomSource random
+		final @NonNull BlockState state,
+		final @NonNull Level world,
+		final @NonNull BlockPos pos,
+		final @NonNull RandomSource random
 	) {
 		BlockUtil.randomBlockTick(state, world, pos, random);
 	}

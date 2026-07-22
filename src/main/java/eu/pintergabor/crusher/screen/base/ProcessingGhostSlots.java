@@ -1,6 +1,6 @@
 package eu.pintergabor.crusher.screen.base;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.client.gui.screens.recipebook.GhostSlots;
 import net.minecraft.client.gui.screens.recipebook.SlotSelectTime;
@@ -19,24 +19,24 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public class ProcessingGhostSlots extends GhostSlots {
 
-	public ProcessingGhostSlots(SlotSelectTime slotSelectTime) {
+	public ProcessingGhostSlots(final @NonNull SlotSelectTime slotSelectTime) {
 		super(slotSelectTime);
 	}
 
 	@Override
 	public void setInput(
-		@NotNull Slot slot,
-		@NotNull ContextMap context,
-		@NotNull SlotDisplay display
+		final @NonNull Slot slot,
+		final @NonNull ContextMap context,
+		final @NonNull SlotDisplay display
 	) {
 		super.setInput(slot, context, display);
 	}
 
 	@Override
 	public void setResult(
-		@NotNull Slot slot,
-		@NotNull ContextMap context,
-		@NotNull SlotDisplay display
+		final @NonNull Slot slot,
+		final @NonNull ContextMap context,
+		final @NonNull SlotDisplay display
 	) {
 		super.setResult(slot, context, display);
 	}

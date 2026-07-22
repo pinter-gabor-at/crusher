@@ -1,7 +1,7 @@
 package eu.pintergabor.crusher.blocks;
 
 import eu.pintergabor.crusher.Global;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,11 +22,12 @@ public final class ModStats {
 	/**
 	 * Register statistics.
 	 */
-	private static @NotNull Stat<Identifier> register(@NotNull String path) {
-		Identifier id = Global.modId(path);
+	private static @NonNull Stat<Identifier> register(final @NonNull String path) {
+		final Identifier id = Global.modId(path);
 		return Stats.CUSTOM.get(
 			Registry.register(BuiltInRegistries.CUSTOM_STAT, id, id),
-			StatFormatter.DEFAULT);
+			StatFormatter.DEFAULT
+		);
 	}
 
 	public static void init() {

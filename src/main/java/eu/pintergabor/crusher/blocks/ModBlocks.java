@@ -3,7 +3,6 @@ package eu.pintergabor.crusher.blocks;
 import java.util.function.Function;
 
 import eu.pintergabor.crusher.Global;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.Registry;
@@ -41,8 +40,9 @@ public final class ModBlocks {
 	 * @param factory The constructor of the block.
 	 * @return The new block.
 	 */
-	private static @NotNull Block registerBlock(
-		String path, Function<BlockBehaviour.Properties, Block> factory
+	private static @NonNull Block registerBlock(
+		final @NonNull String path,
+		final @NonNull Function<BlockBehaviour.Properties, Block> factory
 	) {
 		return Blocks.register(
 			ResourceKey.create(Registries.BLOCK, Global.modId(path)),
