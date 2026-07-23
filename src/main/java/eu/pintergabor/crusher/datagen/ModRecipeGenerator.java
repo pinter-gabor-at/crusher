@@ -262,6 +262,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		// Copper from things made of copper.
 		createCrusherRecipe(Items.COPPER_ORE, 1, Items.RAW_COPPER, 4);
 		createCrusherRecipe(Items.DEEPSLATE_COPPER_ORE, 1, Items.RAW_COPPER, 4);
+		createCrusherRecipe(Items.COPPER_CHEST, 1, Items.RAW_COPPER, 8);
 		createCrusherRecipe(ModItemTagProvider.COPPER_BLOCKS, 1, Items.RAW_COPPER, 9);
 		// 9 ingots => 1 block => 4 cut or chiseled blocks, or grates or stairs => 12 ingots.
 		// This allows the free generation of copper, for those who discover it.
@@ -428,12 +429,14 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		// Copper from things made of copper.
 		// 9 ingots => 1 block => 4 grates or stairs => 12 ingots.
 		// This allows the free generation of copper, for those who discover it.
-		createCrusherRecipe(ModItemTagProvider.COPPER_GRATES, 1, Items.COPPER_INGOT, 3);
 		createCrusherRecipe(ModItemTagProvider.COPPER_STAIRS, 1, Items.COPPER_INGOT, 3);
+		createCrusherRecipe(ModItemTagProvider.COPPER_SLABS, 1, Items.COPPER_INGOT, 1);
 		createCrusherRecipe(ModItemTagProvider.COPPER_DOORS, 1, Items.COPPER_INGOT, 2);
 		createCrusherRecipe(ModItemTagProvider.COPPER_TRAPDOORS, 1, Items.COPPER_INGOT, 3);
-		createCrusherRecipe(ModItemTagProvider.COPPER_SLABS, 1, Items.COPPER_INGOT, 1);
+		createCrusherRecipe(ModItemTagProvider.COPPER_GRATES, 1, Items.COPPER_INGOT, 3);
 		createCrusherRecipe(ModItemTagProvider.COPPER_BULBS, 1, Items.COPPER_INGOT, 9);
+		createCrusherRecipe(Items.COPPER_CHEST, 1, Items.COPPER_INGOT, 9);
+		createCrusherRecipe(Items.LIGHTNING_ROD, 1, Items.COPPER_INGOT, 3);
 		// Iron from things made of iron.
 		createCompressorRecipe(ModItemTagProvider.BUCKETS, 1, Items.IRON_INGOT, 3);
 		createCompressorRecipe(Items.SHEARS, 1, Items.IRON_INGOT, 2);
@@ -483,7 +486,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCompressorRecipe(Items.GOLDEN_HORSE_ARMOR, 1, Items.GOLD_INGOT, 7);
 		createCompressorRecipe(Items.POWERED_RAIL, 1, Items.GOLD_INGOT, 1);
 		// Diamond from coal blocks, but very slowly.
-		// 144 coals => 1 diamond.
+		// 144 coals or charcoals => 16 coal blocks => 1 diamond.
 		experience = 1.0F;
 		processingTime = 1000;
 		createCompressorRecipe(Items.COAL_BLOCK, 16, Items.DIAMOND, 1);
