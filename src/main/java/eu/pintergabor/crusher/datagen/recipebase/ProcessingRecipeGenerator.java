@@ -14,9 +14,9 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
-import net.minecraft.world.item.WeatheringCopperItems;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.WeatheringCopperCollection;
 
 
 /**
@@ -190,7 +190,7 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
-		final @NonNull WeatheringCopperItems copperItem, final int inputCount,
+		final @NonNull WeatheringCopperCollection<Item> copperItem, final int inputCount,
 		final @NonNull ItemLike result, final int resultCount
 	) {
 		copperItem.forEach(item ->
