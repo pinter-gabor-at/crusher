@@ -29,6 +29,16 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 	public static final TagKey<Item> GRAVEL_SOURCES = createModItemTag("gravel_sources");
 
 	/**
+	 * Slab like items crushed to 0.5 gravel.
+	 */
+	public static final TagKey<Item> GRAVEL_SOURCES_SLABS = createModItemTag("gravel_sources_slabs");
+
+	/**
+	 * Stair like items crushed to 1.5 gravel.
+	 */
+	public static final TagKey<Item> GRAVEL_SOURCES_STAIRS = createModItemTag("gravel_sources_stairs");
+
+	/**
 	 * Items crushed to sand.
 	 */
 	public static final TagKey<Item> SAND_SOURCES = createModItemTag("sand_sources");
@@ -159,15 +169,12 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 		tag.add(
 			BlockItemIds.BASALT.item(),
 			BlockItemIds.BLACKSTONE.item(),
-			BlockItemIds.COBBLESTONE_SLAB.item(),
-			BlockItemIds.COBBLESTONE_STAIRS.item(),
 			BlockItemIds.COBBLESTONE_WALL.item(),
-			BlockItemIds.MOSSY_COBBLESTONE_SLAB.item(),
-			BlockItemIds.MOSSY_COBBLESTONE_STAIRS.item(),
 			BlockItemIds.MOSSY_COBBLESTONE_WALL.item(),
-			BlockItemIds.COBBLED_DEEPSLATE_SLAB.item(),
-			BlockItemIds.COBBLED_DEEPSLATE_STAIRS.item(),
+			BlockItemIds.COBBLED_DEEPSLATE.item(),
 			BlockItemIds.COBBLED_DEEPSLATE_WALL.item(),
+			BlockItemIds.STONE.item(),
+			BlockItemIds.STONE_STAIRS.item(),
 			BlockItemIds.POLISHED_ANDESITE.item(),
 			BlockItemIds.POLISHED_BASALT.item(),
 			BlockItemIds.POLISHED_DIORITE.item(),
@@ -183,52 +190,88 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 			BlockItemIds.CHISELED_DEEPSLATE.item(),
 			BlockItemIds.STONE_BRICKS.item(),
 			BlockItemIds.CHISELED_STONE_BRICKS.item(),
-			BlockItemIds.STONE_BRICK_SLAB.item(),
-			BlockItemIds.STONE_BRICK_STAIRS.item(),
 			BlockItemIds.STONE_BRICK_WALL.item(),
-			BlockItemIds.MOSSY_STONE_BRICK_SLAB.item(),
-			BlockItemIds.MOSSY_STONE_BRICK_STAIRS.item(),
 			BlockItemIds.MOSSY_STONE_BRICK_WALL.item(),
-			BlockItemIds.ANDESITE_SLAB.item(),
-			BlockItemIds.ANDESITE_STAIRS.item(),
 			BlockItemIds.ANDESITE_WALL.item(),
-			BlockItemIds.DIORITE_SLAB.item(),
-			BlockItemIds.DIORITE_STAIRS.item(),
 			BlockItemIds.DIORITE_WALL.item(),
-			BlockItemIds.GRANITE_SLAB.item(),
-			BlockItemIds.GRANITE_STAIRS.item(),
 			BlockItemIds.GRANITE_WALL.item(),
-			BlockItemIds.TUFF_SLAB.item(),
-			BlockItemIds.TUFF_STAIRS.item(),
 			BlockItemIds.TUFF_WALL.item(),
-			BlockItemIds.POLISHED_ANDESITE_SLAB.item(),
-			BlockItemIds.POLISHED_ANDESITE_STAIRS.item(),
-			BlockItemIds.POLISHED_DIORITE_SLAB.item(),
-			BlockItemIds.POLISHED_DIORITE_STAIRS.item(),
-			BlockItemIds.POLISHED_GRANITE_SLAB.item(),
-			BlockItemIds.POLISHED_GRANITE_STAIRS.item(),
-			BlockItemIds.POLISHED_TUFF_SLAB.item(),
-			BlockItemIds.POLISHED_TUFF_STAIRS.item(),
+			BlockItemIds.TUFF_BRICK_WALL.item(),
 			BlockItemIds.POLISHED_TUFF_WALL.item(),
-			BlockItemIds.CHISELED_TUFF_BRICKS.item(),
-			BlockItemIds.CHISELED_DEEPSLATE.item(),
+			BlockItemIds.POLISHED_DEEPSLATE_WALL.item(),
 			BlockItemIds.CRACKED_DEEPSLATE_BRICKS.item(),
-			BlockItemIds.BLACKSTONE_SLAB.item(),
-			BlockItemIds.BLACKSTONE_STAIRS.item(),
 			BlockItemIds.BLACKSTONE_WALL.item(),
-			BlockItemIds.CRACKED_DEEPSLATE_BRICKS.item(),
-			BlockItemIds.CRACKED_DEEPSLATE_TILES.item(),
+			BlockItemIds.POLISHED_BLACKSTONE_BRICKS.item(),
+			BlockItemIds.POLISHED_BLACKSTONE_BRICK_WALL.item(),
 			BlockItemIds.CRACKED_NETHER_BRICKS.item(),
 			BlockItemIds.CRACKED_POLISHED_BLACKSTONE_BRICKS.item(),
 			BlockItemIds.MOSSY_STONE_BRICKS.item(),
 			ItemIds.NETHER_BRICK,
 			BlockItemIds.NETHER_BRICK_FENCE.item(),
-			BlockItemIds.NETHER_BRICK_SLAB.item(),
-			BlockItemIds.NETHER_BRICK_STAIRS.item(),
 			BlockItemIds.NETHER_BRICK_WALL.item(),
 			BlockItemIds.NETHER_BRICKS.item(),
-			BlockItemIds.CRACKED_NETHER_BRICKS.item(),
-			BlockItemIds.CHISELED_NETHER_BRICKS.item());
+			BlockItemIds.DEEPSLATE.item(),
+			BlockItemIds.DEEPSLATE_BRICK_WALL.item(),
+			BlockItemIds.DEEPSLATE_BRICKS.item(),
+			BlockItemIds.DEEPSLATE_TILES.item(),
+			BlockItemIds.DEEPSLATE_TILE_WALL.item(),
+			BlockItemIds.CRACKED_DEEPSLATE_TILES.item(),
+			BlockItemIds.INFESTED_DEEPSLATE.item(),
+			BlockItemIds.REINFORCED_DEEPSLATE.item());
+	}
+
+	@SuppressWarnings({"unchecked", "RedundantSuppression"})
+	private void tagGravelSourcesSlabs() {
+		final TagAppender<Item> tag = tag(GRAVEL_SOURCES_SLABS);
+		tag.add(
+			BlockItemIds.COBBLESTONE_SLAB.item(),
+			BlockItemIds.MOSSY_COBBLESTONE_SLAB.item(),
+			BlockItemIds.COBBLED_DEEPSLATE_SLAB.item(),
+			BlockItemIds.STONE_SLAB.item(),
+			BlockItemIds.STONE_BRICK_SLAB.item(),
+			BlockItemIds.MOSSY_STONE_BRICK_SLAB.item(),
+			BlockItemIds.ANDESITE_SLAB.item(),
+			BlockItemIds.DIORITE_SLAB.item(),
+			BlockItemIds.GRANITE_SLAB.item(),
+			BlockItemIds.TUFF_SLAB.item(),
+			BlockItemIds.TUFF_BRICK_SLAB.item(),
+			BlockItemIds.POLISHED_ANDESITE_SLAB.item(),
+			BlockItemIds.POLISHED_DIORITE_SLAB.item(),
+			BlockItemIds.POLISHED_GRANITE_SLAB.item(),
+			BlockItemIds.POLISHED_TUFF_SLAB.item(),
+			BlockItemIds.POLISHED_DEEPSLATE_SLAB.item(),
+			BlockItemIds.POLISHED_BLACKSTONE_BRICK_SLAB.item(),
+			BlockItemIds.BLACKSTONE_SLAB.item(),
+			BlockItemIds.NETHER_BRICK_SLAB.item(),
+			BlockItemIds.DEEPSLATE_BRICK_SLAB.item(),
+			BlockItemIds.DEEPSLATE_TILE_SLAB.item());
+	}
+
+	@SuppressWarnings({"unchecked", "RedundantSuppression"})
+	private void tagGravelSourcesStairs() {
+		final TagAppender<Item> tag = tag(GRAVEL_SOURCES_STAIRS);
+		tag.add(
+			BlockItemIds.COBBLESTONE_STAIRS.item(),
+			BlockItemIds.MOSSY_COBBLESTONE_STAIRS.item(),
+			BlockItemIds.COBBLED_DEEPSLATE_STAIRS.item(),
+			BlockItemIds.STONE_STAIRS.item(),
+			BlockItemIds.STONE_BRICK_STAIRS.item(),
+			BlockItemIds.MOSSY_STONE_BRICK_STAIRS.item(),
+			BlockItemIds.ANDESITE_STAIRS.item(),
+			BlockItemIds.DIORITE_STAIRS.item(),
+			BlockItemIds.GRANITE_STAIRS.item(),
+			BlockItemIds.TUFF_STAIRS.item(),
+			BlockItemIds.TUFF_BRICK_STAIRS.item(),
+			BlockItemIds.POLISHED_ANDESITE_STAIRS.item(),
+			BlockItemIds.POLISHED_DIORITE_STAIRS.item(),
+			BlockItemIds.POLISHED_GRANITE_STAIRS.item(),
+			BlockItemIds.POLISHED_TUFF_STAIRS.item(),
+			BlockItemIds.POLISHED_DEEPSLATE_STAIRS.item(),
+			BlockItemIds.POLISHED_BLACKSTONE_BRICK_STAIRS.item(),
+			BlockItemIds.BLACKSTONE_STAIRS.item(),
+			BlockItemIds.NETHER_BRICK_STAIRS.item(),
+			BlockItemIds.DEEPSLATE_BRICK_STAIRS.item(),
+			BlockItemIds.DEEPSLATE_TILE_STAIRS.item());
 	}
 
 	@SuppressWarnings({"unchecked", "RedundantSuppression"})
@@ -245,29 +288,16 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 			BlockItemIds.SMOOTH_QUARTZ.item(),
 			BlockItemIds.SMOOTH_QUARTZ_SLAB.item(),
 			BlockItemIds.SMOOTH_QUARTZ_STAIRS.item(),
-			BlockItemIds.CHISELED_QUARTZ_BLOCK.item(),
-			BlockItemIds.NETHER_QUARTZ_ORE.item(),
-			ItemIds.GLASS_BOTTLE,
-			BlockItemIds.TERRACOTTA.item(),
-			BlockItemIds.DYED_TERRACOTTA.white().item(),
-			BlockItemIds.GLAZED_TERRACOTTA.white().item(),
-			BlockItemIds.STAINED_GLASS.white().item(),
-			BlockItemIds.STAINED_GLASS_PANE.white().item());
+			BlockItemIds.CHISELED_QUARTZ_BLOCK.item());
 	}
-
 
 	@SuppressWarnings({"unchecked", "RedundantSuppression"})
 	private void tagRedSandSources() {
 		final TagAppender<Item> tag = tag(RED_SAND_SOURCES);
 		tag.add(
-			BlockItemIds.DYED_TERRACOTTA.red().item(),
-			BlockItemIds.GLAZED_TERRACOTTA.red().item(),
-			BlockItemIds.RED_NETHER_BRICK_SLAB.item(),
 			BlockItemIds.RED_NETHER_BRICK_STAIRS.item(),
 			BlockItemIds.RED_NETHER_BRICK_WALL.item(),
-			BlockItemIds.RED_NETHER_BRICKS.item(),
-			BlockItemIds.STAINED_GLASS.red().item(),
-			BlockItemIds.STAINED_GLASS_PANE.red().item());
+			BlockItemIds.RED_NETHER_BRICKS.item());
 	}
 
 	@SuppressWarnings({"unchecked", "RedundantSuppression"})
@@ -473,6 +503,8 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 	@Override
 	protected void addTags(final HolderLookup.@NonNull Provider registries) {
 		tagGravelSources();
+		tagGravelSourcesSlabs();
+		tagGravelSourcesStairs();
 		tagSandSources();
 		tagRedSandSources();
 		tagNormalFruitFoods();

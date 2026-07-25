@@ -10,13 +10,6 @@
     "minecraft:smooth_quartz",
     "minecraft:smooth_quartz_slab",
     "minecraft:smooth_quartz_stairs",
-    "minecraft:chiseled_quartz_block",
-    "minecraft:nether_quartz_ore",
-    "minecraft:glass_bottle",
-    "minecraft:terracotta",
-    "minecraft:white_terracotta",
-    "minecraft:white_glazed_terracotta",
-    "minecraft:white_stained_glass",
-    "minecraft:white_stained_glass_pane"
+    "minecraft:chiseled_quartz_block"
   ]
 }
