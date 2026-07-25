@@ -5,6 +5,7 @@ import java.util.List;
 import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.screen.base.AbstractProcessingScreen;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
@@ -44,7 +45,9 @@ public class CompressorScreen extends AbstractProcessingScreen<CompressorMenu> {
 	);
 
 	public CompressorScreen(
-		CompressorMenu menu, Inventory playerInventory, Component title
+		final @NonNull CompressorMenu menu,
+		final @NonNull Inventory playerInventory,
+		final @NonNull Component title
 	) {
 		super(
 			menu, playerInventory, title,

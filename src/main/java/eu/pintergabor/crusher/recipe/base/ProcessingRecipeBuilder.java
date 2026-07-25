@@ -72,6 +72,10 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 		return this;
 	}
 
+	/**
+	 * No grouping.
+	 * @param group Ignored.
+	 */
 	@Override
 	public @NonNull RecipeBuilder group(@Nullable String group) {
 		return this;

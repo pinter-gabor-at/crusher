@@ -30,6 +30,10 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	private final AbstractProcessingRecipe.Factory<AbstractProcessingRecipe> factory;
 	private final String from;
 
+	/**
+	 * @param factory {@code CrusherRecipe::new} or {@code CompressorRecipe::new}.
+	 * @param from    {@code "_from_crushing_"} or {@code "_from_compressing_"}.
+	 */
 	public ProcessingRecipeGenerator(
 		final HolderLookup.@NonNull Provider registries,
 		final @NonNull RecipeOutput output,
@@ -41,6 +45,9 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 		this.from = from;
 	}
 
+	/**
+	 * Set experience and processing time for all receipes generated afterward.
+	 */
 	public void setParam(final float experience, final int processingTime) {
 		this.experience = experience;
 		this.processingTime = processingTime;

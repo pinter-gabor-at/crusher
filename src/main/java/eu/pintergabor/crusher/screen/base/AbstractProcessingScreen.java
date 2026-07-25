@@ -2,8 +2,8 @@ package eu.pintergabor.crusher.screen.base;
 
 import java.util.List;
 
+import org.jspecify.annotations.NonNull;
 
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
@@ -17,8 +17,6 @@ import net.minecraft.world.entity.player.Inventory;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-
-import org.jspecify.annotations.NonNull;
 
 
 /**

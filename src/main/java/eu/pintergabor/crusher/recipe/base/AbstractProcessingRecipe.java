@@ -111,6 +111,8 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 
 	@FunctionalInterface
 	public interface Factory<T extends AbstractProcessingRecipe> {
+		// Parameter types and order must match the types and order in
+		// processingMapCodec and processingStreamCodec.
 		T create(
 			Ingredient ingredient,
 			int ingredientCount,

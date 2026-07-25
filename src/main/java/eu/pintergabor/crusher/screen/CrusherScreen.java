@@ -5,6 +5,7 @@ import java.util.List;
 import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 import eu.pintergabor.crusher.screen.base.AbstractProcessingScreen;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
@@ -44,7 +45,9 @@ public class CrusherScreen extends AbstractProcessingScreen<CrusherMenu> {
 	);
 
 	public CrusherScreen(
-		CrusherMenu menu, Inventory playerInventory, Component title
+		final @NonNull CrusherMenu menu,
+		final @NonNull Inventory playerInventory,
+		final @NonNull Component title
 	) {
 		super(
 			menu, playerInventory, title,

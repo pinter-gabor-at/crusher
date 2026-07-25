@@ -34,7 +34,7 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 	public static final TagKey<Item> GRAVEL_SOURCES_SLABS = createModItemTag("gravel_sources_slabs");
 
 	/**
-	 * Stair like items crushed to 1.5 gravel.
+	 * Stairs like items crushed to 1.5 gravel.
 	 */
 	public static final TagKey<Item> GRAVEL_SOURCES_STAIRS = createModItemTag("gravel_sources_stairs");
 
