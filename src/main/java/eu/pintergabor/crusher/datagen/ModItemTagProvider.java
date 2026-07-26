@@ -24,7 +24,7 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
 	/**
-	 * Items crushed to gravel.
+	 * Items crushed to 1 gravel.
 	 */
 	public static final TagKey<Item> GRAVEL_SOURCES = createModItemTag("gravel_sources");
 
@@ -39,12 +39,12 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 	public static final TagKey<Item> GRAVEL_SOURCES_STAIRS = createModItemTag("gravel_sources_stairs");
 
 	/**
-	 * Items crushed to sand.
+	 * Items crushed to 1 sand.
 	 */
 	public static final TagKey<Item> SAND_SOURCES = createModItemTag("sand_sources");
 
 	/**
-	 * Items crushed to red sand.
+	 * Items crushed to 1 red sand.
 	 */
 	public static final TagKey<Item> RED_SAND_SOURCES = createModItemTag("red_sand_sources");
 

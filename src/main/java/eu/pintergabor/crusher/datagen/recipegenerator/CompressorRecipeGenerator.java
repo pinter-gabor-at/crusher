@@ -69,6 +69,8 @@ public final class CompressorRecipeGenerator {
 		generator.createRecipe(Items.DIAMOND_BLOCK, 1, Items.TNT, 1);
 		// Sponge.
 		generator.createRecipe(Items.WET_SPONGE, 1, Items.SPONGE, 1);
+		// String to wool.
+		generator.createRecipe(Items.STRING, 4, Items.WOOL.white(), 1);
 		// Copper from things made of copper.
 		generator.setParam(0.1F, 150);
 		// Copper from things made of copper.

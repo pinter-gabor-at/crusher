@@ -84,6 +84,9 @@ public final class CrusherRecipeGenerator {
 		generator.createRecipe(ItemTags.WOODEN_TRAPDOORS, 1, Items.STICK, 6);
 		generator.createRecipe(ItemTags.WOODEN_FENCES, 1, Items.STICK, 3);
 		generator.createRecipe(ItemTags.WOODEN_BUTTONS, 1, Items.STICK, 1);
+		generator.createRecipe(Items.CHISELED_BOOKSHELF, 1, Items.STICK, 18);
+		generator.createRecipe(Items.BOW, 1, Items.STICK, 3);
+		generator.createRecipe(Items.CROSSBOW, 1, Items.STICK, 9);
 		generator.createRecipe(Items.STICK, 1, Items.STICK, 1);
 		generator.createRecipe(Items.TORCH, 1, Items.STICK, 2);
 		generator.createRecipe(ItemTags.SAPLINGS, 1, Items.STICK, 2);
@@ -97,6 +100,18 @@ public final class CrusherRecipeGenerator {
 		// This allows the free generation of sticks, for those who discover it.
 		generator.createRecipe(Items.LADDER, 1, Items.STICK, 3);
 		// Planks from items made of planks.
+		generator.createRecipe(Items.OAK_SHELF, 1, Items.OAK_PLANKS, 24);
+		generator.createRecipe(Items.SPRUCE_SHELF, 1, Items.SPRUCE_PLANKS, 24);
+		generator.createRecipe(Items.BIRCH_SHELF, 1, Items.BIRCH_PLANKS, 24);
+		generator.createRecipe(Items.JUNGLE_SHELF, 1, Items.JUNGLE_PLANKS, 24);
+		generator.createRecipe(Items.ACACIA_SHELF, 1, Items.ACACIA_PLANKS, 24);
+		generator.createRecipe(Items.DARK_OAK_SHELF, 1, Items.DARK_OAK_PLANKS, 24);
+		generator.createRecipe(Items.MANGROVE_SHELF, 1, Items.MANGROVE_PLANKS, 24);
+		generator.createRecipe(Items.CHERRY_SHELF, 1, Items.CHERRY_PLANKS, 24);
+		generator.createRecipe(Items.PALE_OAK_SHELF, 1, Items.PALE_OAK_PLANKS, 24);
+		generator.createRecipe(Items.BAMBOO_SHELF, 1, Items.BAMBOO_PLANKS, 24);
+		generator.createRecipe(Items.CRIMSON_SHELF, 1, Items.CRIMSON_PLANKS, 24);
+		generator.createRecipe(Items.WARPED_SHELF, 1, Items.WARPED_PLANKS, 24);
 		generator.createRecipe(Items.OAK_BOAT, 1, Items.OAK_PLANKS, 5);
 		generator.createRecipe(Items.SPRUCE_BOAT, 1, Items.SPRUCE_PLANKS, 5);
 		generator.createRecipe(Items.BIRCH_BOAT, 1, Items.BIRCH_PLANKS, 5);
@@ -119,11 +134,11 @@ public final class CrusherRecipeGenerator {
 		generator.createRecipe(Items.CHERRY_CHEST_BOAT, 1, Items.CHERRY_PLANKS, 13);
 		generator.createRecipe(Items.PALE_OAK_CHEST_BOAT, 1, Items.PALE_OAK_PLANKS, 13);
 		generator.createRecipe(Items.BAMBOO_CHEST_RAFT, 1, Items.BAMBOO_PLANKS, 13);
-		generator.createRecipe(Items.WOODEN_AXE, 1, Items.OAK_PLANKS, 3);
-		generator.createRecipe(Items.WOODEN_PICKAXE, 1, Items.OAK_PLANKS, 3);
-		generator.createRecipe(Items.WOODEN_HOE, 1, Items.OAK_PLANKS, 2);
-		generator.createRecipe(Items.WOODEN_SHOVEL, 1, Items.OAK_PLANKS, 1);
-		generator.createRecipe(Items.WOODEN_SWORD, 1, Items.OAK_PLANKS, 2);
+		generator.createRecipe(Items.WOODEN_AXE, 1, Items.OAK_PLANKS, 4);
+		generator.createRecipe(Items.WOODEN_PICKAXE, 1, Items.OAK_PLANKS, 4);
+		generator.createRecipe(Items.WOODEN_HOE, 1, Items.OAK_PLANKS, 3);
+		generator.createRecipe(Items.WOODEN_SHOVEL, 1, Items.OAK_PLANKS, 2);
+		generator.createRecipe(Items.WOODEN_SWORD, 1, Items.OAK_PLANKS, 3);
 		// Coal from logs.
 		generator.createRecipe(ItemTags.LOGS, 1, Items.CHARCOAL, 1);
 		// Sugar, rotten flesh or dirt from food, except golden apple and golden carrot.
@@ -164,10 +179,15 @@ public final class CrusherRecipeGenerator {
 		generator.createRecipe(Items.BED, 1, Items.STRING, 12);
 		generator.createRecipe(Items.LEAD, 1, Items.STRING, 2);
 		generator.createRecipe(Items.BANNER, 1, Items.STRING, 24);
-		// 4 strings => 2 wools => 3 carpets => 9 strings.
+		// 8 strings => 2 wools => 3 carpets => 9 strings.
 		// This allows the free generation of strings.
 		generator.createRecipe(ItemTags.WOOL_CARPETS, 1, Items.STRING, 3);
 		generator.createRecipe(Items.CARPET, 1, Items.STRING, 3);
+		// Paper from books and bookshelves.
+		// Creates plenty of paper, but does it worth it?
+		generator.createRecipe(Items.BOOK, 1, Items.PAPER, 4);
+		generator.createRecipe(Items.BOOKSHELF, 1, Items.PAPER, 32);
+		generator.createRecipe(Items.LECTERN, 1, Items.PAPER, 48);
 		// Wax from candles.
 		generator.createRecipe(ItemTags.CANDLES, 1, Items.HONEYCOMB, 1);
 		generator.createRecipe(Items.DYED_CANDLE, 1, Items.HONEYCOMB, 1);
