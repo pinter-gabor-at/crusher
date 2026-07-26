@@ -1,0 +1,10 @@
+{
+  "type": "crusher:compressing",
+  "experience": 0.1,
+  "ingredient": "minecraft:bamboo",
+  "ingredient_count": 9,
+  "processingtime": 100,
+  "result": {
+    "id": "minecraft:bamboo_block"
+  }
+}

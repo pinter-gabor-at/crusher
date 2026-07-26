@@ -2,6 +2,7 @@ package eu.pintergabor.crusher.datagen;
 
 import eu.pintergabor.crusher.blocks.ModBlocks;
 import eu.pintergabor.crusher.datagen.recipebase.ProcessingRecipeGenerator;
+import org.jspecify.annotations.NonNull;
 import net.neoforged.neoforge.common.Tags;
 
 import net.minecraft.core.HolderLookup;
@@ -16,7 +17,8 @@ import net.minecraft.world.level.block.Block;
 public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 
 	public ModRecipeGenerator(
-		HolderLookup.Provider registries, RecipeOutput output
+		final HolderLookup.@NonNull Provider registries,
+		final @NonNull RecipeOutput output
 	) {
 		super(registries, output);
 	}
@@ -27,7 +29,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 	 * @param block    Processor block to create.
 	 * @param mainItem Main ingredient.
 	 */
-	private void buildProcessor(Block block, Item mainItem) {
+	private void buildProcessor(final @NonNull Block block, final @NonNull Item mainItem) {
 		shaped(RecipeCategory.DECORATIONS, block)
 			.pattern("###")
 			.pattern("P P")
@@ -45,7 +47,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 	private void generateCrusherRecipes() {
 		// Defaults.
 		experience = 0.1F;
-		cookingTime = 100;
+		processingTime = 100;
 		// Gravel from gravel sources.
 		createCrusherRecipe(ModItemTagProvider.GRAVEL_SOURCES, 1, Items.GRAVEL, 1);
 		createCrusherRecipe(Items.STONE_AXE, 1, Items.GRAVEL, 3);
@@ -64,7 +66,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.SANDSTONE_WALL, 1, Items.SAND, 4);
 		createCrusherRecipe(Tags.Items.GLASS_BLOCKS, 1, Items.SAND, 1);
 		// 6 sands => 6 glass blocks => 16 glass panes => 8 sands.
-		// This allows free generation of sand.
+		// This allows the free generation of sand.
 		createCrusherRecipe(Tags.Items.GLASS_PANES, 2, Items.SAND, 1);
 		// Red sand from red sandstones and other redish blocks.
 		createCrusherRecipe(ModItemTagProvider.RED_SAND_SOURCES, 1, Items.RED_SAND, 1);
@@ -91,7 +93,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(ModItemTagProvider.WOODEN_FENCES, 1, Items.STICK, 3);
 		createCrusherRecipe(ModItemTagProvider.WOODEN_FENCE_GATES, 1, Items.STICK, 8);
 		// 7 sticks => 3 ladders => 9 sticks.
-		// This allows free generation of sticks, for those who discover it.
+		// This allows the free generation of sticks, for those who discover it.
 		createCrusherRecipe(Items.LADDER, 1, Items.STICK, 3);
 		// Planks from items made of planks.
 		createCrusherRecipe(Items.OAK_DOOR, 1, Items.OAK_PLANKS, 2);
@@ -163,16 +165,16 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Tags.Items.FOODS_SOUP, 1, Items.DIRT, 1);
 		createCrusherRecipe(ModItemTagProvider.FOODS_NORMAL_VEGETABLE, 1, Items.DIRT, 1);
 		// 8 ingots + 1 apple => 1 golden apple => 9 ingots.
-		// This allows free generation of gold, for those who discover it.
-		cookingTime = 200;
+		// This allows the free generation of gold, for those who discover it.
+		processingTime = 200;
 		createCrusherRecipe(Items.GOLDEN_APPLE, 1, Items.RAW_GOLD, 9);
-		cookingTime = 600;
+		processingTime = 600;
 		createCrusherRecipe(Items.ENCHANTED_GOLDEN_APPLE, 1, Items.RAW_GOLD, 64);
 		// 8 nugget + 1 carrot => 1 golden carrot => 1 ingots => 9 nuggets.
-		// This allows free generation of gold, for those who discover it.
-		cookingTime = 100;
+		// This allows the free generation of gold, for those who discover it.
+		processingTime = 100;
 		createCrusherRecipe(Items.GOLDEN_CARROT, 1, Items.RAW_GOLD, 1);
-		// Snow from ice
+		// Snow from ice.
 		createCrusherRecipe(Items.ICE, 1, Items.SNOW, 4);
 		createCrusherRecipe(Items.BLUE_ICE, 1, Items.SNOW, 4);
 		createCrusherRecipe(Items.PACKED_ICE, 1, Items.SNOW, 36);
@@ -253,7 +255,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		// 11 nuggets => 2 nuggets + 1 ingot => 1 chain => 11 nuggets
 		createCrusherRecipe(Items.COPPER_CHAIN, 1, Items.COPPER_NUGGET, 11);
 		// 54 nuggets => 6 ingots => 16 copper bars => 64 nuggets
-		// This allows free generation of copper, for those who discover it.
+		// This allows the free generation of copper, for those who discover it.
 		createCrusherRecipe(Items.COPPER_BARS, 1, Items.COPPER_NUGGET, 4);
 		createCrusherRecipe(Items.COPPER_LANTERN, 1, Items.COPPER_NUGGET, 8);
 		// Copper from things made of copper.
@@ -261,7 +263,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.DEEPSLATE_COPPER_ORE, 1, Items.RAW_COPPER, 4);
 		createCrusherRecipe(ModItemTagProvider.COPPER_BLOCKS, 1, Items.RAW_COPPER, 9);
 		// 9 ingots => 1 block => 4 cut or chiseled blocks, or grates or stairs => 12 ingots.
-		// This allows free generation of copper, for those who discover it.
+		// This allows the free generation of copper, for those who discover it.
 		createCrusherRecipe(ModItemTagProvider.CUT_COPPER_BLOCKS, 1, Items.RAW_COPPER, 3);
 		createCrusherRecipe(ModItemTagProvider.CHISELED_COPPER_BLOCKS, 1, Items.RAW_COPPER, 3);
 		createCrusherRecipe(ModItemTagProvider.COPPER_GRATES, 1, Items.RAW_COPPER, 3);
@@ -325,7 +327,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.IRON_BARS, 1, Items.IRON_NUGGET, 4);
 		createCrusherRecipe(Items.LANTERN, 1, Items.IRON_NUGGET, 8);
 		// Gold from things made of gold.
-		cookingTime = 150;
+		processingTime = 150;
 		createCrusherRecipe(Items.GOLD_ORE, 1, Items.RAW_GOLD, 4);
 		createCrusherRecipe(Items.DEEPSLATE_GOLD_ORE, 1, Items.RAW_GOLD, 4);
 		createCrusherRecipe(Items.NETHER_GOLD_ORE, 1, Items.RAW_GOLD, 1);
@@ -343,7 +345,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.GOLDEN_HORSE_ARMOR, 1, Items.RAW_GOLD, 7);
 		createCrusherRecipe(Items.POWERED_RAIL, 1, Items.RAW_GOLD, 1);
 		// Diamond from things made of diamonds.
-		cookingTime = 200;
+		processingTime = 200;
 		createCrusherRecipe(Items.DIAMOND_ORE, 1, Items.DIAMOND, 4);
 		createCrusherRecipe(Items.DEEPSLATE_DIAMOND_ORE, 1, Items.DIAMOND, 4);
 		createCrusherRecipe(Items.DIAMOND_AXE, 1, Items.DIAMOND, 3);
@@ -359,12 +361,12 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCrusherRecipe(Items.DIAMOND_HORSE_ARMOR, 1, Items.DIAMOND, 7);
 		// Sand from sand fast. It creates experience.
 		experience = 1.0F;
-		cookingTime = 10;
+		processingTime = 10;
 		createCrusherRecipe(Items.SAND, 1, Items.SAND, 1);
 		createCrusherRecipe(Items.RED_SAND, 1, Items.RED_SAND, 1);
 		// Diamond from diamond, even faster. It creates even more experience.
 		experience = 1.5F;
-		cookingTime = 8;
+		processingTime = 8;
 		createCrusherRecipe(Items.DIAMOND, 1, Items.DIAMOND, 1);
 	}
 
@@ -374,7 +376,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 	private void generateCompressorRecipes() {
 		// Defaults.
 		experience = 0.1F;
-		cookingTime = 100;
+		processingTime = 100;
 		// Sandstone from sand.
 		createCompressorRecipe(Items.SAND, 4, Items.SANDSTONE, 1);
 		createCompressorRecipe(Items.RED_SAND, 4, Items.RED_SANDSTONE, 1);
@@ -421,10 +423,10 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		// Sponge.
 		createCompressorRecipe(Items.WET_SPONGE, 1, Items.SPONGE, 1);
 		// Copper from things made of copper.
-		cookingTime = 150;
+		processingTime = 150;
 		// Copper from things made of copper.
 		// 9 ingots => 1 block => 4 grates or stairs => 12 ingots.
-		// This allows free generation of copper, for those who discover it.
+		// This allows the free generation of copper, for those who discover it.
 		createCrusherRecipe(ModItemTagProvider.COPPER_GRATES, 1, Items.COPPER_INGOT, 3);
 		createCrusherRecipe(ModItemTagProvider.COPPER_STAIRS, 1, Items.COPPER_INGOT, 3);
 		createCrusherRecipe(ModItemTagProvider.COPPER_DOORS, 1, Items.COPPER_INGOT, 2);
@@ -466,7 +468,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		createCompressorRecipe(Items.PISTON, 1, Items.IRON_INGOT, 1);
 		createCompressorRecipe(Items.STICKY_PISTON, 1, Items.IRON_INGOT, 1);
 		// Gold from things made of gold.
-		cookingTime = 200;
+		processingTime = 200;
 		createCompressorRecipe(Items.GOLDEN_AXE, 1, Items.GOLD_INGOT, 3);
 		createCompressorRecipe(Items.GOLDEN_PICKAXE, 1, Items.GOLD_INGOT, 3);
 		createCompressorRecipe(Items.GOLDEN_HOE, 1, Items.GOLD_INGOT, 2);
@@ -482,7 +484,7 @@ public final class ModRecipeGenerator extends ProcessingRecipeGenerator {
 		// Diamond from coal blocks, but very slowly.
 		// 144 coals => 1 diamond.
 		experience = 1.0F;
-		cookingTime = 1000;
+		processingTime = 1000;
 		createCompressorRecipe(Items.COAL_BLOCK, 16, Items.DIAMOND, 1);
 	}
 

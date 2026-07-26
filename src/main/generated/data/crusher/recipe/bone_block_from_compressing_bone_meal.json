@@ -1,0 +1,10 @@
+{
+  "type": "crusher:compressing",
+  "experience": 0.1,
+  "ingredient": "minecraft:bone_meal",
+  "ingredient_count": 8,
+  "processingtime": 100,
+  "result": {
+    "id": "minecraft:bone_block"
+  }
+}

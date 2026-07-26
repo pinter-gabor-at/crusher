@@ -2,9 +2,9 @@ package eu.pintergabor.crusher.screen.base;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
@@ -26,14 +26,14 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 	private final Identifier burnProgressSprite;
 
 	public AbstractProcessingScreen(
-		T menu,
-		Inventory playerInventory,
-		Component title,
-		Component recipeFilterName,
-		Identifier background,
-		Identifier litProgressSprite,
-		Identifier burnProgressSprite,
-		List<RecipeBookComponent.TabInfo> recipeBookTabs
+		final @NonNull T menu,
+		final @NonNull Inventory playerInventory,
+		final @NonNull Component title,
+		final @NonNull Component recipeFilterName,
+		final @NonNull Identifier background,
+		final @NonNull Identifier litProgressSprite,
+		final @NonNull Identifier burnProgressSprite,
+		final @NonNull List<RecipeBookComponent.TabInfo> recipeBookTabs
 	) {
 		super(
 			menu,
@@ -42,7 +42,8 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 				recipeFilterName,
 				recipeBookTabs),
 			playerInventory,
-			title);
+			title
+		);
 		this.background = background;
 		this.litProgressSprite = litProgressSprite;
 		this.burnProgressSprite = burnProgressSprite;
@@ -55,17 +56,20 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 	}
 
 	@Override
-	protected @NotNull ScreenPosition getRecipeBookButtonPosition() {
+	protected @NonNull ScreenPosition getRecipeBookButtonPosition() {
 		return new ScreenPosition(leftPos + 20, height / 2 - 49);
 	}
 
 	@Override
-	protected void renderBg(
-		@NotNull GuiGraphics guiGraphics,
-		float partialTick, int mouseX, int mouseY
+	public void extractBackground(
+		final @NonNull GuiGraphicsExtractor graphics,
+		final int mouseX,
+		final int mouseY,
+		final float a
 	) {
+		super.extractBackground(graphics, mouseX, mouseY, a);
 		// Full (176x166) size background.
-		guiGraphics.blit(
+		graphics.blit(
 			RenderPipelines.GUI_TEXTURED,
 			background,
 			leftPos, topPos,
@@ -75,7 +79,7 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 		if (menu.isLit()) {
 			// Height of the fuel consumption sprite in the middle.
 			final int h = Mth.ceil(menu.getLitProgress() * 13F) + 1;
-			guiGraphics.blitSprite(
+			graphics.blitSprite(
 				RenderPipelines.GUI_TEXTURED,
 				litProgressSprite,
 				14, 14,
@@ -85,7 +89,7 @@ public abstract class AbstractProcessingScreen<T extends AbstractProcessingMenu>
 		}
 		// Width of the progress sprite.
 		final int w = Mth.ceil(menu.getBurnProgress() * 24F);
-		guiGraphics.blitSprite(
+		graphics.blitSprite(
 			RenderPipelines.GUI_TEXTURED,
 			burnProgressSprite,
 			24, 16,

@@ -1,11 +1,11 @@
 package eu.pintergabor.crusher.recipe.base;
 
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.Recipe;
@@ -24,9 +24,8 @@ import net.minecraft.world.level.Level;
 public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	private final Ingredient input;
 	private final int inputCount;
-	private final ItemStack result;
-	private final String group;
-	private @Nullable PlacementInfo ingredientPlacement;
+	private final ItemStackTemplate result;
+	private @Nullable PlacementInfo placementInfo;
 
 	/**
 	 * Create recipe.
@@ -36,12 +35,10 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	 */
 	@SuppressWarnings("unused")
 	public OneStackRecipe(
-		String group,
-		Ingredient input,
-		int inputCount,
-		ItemStack result
+		final @NonNull Ingredient input,
+		final int inputCount,
+		final @NonNull ItemStackTemplate result
 	) {
-		this.group = group;
 		this.input = input;
 		this.inputCount = inputCount;
 		this.result = result;
@@ -54,33 +51,29 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 	 */
 	@SuppressWarnings("unused")
 	public OneStackRecipe(
-		String group,
-		ItemStack input,
-		ItemStack result
+		final @NonNull ItemStack input,
+		final @NonNull ItemStackTemplate result
 	) {
-		this(
-			group,
-			Ingredient.of(input.getItem()),
+		this(Ingredient.of(input.getItem()),
 			input.getCount(),
 			result);
 	}
 
 	@Override
-	public abstract @NotNull RecipeSerializer<? extends OneStackRecipe> getSerializer();
+	public abstract @NonNull RecipeSerializer<? extends OneStackRecipe> getSerializer();
 
 	@Override
-	public abstract @NotNull RecipeType<? extends OneStackRecipe> getType();
+	public abstract @NonNull RecipeType<? extends OneStackRecipe> getType();
 
-	public boolean matches(OneStackRecipeInput recipeInput, @NotNull Level level) {
-		return input.test(recipeInput.getItemStack());
+	public boolean matches(@NonNull OneStackRecipeInput input, @NonNull Level level) {
+		return this.input.test(input.getItemStack());
 	}
 
-	@Override
-	public @NotNull String group() {
-		return group;
+	public boolean showNotification() {
+		return false;
 	}
 
-	public Ingredient input() {
+	public @NonNull Ingredient input() {
 		return input;
 	}
 
@@ -88,23 +81,22 @@ public abstract class OneStackRecipe implements Recipe<OneStackRecipeInput> {
 		return inputCount;
 	}
 
-	public ItemStack result() {
+	public @NonNull ItemStackTemplate result() {
 		return result;
 	}
 
 	@Override
-	public @NotNull PlacementInfo placementInfo() {
-		if (ingredientPlacement == null) {
-			ingredientPlacement = PlacementInfo.create(input);
+	public @NonNull PlacementInfo placementInfo() {
+		if (placementInfo == null) {
+			placementInfo = PlacementInfo.create(input);
 		}
-		return ingredientPlacement;
+		return placementInfo;
 	}
 
 	@Override
-	public @NotNull ItemStack assemble(
-		@NotNull OneStackRecipeInput recipeInput,
-		HolderLookup.@NotNull Provider registries
+	public @NonNull ItemStack assemble(
+		@NonNull OneStackRecipeInput recipeInput
 	) {
-		return result.copy();
+		return result.create();
 	}
 }

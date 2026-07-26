@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_foods/edible_when_placed": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:foods/edible_when_placed"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:dirt_from_crushing_foods/edible_when_placed"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_foods/edible_when_placed"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:dirt_from_crushing_foods/edible_when_placed"
+    ]
+  }
+}

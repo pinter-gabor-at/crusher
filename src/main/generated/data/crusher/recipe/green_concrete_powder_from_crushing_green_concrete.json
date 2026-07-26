@@ -1,0 +1,10 @@
+{
+  "type": "crusher:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:green_concrete",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "id": "minecraft:green_concrete_powder"
+  }
+}

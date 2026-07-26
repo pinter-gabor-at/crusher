@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_signs/wood": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:signs/wood"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:stick_from_crushing_signs/wood"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_signs/wood"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:stick_from_crushing_signs/wood"
+    ]
+  }
+}

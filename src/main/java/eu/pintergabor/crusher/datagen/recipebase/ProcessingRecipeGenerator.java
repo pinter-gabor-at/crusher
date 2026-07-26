@@ -1,19 +1,19 @@
 package eu.pintergabor.crusher.datagen.recipebase;
 
+import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import eu.pintergabor.crusher.recipe.base.ProcessingRecipeBuilder;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.WeatheringCopperItems;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -24,7 +24,7 @@ import net.minecraft.world.level.ItemLike;
  */
 public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	public float experience = 0.1F;
-	public int cookingTime = 100;
+	public int processingTime = 100;
 
 	public ProcessingRecipeGenerator(HolderLookup.Provider registries, RecipeOutput output) {
 		super(registries, output);
@@ -41,22 +41,24 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 * @param from        "_from_crushing_" or "_from_compressing_"
 	 */
 	private <T extends AbstractProcessingRecipe> void createRecipe(
-		@NotNull ItemLike input, int inputCount,
-		@NotNull ItemLike result, int resultCount,
-		AbstractProcessingRecipe.RecipeFactory<T> factory, String from
+		final @NonNull ItemLike input, final int inputCount,
+		final @NonNull ItemLike result, int resultCount,
+		final AbstractProcessingRecipe.@NonNull Factory<T> factory,
+		final @NonNull String from
 	) {
 		final Ingredient ingredient = Ingredient.of(input);
+		final String recipeName = Global.modName(
+			getItemName(result.asItem()) + from + getItemName(input));
 		ProcessingRecipeBuilder.create(
 				ingredient,
 				inputCount,
-				RecipeCategory.MISC,
-				new ItemStack(result, resultCount),
+				new ItemStackTemplate(result.asItem(), resultCount),
 				experience,
-				cookingTime,
-				factory)
+				processingTime,
+				factory
+			)
 			.unlockedBy(getHasName(input), has(input))
-			.save(output,
-				getItemName(result.asItem()) + from + getItemName(input));
+			.save(output, recipeName);
 	}
 
 	/**
@@ -69,12 +71,14 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
-		@NotNull ItemLike input, int inputCount,
-		@NotNull ItemLike result, int resultCount
+		final @NonNull ItemLike input, final int inputCount,
+		final @NonNull ItemLike result, final int resultCount
 	) {
-		createRecipe(input, inputCount,
+		createRecipe(
+			input, inputCount,
 			result, resultCount,
-			CrusherRecipe::new, "_from_crushing_");
+			CrusherRecipe::new, "_from_crushing_"
+		);
 	}
 
 	/**
@@ -87,12 +91,14 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCompressorRecipe(
-		@NotNull ItemLike input, int inputCount,
-		@NotNull ItemLike result, int resultCount
+		final @NonNull ItemLike input, final int inputCount,
+		final @NonNull ItemLike result, final int resultCount
 	) {
-		createRecipe(input, inputCount,
+		createRecipe(
+			input, inputCount,
 			result, resultCount,
-			CompressorRecipe::new, "_from_compressing_");
+			CompressorRecipe::new, "_from_compressing_"
+		);
 	}
 
 	/**
@@ -106,25 +112,27 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 * @param from        "_from_crushing_" or "_from_compressing_"
 	 */
 	private <T extends AbstractProcessingRecipe> void createRecipe(
-		@NotNull TagKey<Item> tag, int tagCount,
-		@NotNull ItemLike result, int resultCount,
-		@NotNull AbstractProcessingRecipe.RecipeFactory<T> factory, String from
+		final @NonNull TagKey<Item> tag, final int tagCount,
+		final @NonNull ItemLike result, final int resultCount,
+		AbstractProcessingRecipe.@NonNull Factory<T> factory,
+		final @NonNull String from
 	) {
 		try {
 			final HolderLookup.RegistryLookup<Item> registryLookup =
 				registries.lookupOrThrow(Registries.ITEM);
 			final Ingredient ingredient = Ingredient.of(registryLookup.getOrThrow(tag));
+			final String recipeName = Global.modName(
+				getItemName(result.asItem()) + from + tag.location().getPath());
 			ProcessingRecipeBuilder.create(
 					ingredient,
 					tagCount,
-					RecipeCategory.MISC,
-					new ItemStack(result, resultCount),
+					new ItemStackTemplate(result.asItem(), resultCount),
 					experience,
-					cookingTime,
-					factory)
+					processingTime,
+					factory
+				)
 				.unlockedBy("has_" + tag.location().getPath(), has(tag))
-				.save(output,
-					getItemName(result.asItem()) + from + tag.location().getPath());
+				.save(output, recipeName);
 		} catch (IllegalStateException e) {
 			// If the tag does not exist, then do not generate the recipe.
 		}
@@ -140,12 +148,15 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
-		@NotNull TagKey<Item> tag, int tagCount,
-		@NotNull ItemLike result, int resultCount
+		final @NonNull TagKey<Item> tag, final int tagCount,
+		final @NonNull ItemLike result, final int resultCount
 	) {
-		createRecipe(tag, tagCount,
+		createRecipe(
+			tag, tagCount,
 			result, resultCount,
-			CrusherRecipe::new, "_from_crushing_");
+			CrusherRecipe::new,
+			"_from_crushing_"
+		);
 	}
 
 	/**
@@ -158,12 +169,15 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCompressorRecipe(
-		@NotNull TagKey<Item> tag, int tagCount,
-		@NotNull ItemLike result, int resultCount
+		final @NonNull TagKey<Item> tag, final int tagCount,
+		final @NonNull ItemLike result, final int resultCount
 	) {
-		createRecipe(tag, tagCount,
+		createRecipe(
+			tag, tagCount,
 			result, resultCount,
-			CompressorRecipe::new, "_from_compressing_");
+			CompressorRecipe::new,
+			"_from_compressing_"
+		);
 	}
 
 	/**
@@ -176,9 +190,10 @@ public abstract class ProcessingRecipeGenerator extends RecipeProvider {
 	 */
 	@SuppressWarnings({"unused", "SameParameterValue"})
 	protected void createCrusherRecipe(
-		@NotNull WeatheringCopperItems copperItem, int inputCount,
-		@NotNull ItemLike result, int resultCount
+		final @NonNull WeatheringCopperItems copperItem, final int inputCount,
+		final @NonNull ItemLike result, final int resultCount
 	) {
-		copperItem.forEach(item -> createCrusherRecipe(item, inputCount, result, resultCount));
+		copperItem.forEach(item ->
+			createCrusherRecipe(item, inputCount, result, resultCount));
 	}
 }

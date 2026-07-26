@@ -1,0 +1,10 @@
+{
+  "type": "crusher:compressing",
+  "experience": 0.1,
+  "ingredient": "minecraft:pointed_dripstone",
+  "ingredient_count": 4,
+  "processingtime": 100,
+  "result": {
+    "id": "minecraft:dripstone_block"
+  }
+}

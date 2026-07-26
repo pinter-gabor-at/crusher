@@ -6,7 +6,7 @@ import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
 import eu.pintergabor.crusher.screen.base.AbstractProcessingScreen;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.chat.Component;
@@ -19,7 +19,7 @@ import net.minecraft.world.item.Items;
  * Similar to {@link FurnaceScreen}, but with fewer tabs.
  * <p>
  * Texture and sprite sizes are defined in
- * {@link AbstractProcessingScreen#renderBg(GuiGraphics, float, int, int)}.
+ * {@link AbstractProcessingScreen#extractBackground(GuiGraphicsExtractor, int, int, float)}.
  */
 public class CrusherScreen extends AbstractProcessingScreen<CrusherMenu> {
 	// The entire GUI (176x166).
@@ -44,6 +44,7 @@ public class CrusherScreen extends AbstractProcessingScreen<CrusherMenu> {
 	) {
 		super(
 			menu, playerInventory, title,
-			FILTER_NAME, TEXTURE, LIT_PROGRESS_SPRITE, BURN_PROGRESS_SPRITE, TABS);
+			FILTER_NAME, TEXTURE, LIT_PROGRESS_SPRITE, BURN_PROGRESS_SPRITE, TABS
+		);
 	}
 }

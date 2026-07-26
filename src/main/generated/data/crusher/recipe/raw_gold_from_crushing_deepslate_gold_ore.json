@@ -1,0 +1,11 @@
+{
+  "type": "crusher:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:deepslate_gold_ore",
+  "ingredient_count": 1,
+  "processingtime": 150,
+  "result": {
+    "count": 4,
+    "id": "minecraft:raw_gold"
+  }
+}
