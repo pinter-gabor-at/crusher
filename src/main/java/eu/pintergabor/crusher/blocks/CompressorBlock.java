@@ -2,8 +2,8 @@ package eu.pintergabor.crusher.blocks;
 
 import com.mojang.serialization.MapCodec;
 import eu.pintergabor.crusher.blocks.base.AbstractProcessingBlock;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +24,7 @@ public class CompressorBlock extends AbstractProcessingBlock {
 	public static final MapCodec<CompressorBlock> CODEC = simpleCodec(CompressorBlock::new);
 
 	@Override
-	public @NotNull MapCodec<CompressorBlock> codec() {
+	public @NonNull MapCodec<CompressorBlock> codec() {
 		return CODEC;
 	}
 
@@ -34,25 +34,26 @@ public class CompressorBlock extends AbstractProcessingBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(
-		@NotNull BlockPos pos, @NotNull BlockState state
+		final @NonNull BlockPos pos,
+		final @NonNull BlockState state
 	) {
 		return new CompressorBlockEntity(pos, state);
 	}
 
 	@Override
 	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(
-		@NotNull Level level,
-		@NotNull BlockState state,
-		@NotNull BlockEntityType<T> type
+		final @NonNull Level level,
+		final @NonNull BlockState state,
+		final @NonNull BlockEntityType<T> type
 	) {
 		return createModTicker(level, type, ModBlocks.COMPRESSOR_ENTITY.get());
 	}
 
 	@Override
 	protected void openContainer(
-		@NotNull Level level,
-		@NotNull BlockPos pos,
-		@NotNull Player player
+		final @NonNull Level level,
+		final @NonNull BlockPos pos,
+		final @NonNull Player player
 	) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 		if (blockEntity instanceof CompressorBlockEntity processor) {

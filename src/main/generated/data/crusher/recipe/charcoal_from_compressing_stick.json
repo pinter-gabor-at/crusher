@@ -1,0 +1,10 @@
+{
+  "type": "crusher:compressing",
+  "experience": 0.1,
+  "ingredient": "minecraft:stick",
+  "ingredient_count": 8,
+  "processingtime": 100,
+  "result": {
+    "id": "minecraft:charcoal"
+  }
+}

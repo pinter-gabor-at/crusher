@@ -2,10 +2,10 @@
   "type": "crusher:crushing",
   "experience": 0.1,
   "ingredient": "#c:stairs/copper",
-  "ingredient_count": 1,
+  "ingredient_count": 2,
   "processingtime": 100,
   "result": {
-    "count": 3,
+    "count": 27,
     "id": "minecraft:raw_copper"
   }
 }

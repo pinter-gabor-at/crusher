@@ -1,0 +1,11 @@
+{
+  "type": "crusher:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:orange_wool",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "count": 4,
+    "id": "minecraft:string"
+  }
+}

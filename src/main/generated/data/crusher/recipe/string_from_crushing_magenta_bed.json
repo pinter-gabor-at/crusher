@@ -1,0 +1,11 @@
+{
+  "type": "crusher:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:magenta_bed",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "count": 12,
+    "id": "minecraft:string"
+  }
+}

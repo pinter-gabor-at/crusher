@@ -2,7 +2,7 @@
   "type": "crusher:compressing",
   "experience": 1.0,
   "ingredient": "minecraft:coal_block",
-  "ingredient_count": 16,
+  "ingredient_count": 8,
   "processingtime": 1000,
   "result": {
     "id": "minecraft:diamond"

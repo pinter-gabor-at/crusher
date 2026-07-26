@@ -1,0 +1,10 @@
+{
+  "type": "crusher:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:gray_candle",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "id": "minecraft:honeycomb"
+  }
+}

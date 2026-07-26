@@ -1,7 +1,7 @@
 package eu.pintergabor.crusher;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.LoggerFactory;
 
 import net.minecraft.resources.Identifier;
@@ -31,7 +31,7 @@ public final class Global {
 	 */
 	@Contract(pure = true)
 	@SuppressWarnings("unused")
-	public static @NotNull String modName(String path) {
+	public static @NonNull String modName(@NonNull String path) {
 		return MODID + ":" + path;
 	}
 
@@ -42,7 +42,7 @@ public final class Global {
 	 */
 	@Contract("_ -> new")
 	@SuppressWarnings("unused")
-	public static @NotNull Identifier modId(String path) {
+	public static @NonNull Identifier modId(@NonNull String path) {
 		return Identifier.fromNamespaceAndPath(MODID, path);
 	}
 }

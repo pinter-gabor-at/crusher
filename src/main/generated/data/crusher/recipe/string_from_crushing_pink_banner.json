@@ -1,0 +1,11 @@
+{
+  "type": "crusher:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:pink_banner",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "count": 24,
+    "id": "minecraft:string"
+  }
+}

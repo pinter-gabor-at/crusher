@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cut_blocks/copper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:cut_blocks/copper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:copper_block_from_compressing_cut_blocks/copper"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cut_blocks/copper"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:copper_block_from_compressing_cut_blocks/copper"
+    ]
+  }
+}
