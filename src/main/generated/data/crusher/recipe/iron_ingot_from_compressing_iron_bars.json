@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:compressing",
+  "experience": 0.1,
+  "ingredient": "minecraft:iron_bars",
+  "ingredient_count": 2,
+  "processingtime": 150,
+  "result": {
+    "id": "minecraft:iron_ingot"
+  }
+}

@@ -4,7 +4,7 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import net.minecraft.advancements.AdvancementHolder;
-import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -72,6 +72,10 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 		return this;
 	}
 
+	/**
+	 * No grouping.
+	 * @param group Ignored.
+	 */
 	@Override
 	public @NonNull RecipeBuilder group(@Nullable String group) {
 		return this;

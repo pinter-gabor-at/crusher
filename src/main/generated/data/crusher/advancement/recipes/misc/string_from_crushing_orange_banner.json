@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_orange_banner": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:orange_banner"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:string_from_crushing_orange_banner"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_orange_banner"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:string_from_crushing_orange_banner"
+    ]
+  }
+}

@@ -24,8 +24,8 @@ public final class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvi
 	@Override
 	protected void addTags(final HolderLookup.@NonNull Provider registries) {
 		// Mineable with pickaxe.
-		valueLookupBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
-			.add(ModBlocks.CRUSHER_BLOCK)
-			.add(ModBlocks.COMPRESSOR_BLOCK);
+		tag(BlockTags.MINEABLE_WITH_PICKAXE)
+			.add(ModBlocks.CRUSHER_BLOCK_ID.block())
+			.add(ModBlocks.COMPRESSOR_BLOCK_ID.block());
 	}
 }

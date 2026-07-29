@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:purple_candle",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "id": "minecraft:honeycomb"
+  }
+}

@@ -2,6 +2,8 @@ package eu.pintergabor.crusher.screen.base;
 
 import java.util.List;
 
+import org.jspecify.annotations.NonNull;
+
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.recipebook.FurnaceRecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.GhostSlots;
@@ -17,8 +19,6 @@ import net.minecraft.world.item.crafting.display.RecipeDisplay;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-
-import org.jspecify.annotations.NonNull;
 
 
 /**

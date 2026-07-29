@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_chiseled_bookshelf": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:chiseled_bookshelf"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:stick_from_crushing_chiseled_bookshelf"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_chiseled_bookshelf"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:stick_from_crushing_chiseled_bookshelf"
+    ]
+  }
+}

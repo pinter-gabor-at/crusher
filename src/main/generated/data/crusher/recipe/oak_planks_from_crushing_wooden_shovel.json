@@ -5,6 +5,7 @@
   "ingredient_count": 1,
   "processingtime": 100,
   "result": {
+    "count": 2,
     "id": "minecraft:oak_planks"
   }
 }
