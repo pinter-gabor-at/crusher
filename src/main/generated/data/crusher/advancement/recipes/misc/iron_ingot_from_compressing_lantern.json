@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_oxidized_copper_lantern": {
+    "has_lantern": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:oxidized_copper_lantern"
+            "items": "minecraft:lantern"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crusher:copper_nugget_from_crushing_oxidized_copper_lantern"
+        "recipe": "crusher:iron_ingot_from_compressing_lantern"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_oxidized_copper_lantern"
+      "has_lantern"
     ]
   ],
   "rewards": {
     "recipes": [
-      "crusher:copper_nugget_from_crushing_oxidized_copper_lantern"
+      "crusher:iron_ingot_from_compressing_lantern"
     ]
   }
 }

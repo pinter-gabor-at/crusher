@@ -77,7 +77,7 @@ public final class CompressorRecipeGenerator {
 		generator.createRecipe(Items.COPPER_CHEST, 1, Items.COPPER_INGOT, 8);
 		generator.createRecipe(Items.LIGHTNING_ROD, 1, Items.COPPER_INGOT, 3);
 		generator.createRecipe(Items.COPPER_BULB, 1, Items.COPPER_BLOCK.weathering().unaffected(), 3);
-		// 8 nuggets + 1 copper torch containint 1 nugget => 1 lantern => 1 ingot.
+		// 8 nuggets + 1 copper torch containing 1 nugget => 1 lantern => 1 ingot.
 		generator.createRecipe(Items.COPPER_LANTERN, 1, Items.COPPER_INGOT, 1);
 		// Using the stonecutter allows the free and very efficient generation of copper.
 		// For example:
@@ -123,6 +123,15 @@ public final class CompressorRecipeGenerator {
 		generator.createRecipe(Items.HOPPER, 1, Items.IRON_INGOT, 5);
 		generator.createRecipe(Items.PISTON, 1, Items.IRON_INGOT, 1);
 		generator.createRecipe(Items.STICKY_PISTON, 1, Items.IRON_INGOT, 1);
+		// 8 nuggets + 1 torch => 1 lantern => 1 ingot => 9 nuggets.
+		// This allows the free generation of iron, for those who discover it.
+		generator.createRecipe(Items.LANTERN, 1, Items.IRON_INGOT, 1);
+		// 11 nuggets => 2 nuggets + 1 ingot => 1 chain => 1 ingot => 9 nuggets.
+		// This is not so good.
+		generator.createRecipe(Items.IRON_CHAIN, 1, Items.IRON_INGOT, 11);
+		// 54 nuggets => 6 ingots => 16 iron bars => 8 ingots => 72 nuggets.
+		// This allows the free generation of iron, for those who discover it.
+		generator.createRecipe(Items.IRON_BARS, 2, Items.IRON_INGOT, 1);
 		// Gold from things made of gold.
 		generator.setParam(0.1F, 200);
 		generator.createRecipe(Items.GOLDEN_AXE, 1, Items.GOLD_INGOT, 3);
