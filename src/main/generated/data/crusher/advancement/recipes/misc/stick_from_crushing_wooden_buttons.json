@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:stick_from_crushing_wooden_buttons"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wooden_buttons": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:wooden_buttons"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_wooden_buttons"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:stick_from_crushing_wooden_buttons"
+    ]
+  }
+}

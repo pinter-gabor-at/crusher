@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_chiseled_sandstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:chiseled_sandstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:sand_from_crushing_chiseled_sandstone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_chiseled_sandstone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:sand_from_crushing_chiseled_sandstone"
+    ]
+  }
+}
