@@ -1,8 +1,9 @@
 package eu.pintergabor.crusher.blocks.base;
 
+import static eu.pintergabor.crusher.blocks.base.ProcessingUtils.getProcessingTotalTime;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
@@ -10,7 +11,6 @@ import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import eu.pintergabor.crusher.recipe.base.OneStackRecipeInput;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap.Entry;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
-
 import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jspecify.annotations.NonNull;
@@ -61,7 +61,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	private static final int[] SLOTS_FOR_SIDES = new int[]{SLOT_FUEL};
 
 	private static final Codec<Map<ResourceKey<Recipe<?>>, Integer>> RECIPES_USED_CODEC =
-		Codec.unboundedMap(Recipe.KEY_CODEC, Codec.INT);;
+		Codec.unboundedMap(Recipe.KEY_CODEC, Codec.INT);
 	protected NonNullList<ItemStack> items;
 	protected int litTimeRemaining;
 	protected int litTotalTime;
@@ -129,7 +129,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 			protected void onRootCommit(Boolean originalState) {
 				if (needsReset) {
 					if (level instanceof ServerLevel serverLevel) {
-						processingTotalTime = getTotalProcessingTime(
+						processingTotalTime = getProcessingTotalTime(
 							serverLevel, AbstractProcessingBlockEntity.this);
 						processingTimer = 0;
 					}
@@ -139,13 +139,6 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 		};
 		this.quickCheck = RecipeManager.createCheck(recipeType);
 		this.recipeType = recipeType;
-	}
-
-	/**
-	 * Same as in {@link AbstractFurnaceBlockEntity}.
-	 */
-	protected boolean isLit() {
-		return 0 < litTimeRemaining;
 	}
 
 	/**
@@ -187,7 +180,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	/**
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
-	protected int getBurnDuration(
+	public int getBurnDuration(
 		final @NonNull FuelValues fuelValues,
 		final @NonNull ItemStack stack
 	) {
@@ -250,8 +243,16 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 	 * Same as in {@link AbstractFurnaceBlockEntity}.
 	 */
 	@Override
-	protected void setItems(@NonNull NonNullList<ItemStack> inventory) {
-		this.items = inventory;
+	protected void setItems(@NonNull NonNullList<ItemStack> items) {
+		this.items = items;
+	}
+
+	/**
+	 * Same as in {@link AbstractFurnaceBlockEntity}.
+	 */
+	@Override
+	public void setItem(final int slot, final @NonNull ItemStack stack) {
+		setItem(slot, stack, false);
 	}
 
 	/**
@@ -270,18 +271,11 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 		stack.limitSize(getMaxStackSize(stack));
 		if (slot == SLOT_INPUT && !same &&
 			level instanceof ServerLevel serverLevel && !insideTransaction) {
-			processingTotalTime = getProcessingTime(serverLevel, this);
+			// Restart processing if the input type changes.
+			processingTotalTime = getProcessingTotalTime(serverLevel, this);
 			processingTimer = 0;
 			setChanged();
 		}
-	}
-
-	/**
-	 * Same as in {@link AbstractFurnaceBlockEntity}.
-	 */
-	@Override
-	public void setItem(final int slot, final @NonNull ItemStack stack) {
-		setItem(slot, stack, false);
 	}
 
 	/**
@@ -293,7 +287,7 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 		final @NonNull TransactionContext transaction
 	) {
 		if (slot == SLOT_INPUT) {
-			int currentAmount = getItem(slot).getCount();
+			final int currentAmount = getItem(slot).getCount();
 			if (currentAmount == 0 || currentAmount == amountChange) {
 				cookingResetJournal.updateSnapshots(transaction);
 				needsReset = true;
@@ -310,7 +304,8 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 			case SLOT_RESULT -> false;
 			case SLOT_FUEL -> {
 				ItemStack fuelStack = items.get(SLOT_FUEL);
-				yield ((level != null) && level.fuelValues().isFuel(stack)) ||
+				yield (level != null &&
+					0 < fuelStack.getBurnTime(recipeType, level.fuelValues())) ||
 					(stack.is(Items.BUCKET) && !fuelStack.is(Items.BUCKET));
 			}
 			default -> true;
@@ -353,10 +348,8 @@ public abstract non-sealed class AbstractProcessingBlockEntity
 		final List<RecipeHolder<?>> list = getRecipesToAwardAndPopExperience(
 			player.level(), player.position());
 		player.awardRecipes(list);
-		list.stream()
-			.filter(Objects::nonNull)
-			.forEach(recipeHolder ->
-				player.triggerRecipeCrafted(recipeHolder, items));
+		list.forEach(recipeHolder ->
+			player.triggerRecipeCrafted(recipeHolder, items));
 		recipesUsed.clear();
 	}
 
