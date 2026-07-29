@@ -3,7 +3,7 @@ package eu.pintergabor.crusher.blocks;
 import eu.pintergabor.crusher.blocks.base.AbstractProcessingBlockEntity;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.screen.CompressorMenu;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -20,18 +20,22 @@ import net.minecraft.world.level.block.state.BlockState;
  */
 public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
 
-	public CompressorBlockEntity(BlockPos pos, BlockState state) {
+	public CompressorBlockEntity(
+		final @NonNull BlockPos pos,
+		final @NonNull BlockState state
+	) {
 		super(ModBlocks.COMPRESSOR_ENTITY, pos, state, CompressorRecipe.TYPE);
 	}
 
 	@Override
-	protected @NotNull Component getDefaultName() {
+	protected @NonNull Component getDefaultName() {
 		return Component.translatable("block.crusher.compressor");
 	}
 
 	@Override
-	protected @NotNull AbstractContainerMenu createMenu(
-		int containerId, @NotNull Inventory playerInventory
+	protected @NonNull AbstractContainerMenu createMenu(
+		final int containerId,
+		final @NonNull Inventory playerInventory
 	) {
 		return new CompressorMenu(containerId, playerInventory, this, dataAccess);
 	}
@@ -53,7 +57,8 @@ public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
 				worldPosition.getZ(),
 				8F,
 				false,
-				Level.ExplosionInteraction.TNT);
+				Level.ExplosionInteraction.TNT
+			);
 		}
 	}
 }

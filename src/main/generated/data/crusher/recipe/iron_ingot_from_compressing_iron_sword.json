@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:compressing",
+  "experience": 0.1,
+  "ingredient": "minecraft:iron_sword",
+  "ingredient_count": 1,
+  "processingtime": 150,
+  "result": {
+    "count": 2,
+    "id": "minecraft:iron_ingot"
+  }
+}

@@ -3,7 +3,7 @@ package eu.pintergabor.crusher.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import eu.pintergabor.crusher.Global;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -12,100 +12,121 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 
-public final class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
+public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
+
 	/**
 	 * Items crushed to gravel.
 	 */
 	public static final TagKey<Item> GRAVEL_SOURCES = createModItemTag("gravel_sources");
+
 	/**
 	 * Items crushed to sand.
 	 */
 	public static final TagKey<Item> SAND_SOURCES = createModItemTag("sand_sources");
+
 	/**
 	 * Items crushed to red sand.
 	 */
 	public static final TagKey<Item> RED_SAND_SOURCES = createModItemTag("red_sand_sources");
+
 	/**
 	 * Similar to {@link ConventionalItemTags#FRUIT_FOODS}, excluding the golden variants.
 	 */
 	public static final TagKey<Item> NORMAL_FRUIT_FOODS = createCItemTag("foods/normal_fruit");
+
 	/**
 	 * Similar to {@link ConventionalItemTags#VEGETABLE_FOODS}, excluding the golden variants.
 	 */
 	public static final TagKey<Item> NORMAL_VEGETABLE_FOODS = createCItemTag("foods/normal_vegetable");
+
 	/**
 	 * Wooden stairs.
 	 */
 	public static final TagKey<Item> WOODEN_STAIRS = createCItemTag("stairs/wood");
+
 	/**
 	 * Wooden slabs.
 	 */
 	public static final TagKey<Item> WOODEN_SLABS = createCItemTag("slabs/wood");
+
 	/**
 	 * Wooden pressure plates.
 	 */
 	public static final TagKey<Item> WOODEN_PRESSURE_PLATES = createCItemTag("pressure_plates/wood");
+
 	/**
 	 * Wooden signs.
 	 */
 	public static final TagKey<Item> WOODEN_SIGNS = createCItemTag("signs/wood");
+
 	/**
 	 * Wooden fences.
 	 */
 	public static final TagKey<Item> WOODEN_FENCES = createCItemTag("fences/wood");
+
 	/**
 	 * Wooden fence gates.
 	 */
 	public static final TagKey<Item> WOODEN_FENCE_GATES = createCItemTag("fence_gates/wood");
+
 	/**
 	 * Copper blocks.
 	 */
 	public static final TagKey<Item> COPPER_BLOCKS = createCItemTag("storage_blocks/copper");
+
 	/**
 	 * Cut copper blocks.
 	 */
 	public static final TagKey<Item> CUT_COPPER_BLOCKS = createCItemTag("cut_blocks/copper");
+
 	/**
 	 * Chiseled copper blocks.
 	 */
 	public static final TagKey<Item> CHISELED_COPPER_BLOCKS = createCItemTag("chiseled_blocks/copper");
+
 	/**
 	 * Copper doors.
 	 */
 	public static final TagKey<Item> COPPER_DOORS = createCItemTag("doors/copper");
+
 	/**
 	 * Copper trapdoors.
 	 */
 	public static final TagKey<Item> COPPER_TRAPDOORS = createCItemTag("trapdoors/copper");
+
 	/**
 	 * Copper grates.
 	 */
 	public static final TagKey<Item> COPPER_GRATES = createCItemTag("grates/copper");
+
 	/**
 	 * Copper bulbs.
 	 */
 	public static final TagKey<Item> COPPER_BULBS = createCItemTag("bulbs/copper");
+
 	/**
 	 * Copper slabs.
 	 */
 	public static final TagKey<Item> COPPER_SLABS = createCItemTag("slabs/copper");
+
 	/**
 	 * Copper stairs.
 	 */
 	public static final TagKey<Item> COPPER_STAIRS = createCItemTag("stairs/copper");
+
 	/**
 	 * Buckets.
 	 */
 	public static final TagKey<Item> BUCKETS = createCItemTag("buckets");
 
 	public ModItemTagProvider(
-		FabricDataOutput output,
-		CompletableFuture<HolderLookup.Provider> completableFuture
+		final @NonNull FabricPackOutput output,
+		final @NonNull CompletableFuture<HolderLookup.Provider> completableFuture
 	) {
 		super(output, completableFuture);
 	}
@@ -113,7 +134,7 @@ public final class ModItemTagProvider extends FabricTagProvider.ItemTagProvider 
 	/**
 	 * Create a mod item tag.
 	 */
-	private static @NotNull TagKey<Item> createModItemTag(String path) {
+	private static @NonNull TagKey<Item> createModItemTag(final @NonNull String path) {
 		return TagKey.create(
 			Registries.ITEM, Global.modId(path));
 	}
@@ -121,7 +142,7 @@ public final class ModItemTagProvider extends FabricTagProvider.ItemTagProvider 
 	/**
 	 * Create a conventional item tag.
 	 */
-	private static @NotNull TagKey<Item> createCItemTag(String path) {
+	private static @NonNull TagKey<Item> createCItemTag(final @NonNull String path) {
 		return TagKey.create(
 			Registries.ITEM, Identifier.fromNamespaceAndPath("c", path));
 	}
@@ -130,7 +151,7 @@ public final class ModItemTagProvider extends FabricTagProvider.ItemTagProvider 
 	 * Create all tags.
 	 */
 	@Override
-	protected void addTags(HolderLookup.Provider wrapperLookup) {
+	protected void addTags(final HolderLookup.@NonNull Provider registries) {
 		valueLookupBuilder(GRAVEL_SOURCES)
 			.addOptionalTag(ConventionalItemTags.STONES)
 			.addOptionalTag(ConventionalItemTags.COBBLESTONES)

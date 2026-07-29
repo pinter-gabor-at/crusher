@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:golden_boots",
+  "ingredient_count": 1,
+  "processingtime": 150,
+  "result": {
+    "count": 4,
+    "id": "minecraft:raw_gold"
+  }
+}

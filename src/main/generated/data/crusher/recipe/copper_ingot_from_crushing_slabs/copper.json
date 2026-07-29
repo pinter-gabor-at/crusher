@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crushing",
+  "experience": 0.1,
+  "ingredient": "#c:slabs/copper",
+  "ingredient_count": 1,
+  "processingtime": 150,
+  "result": {
+    "id": "minecraft:copper_ingot"
+  }
+}

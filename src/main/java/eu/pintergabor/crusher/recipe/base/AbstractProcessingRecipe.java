@@ -5,15 +5,15 @@ import java.util.List;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -28,9 +28,8 @@ import net.minecraft.world.item.crafting.display.SlotDisplay;
  * but with unique serializer, type and category.
  */
 public abstract class AbstractProcessingRecipe extends OneStackRecipe {
-	private final CookingBookCategory category;
 	private final float experience;
-	private final int cookingTime;
+	private final int processingTime;
 
 	/**
 	 * Create recipe.
@@ -40,17 +39,14 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	 */
 	@SuppressWarnings("unused")
 	public AbstractProcessingRecipe(
-		String group,
-		CookingBookCategory category,
-		@NotNull ItemStack input,
-		@NotNull ItemStack result,
-		float experience,
-		int cookingTime
+		final @NonNull ItemStack input,
+		final @NonNull ItemStackTemplate result,
+		final float experience,
+		final int processingTime
 	) {
-		super(group, input, result);
-		this.category = category;
+		super(input, result);
 		this.experience = experience;
-		this.cookingTime = cookingTime;
+		this.processingTime = processingTime;
 	}
 
 	/**
@@ -62,123 +58,101 @@ public abstract class AbstractProcessingRecipe extends OneStackRecipe {
 	 */
 	@SuppressWarnings("unused")
 	public AbstractProcessingRecipe(
-		String group,
-		CookingBookCategory category,
-		@NotNull Ingredient input,
-		int inputCount,
-		@NotNull ItemStack result,
-		float experience,
-		int cookingTime
+		final @NonNull Ingredient input,
+		final int inputCount,
+		final @NonNull ItemStackTemplate result,
+		final float experience,
+		final int processingTime
 	) {
-		super(group, input, inputCount, result);
-		this.category = category;
+		super(input, inputCount, result);
 		this.experience = experience;
-		this.cookingTime = cookingTime;
+		this.processingTime = processingTime;
 	}
 
 	@Override
-	public abstract @NotNull RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer();
+	public abstract @NonNull RecipeSerializer<? extends AbstractProcessingRecipe> getSerializer();
 
 	@Override
-	public abstract @NotNull RecipeType<? extends AbstractProcessingRecipe> getType();
+	public abstract @NonNull RecipeType<? extends AbstractProcessingRecipe> getType();
 
 	public float experience() {
 		return experience;
 	}
 
-	public int cookingTime() {
-		return cookingTime;
-	}
-
-	public CookingBookCategory category() {
-		return category;
+	public int processingTime() {
+		return processingTime;
 	}
 
 	protected abstract Item getProcessorItem();
 
+	/**
+	 * No grouping by default.
+	 *
+	 * @return ""
+	 */
 	@Override
-	public @NotNull List<RecipeDisplay> display() {
+	public @NonNull String group() {
+		return "";
+	}
+
+	@Override
+	public @NonNull List<RecipeDisplay> display() {
 		return List.of(
 			new FurnaceRecipeDisplay(
 				input().display(),
 				SlotDisplay.AnyFuel.INSTANCE,
 				new SlotDisplay.ItemStackSlotDisplay(result()),
 				new SlotDisplay.ItemSlotDisplay(getProcessorItem()),
-				cookingTime,
-				experience));
+				processingTime,
+				experience
+			)
+		);
 	}
 
 	@FunctionalInterface
-	public interface RecipeFactory<T extends AbstractProcessingRecipe> {
+	public interface Factory<T extends AbstractProcessingRecipe> {
 		T create(
-			String group,
-			CookingBookCategory category,
 			Ingredient ingredient,
 			int ingredientCount,
-			ItemStack result,
+			ItemStackTemplate result,
 			float experience,
-			int cookingTime);
+			int processingTime
+		);
 	}
 
-	/**
-	 * Similar to {@link AbstractCookingRecipe.Serializer},
-	 * but with {@link ItemStack} output.
-	 *
-	 * @param <T>
-	 */
-	public static class Serializer<T extends AbstractProcessingRecipe> implements RecipeSerializer<T> {
-		private final MapCodec<T> codec;
-		private final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
+	public static <T extends AbstractProcessingRecipe> @NonNull MapCodec<T>
+	processingMapCodec(
+		final AbstractProcessingRecipe.@NonNull Factory<T> factory,
+		int defaultProcessingTime
+	) {
+		return RecordCodecBuilder.mapCodec((i) -> i.group(
+			Ingredient.CODEC.fieldOf("ingredient")
+				.forGetter(OneStackRecipe::input),
+			Codec.INT.fieldOf("ingredient_count")
+				.orElse(1)
+				.forGetter(OneStackRecipe::inputCount),
+			ItemStackTemplate.CODEC.fieldOf("result")
+				.forGetter(OneStackRecipe::result),
+			Codec.FLOAT.fieldOf("experience")
+				.orElse(0F)
+				.forGetter(AbstractProcessingRecipe::experience),
+			Codec.INT.fieldOf("processingtime")
+				.orElse(defaultProcessingTime)
+				.forGetter(AbstractProcessingRecipe::processingTime)
+		).apply(i, factory::create));
+	}
 
-		public Serializer(@NotNull RecipeFactory<T> factory, int defaultCookingTime) {
-			codec = RecordCodecBuilder.mapCodec(
-				instance -> instance.group(
-						Codec.STRING.optionalFieldOf("group", "")
-							.forGetter(OneStackRecipe::group),
-						CookingBookCategory.CODEC.fieldOf("category")
-							.orElse(CookingBookCategory.MISC)
-							.forGetter(AbstractProcessingRecipe::category),
-						Ingredient.CODEC.fieldOf("ingredient").
-							forGetter(OneStackRecipe::input),
-						Codec.INT.fieldOf("ingredient_count")
-							.orElse(1)
-							.forGetter(OneStackRecipe::inputCount),
-						ItemStack.STRICT_CODEC.fieldOf("result")
-							.forGetter(OneStackRecipe::result),
-						Codec.FLOAT.fieldOf("experience")
-							.orElse(0F)
-							.forGetter(AbstractProcessingRecipe::experience),
-						Codec.INT.fieldOf("cookingtime")
-							.orElse(defaultCookingTime)
-							.forGetter(AbstractProcessingRecipe::cookingTime)
-					)
-					.apply(instance, factory::create)
-			);
-			streamCodec = StreamCodec.composite(
-				ByteBufCodecs.STRING_UTF8, OneStackRecipe::group,
-				CookingBookCategory.STREAM_CODEC, AbstractProcessingRecipe::category,
-				Ingredient.CONTENTS_STREAM_CODEC, OneStackRecipe::input,
-				ByteBufCodecs.INT, OneStackRecipe::inputCount,
-				ItemStack.STREAM_CODEC, OneStackRecipe::result,
-				ByteBufCodecs.FLOAT, AbstractProcessingRecipe::experience,
-				ByteBufCodecs.INT, AbstractProcessingRecipe::cookingTime,
-				factory::create);
-		}
-
-		@Override
-		public @NotNull MapCodec<T> codec() {
-			return codec;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * <p>
-		 * Although it is deprecated, {@link AbstractCookingRecipe.Serializer} still uses it.
-		 */
-		@Deprecated
-		@Override
-		public @NotNull StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
-			return streamCodec;
-		}
+	public static <T extends AbstractProcessingRecipe> @NonNull StreamCodec<RegistryFriendlyByteBuf, T>
+	processingStreamCodec(
+		final AbstractProcessingRecipe.@NonNull Factory<T> factory
+	) {
+		return StreamCodec.composite(
+			Ingredient.CONTENTS_STREAM_CODEC, OneStackRecipe::input,
+			ByteBufCodecs.INT, OneStackRecipe::inputCount,
+			ItemStackTemplate.STREAM_CODEC, OneStackRecipe::result,
+			ByteBufCodecs.FLOAT, AbstractProcessingRecipe::experience,
+			ByteBufCodecs.INT, AbstractProcessingRecipe::processingTime,
+			factory::create
+		);
 	}
 }

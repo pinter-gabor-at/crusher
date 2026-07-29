@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:compressing",
+  "experience": 0.1,
+  "ingredient": "#c:buckets",
+  "ingredient_count": 1,
+  "processingtime": 150,
+  "result": {
+    "count": 3,
+    "id": "minecraft:iron_ingot"
+  }
+}

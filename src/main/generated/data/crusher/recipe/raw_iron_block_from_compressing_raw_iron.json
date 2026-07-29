@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:compressing",
+  "experience": 0.1,
+  "ingredient": "minecraft:raw_iron",
+  "ingredient_count": 9,
+  "processingtime": 100,
+  "result": {
+    "id": "minecraft:raw_iron_block"
+  }
+}

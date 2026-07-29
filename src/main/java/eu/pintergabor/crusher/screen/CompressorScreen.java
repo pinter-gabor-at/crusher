@@ -6,7 +6,7 @@ import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
 import eu.pintergabor.crusher.screen.base.AbstractProcessingScreen;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.chat.Component;
@@ -22,7 +22,7 @@ import net.fabricmc.api.Environment;
  * Similar to {@link FurnaceScreen}, but with fewer tabs.
  * <p>
  * Texture and sprite sizes are defined in
- * {@link AbstractProcessingScreen#renderBg(GuiGraphics, float, int, int)}.
+ * {@link AbstractProcessingScreen#extractBackground(GuiGraphicsExtractor, int, int, float)}.
  */
 @Environment(EnvType.CLIENT)
 public class CompressorScreen extends AbstractProcessingScreen<CompressorMenu> {
@@ -48,6 +48,7 @@ public class CompressorScreen extends AbstractProcessingScreen<CompressorMenu> {
 	) {
 		super(
 			menu, playerInventory, title,
-			FILTER_NAME, TEXTURE, LIT_PROGRESS_SPRITE, BURN_PROGRESS_SPRITE, TABS);
+			FILTER_NAME, TEXTURE, LIT_PROGRESS_SPRITE, BURN_PROGRESS_SPRITE, TABS
+		);
 	}
 }

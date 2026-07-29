@@ -3,34 +3,35 @@ package eu.pintergabor.crusher.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import eu.pintergabor.crusher.Global;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 
 
 public final class ModRecipeRunner extends FabricRecipeProvider {
 
 	public ModRecipeRunner(
-		FabricDataOutput output,
-		CompletableFuture<HolderLookup.Provider> registriesFuture
+		final @NonNull FabricPackOutput output,
+		final @NonNull CompletableFuture<HolderLookup.Provider> completableFuture
 	) {
-		super(output, registriesFuture);
+		super(output, completableFuture);
 	}
 
 	@Override
-	protected @NotNull RecipeProvider createRecipeProvider(
-		HolderLookup.Provider registryLookup, RecipeOutput output
+	protected @NonNull RecipeProvider createRecipeProvider(
+		final HolderLookup.@NonNull Provider registries,
+		final @NonNull RecipeOutput output
 	) {
-		return new ModRecipeGenerator(registryLookup, output);
+		return new ModRecipeGenerator(registries, output);
 	}
 
 	@Override
-	public @NotNull String getName() {
+	public @NonNull String getName() {
 		return Global.MODID + " recipes";
 	}
 }

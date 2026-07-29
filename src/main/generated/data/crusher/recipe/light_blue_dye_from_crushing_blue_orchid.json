@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:blue_orchid",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "count": 2,
+    "id": "minecraft:light_blue_dye"
+  }
+}

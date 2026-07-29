@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crushing",
+  "experience": 0.1,
+  "ingredient": "#c:fence_gates/wood",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "count": 8,
+    "id": "minecraft:stick"
+  }
+}
