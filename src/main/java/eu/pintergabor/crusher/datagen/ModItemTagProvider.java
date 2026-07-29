@@ -333,6 +333,7 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 			BlockItemIds.CHERRY_STAIRS.item(),
 			BlockItemIds.PALE_OAK_STAIRS.item(),
 			BlockItemIds.BAMBOO_STAIRS.item(),
+			BlockItemIds.BAMBOO_MOSAIC_STAIRS.item(),
 			BlockItemIds.CRIMSON_STAIRS.item(),
 			BlockItemIds.WARPED_STAIRS.item());
 	}

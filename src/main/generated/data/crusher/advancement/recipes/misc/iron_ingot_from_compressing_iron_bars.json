@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_lantern": {
+    "has_iron_bars": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:lantern"
+            "items": "minecraft:iron_bars"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crusher:iron_nugget_from_crushing_lantern"
+        "recipe": "crusher:iron_ingot_from_compressing_iron_bars"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_lantern"
+      "has_iron_bars"
     ]
   ],
   "rewards": {
     "recipes": [
-      "crusher:iron_nugget_from_crushing_lantern"
+      "crusher:iron_ingot_from_compressing_iron_bars"
     ]
   }
 }

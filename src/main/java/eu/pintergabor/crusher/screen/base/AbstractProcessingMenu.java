@@ -46,16 +46,16 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 	) {
 		super(menuType, containerId);
 		checkContainerSize(container, 3);
-		checkContainerDataCount(data, PROPERTY_COUNT);
+		checkContainerDataCount(data, NUM_DATA_VALUES);
 		this.container = container;
 		this.data = data;
 		this.level = playerInventory.player.level();
 		this.addSlot(new Slot(container,
-			INPUT_SLOT_INDEX, 56, 17));
+			SLOT_INPUT, 56, 17));
 		this.addSlot(new ProcessingFuelSlot(this, container,
-			FUEL_SLOT_INDEX, 56, 53));
+			SLOT_FUEL, 56, 53));
 		this.addSlot(new ProcessingResultSlot(playerInventory.player, container,
-			OUTPUT_SLOT_INDEX, 116, 35));
+			SLOT_RESULT, 116, 35));
 		this.addStandardInventorySlots(playerInventory, 8, 84);
 		this.addDataSlots(data);
 	}
@@ -70,7 +70,7 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 			syncId,
 			playerInventory,
 			new SimpleContainer(3),
-			new SimpleContainerData(PROPERTY_COUNT)
+			new SimpleContainerData(NUM_DATA_VALUES)
 		);
 	}
 
@@ -81,7 +81,7 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 	}
 
 	public @NonNull Slot getResultSlot() {
-		return slots.get(OUTPUT_SLOT_INDEX);
+		return slots.get(SLOT_RESULT);
 	}
 
 	@Override
@@ -94,14 +94,14 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 		if (clickSlot.hasItem()) {
 			final ItemStack clickItemStack = clickSlot.getItem();
 			final ItemStack returnItemStack = clickItemStack.copy();
-			if (slot == OUTPUT_SLOT_INDEX) {
+			if (slot == SLOT_RESULT) {
 				// From output slot to inventory.
 				if (!moveItemStackTo(clickItemStack,
 					3, 39, true)) {
 					return ItemStack.EMPTY;
 				}
 				clickSlot.onQuickCraft(clickItemStack, returnItemStack);
-			} else if (slot == FUEL_SLOT_INDEX || slot == INPUT_SLOT_INDEX) {
+			} else if (slot == SLOT_FUEL || slot == SLOT_INPUT) {
 				// From fuel, or input slot to inventory.
 				if (!moveItemStackTo(clickItemStack,
 					3, 39, false)) {
@@ -111,13 +111,13 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 				// From elsewhere, if it is fuel, to the fuel slot.
 				if (isFuel(clickItemStack)) {
 					if (!moveItemStackTo(clickItemStack,
-						FUEL_SLOT_INDEX, FUEL_SLOT_INDEX + 1, false)) {
+						SLOT_FUEL, SLOT_FUEL + 1, false)) {
 						return ItemStack.EMPTY;
 					}
 				} else {
 					// From elsewhere to the input slot.
 					if (!moveItemStackTo(clickItemStack,
-						INPUT_SLOT_INDEX, INPUT_SLOT_INDEX + 1, false)) {
+						SLOT_INPUT, SLOT_INPUT + 1, false)) {
 						return ItemStack.EMPTY;
 					}
 				}
@@ -146,8 +146,8 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 	 * @return Progress (0.0 ... 1.0)
 	 */
 	public float getBurnProgress() {
-		final int progress = data.get(PROCESS_TIME_PROPERTY_INDEX);
-		final int total = data.get(PROCESS_TIME_TOTAL_PROPERTY_INDEX);
+		final int progress = data.get(DATA_PROGRESS);
+		final int total = data.get(DATA_TOTAL_TIME);
 		return total != 0 ?
 			Mth.clamp((float) progress / (float) total, 0F, 1F) :
 			0.0f;
@@ -159,16 +159,16 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 	 * @return Progress (0.0 ... 1.0)
 	 */
 	public float getLitProgress() {
-		int total = data.get(FUEL_TIME_PROPERTY_INDEX);
+		int total = data.get(DATA_LIT_DURATION);
 		if (total == 0) {
 			total = DEFAULT_PROCESS_TIME;
 		}
-		final int progress = data.get(BURN_TIME_PROPERTY_INDEX);
+		final int progress = data.get(DATA_LIT_TIME);
 		return Mth.clamp((float) progress / (float) total, 0F, 1F);
 	}
 
 	public boolean isLit() {
-		return 0 < data.get(BURN_TIME_PROPERTY_INDEX);
+		return 0 < data.get(DATA_LIT_TIME);
 	}
 
 	@Override
@@ -184,7 +184,7 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 		final @NonNull ServerLevel level,
 		final @NonNull Inventory inventory
 	) {
-		final List<Slot> list = List.of(getSlot(INPUT_SLOT_INDEX), getSlot(OUTPUT_SLOT_INDEX));
+		final List<Slot> list = List.of(getSlot(SLOT_INPUT), getSlot(SLOT_RESULT));
 		AbstractProcessingMenu parent = this;
 		return ServerPlaceRecipe.placeRecipe(
 			new ServerPlaceRecipe.CraftingMenuAccess<>() {
@@ -201,14 +201,14 @@ public class AbstractProcessingMenu extends RecipeBookMenu {
 				public boolean recipeMatches(@NonNull RecipeHolder<AbstractProcessingRecipe> recipe) {
 					if (container instanceof Inventory parentInventory) {
 						return recipe.value().matches(
-							new OneStackRecipeInput(parentInventory.getItem(INPUT_SLOT_INDEX)), level);
+							new OneStackRecipeInput(parentInventory.getItem(SLOT_INPUT)), level);
 					}
 					return false;
 				}
 			},
 			1,
 			1,
-			List.of(getSlot(INPUT_SLOT_INDEX)),
+			List.of(getSlot(SLOT_INPUT)),
 			list,
 			inventory,
 			(RecipeHolder<AbstractProcessingRecipe>) recipe,

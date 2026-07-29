@@ -1,11 +1,10 @@
 {
   "type": "minecraft:crushing",
   "experience": 0.1,
-  "ingredient": "minecraft:copper_lantern",
+  "ingredient": "minecraft:lantern",
   "ingredient_count": 1,
   "processingtime": 100,
   "result": {
-    "count": 8,
-    "id": "minecraft:copper_nugget"
+    "id": "minecraft:raw_iron"
   }
 }

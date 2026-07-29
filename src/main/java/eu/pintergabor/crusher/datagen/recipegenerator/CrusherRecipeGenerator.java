@@ -256,7 +256,6 @@ public final class CrusherRecipeGenerator {
 		generator.createRecipe(Items.CONCRETE.red(), 1, Items.CONCRETE_POWDER.red(), 1);
 		generator.createRecipe(Items.CONCRETE.black(), 1, Items.CONCRETE_POWDER.black(), 1);
 		// Copper nuggets from copper things.
-		generator.createRecipe(Items.COPPER_LANTERN, 1, Items.COPPER_NUGGET, 8);
 		// 11 nuggets => 2 nuggets + 1 ingot => 1 chain => 11 nuggets
 		generator.createRecipe(Items.COPPER_CHAIN, 1, Items.COPPER_NUGGET, 11);
 		// 54 nuggets => 6 ingots => 16 copper bars => 64 nuggets
@@ -267,7 +266,7 @@ public final class CrusherRecipeGenerator {
 		generator.createRecipe(Items.DEEPSLATE_COPPER_ORE, 1, Items.RAW_COPPER, 1);
 		generator.createRecipe(Items.COPPER_CHEST, 1, Items.RAW_COPPER, 8);
 		generator.createRecipe(Items.LIGHTNING_ROD, 1, Items.RAW_COPPER, 3);
-		// 8 nuggets + 1 copper torch containint 1 nugget => 1 lantern => 1 ingot.
+		// 8 nuggets + 1 copper torch containing 1 nugget => 1 lantern => 1 ingot.
 		generator.createRecipe(Items.COPPER_LANTERN, 1, Items.RAW_COPPER, 1);
 		generator.createRecipe(ModItemTagProvider.COPPER_BLOCKS, 1, Items.RAW_COPPER, 9);
 		// 27 ingots => 3 blocks => 1 bulb => 27 ingots.
@@ -329,13 +328,15 @@ public final class CrusherRecipeGenerator {
 		generator.createRecipe(Items.HOPPER, 1, Items.RAW_IRON, 5);
 		generator.createRecipe(Items.PISTON, 1, Items.RAW_IRON, 1);
 		generator.createRecipe(Items.STICKY_PISTON, 1, Items.RAW_IRON, 1);
+		// 8 nuggets + 1 torch => 1 lantern => 1 ingot.
+		// This allows free generation of iron, for those who discover it.
+		generator.createRecipe(Items.LANTERN, 1, Items.RAW_IRON, 1);
 		// Iron nuggets from iron things.
 		// 11 nuggets => 2 nuggets + 1 ingot => 1 chain => 11 nuggets
 		generator.createRecipe(Items.IRON_CHAIN, 1, Items.IRON_NUGGET, 11);
 		// 54 nuggets => 6 ingots => 16 iron bars => 64 nuggets
 		// This allows free generation of iron, for those who discover it.
 		generator.createRecipe(Items.IRON_BARS, 1, Items.IRON_NUGGET, 4);
-		generator.createRecipe(Items.LANTERN, 1, Items.IRON_NUGGET, 8);
 		// Gold from things made of gold.
 		generator.setParam(0.1F, 150);
 		generator.createRecipe(Items.GOLD_ORE, 1, Items.RAW_GOLD, 4);
