@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "#minecraft:stone_crafting_materials",
+    "P": "minecraft:piston"
+  },
+  "pattern": [
+    "###",
+    "P P",
+    "###"
+  ],
+  "result": {
+    "id": "crusher:compressor"
+  }
+}
