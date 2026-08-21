@@ -7,11 +7,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import eu.pintergabor.crusher.recipe.CompressorRecipe;
+import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
-import me.shedaniel.rei.api.common.util.EntryIngredients;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.NonNull;
@@ -31,7 +31,7 @@ public record CompressorDisplay(
 	Optional<Identifier> location
 ) implements ProcessingDisplay {
 
-	public static final MapCodec<CompressorDisplay> MAPCODEC =
+	public static final MapCodec<CompressorDisplay> MAP_CODEC =
 		RecordCodecBuilder.mapCodec(instance -> instance.group(
 			EntryIngredient.codec().fieldOf("input")
 				.forGetter(CompressorDisplay::input),
@@ -43,9 +43,10 @@ public record CompressorDisplay(
 			Codec.INT.fieldOf("processingtime")
 				.orElse(0)
 				.forGetter(CompressorDisplay::processingTime),
-			Identifier.CODEC.optionalFieldOf("location").forGetter(CompressorDisplay::location)
+			Identifier.CODEC.optionalFieldOf("location")
+				.forGetter(CompressorDisplay::location)
 		).apply(instance, CompressorDisplay::new));
-	public static final StreamCodec<RegistryFriendlyByteBuf, CompressorDisplay> STREAMCODEC =
+	public static final StreamCodec<RegistryFriendlyByteBuf, CompressorDisplay> STREAM_CODEC =
 		StreamCodec.composite(
 			EntryIngredient.streamCodec(), CompressorDisplay::input,
 			EntryIngredient.streamCodec(), CompressorDisplay::output,
@@ -54,16 +55,22 @@ public record CompressorDisplay(
 			ByteBufCodecs.optional(Identifier.STREAM_CODEC), CompressorDisplay::location,
 			CompressorDisplay::new);
 	public static final DisplaySerializer<CompressorDisplay>
-		SERIALIZER = DisplaySerializer.of(MAPCODEC, STREAMCODEC);
+		SERIALIZER = DisplaySerializer.of(MAP_CODEC, STREAM_CODEC);
 
-	public CompressorDisplay(@NonNull RecipeHolder<CompressorRecipe> entry) {
-		this(entry.id().identifier(), entry.value());
+	public CompressorDisplay(final @NonNull RecipeHolder<CompressorRecipe> entry) {
+		this(
+			entry.id().identifier(),
+			entry.value()
+		);
 	}
 
-	public CompressorDisplay(Identifier id, @NonNull CompressorRecipe recipe) {
+	public CompressorDisplay(
+		final @NonNull Identifier id,
+		final @NonNull AbstractProcessingRecipe recipe
+	) {
 		this(
-			EntryIngredients.ofIngredient(recipe.input()),
-			EntryIngredients.of(recipe.result().create()),
+			ProcessingDisplay.getEntryInput(recipe),
+			ProcessingDisplay.getEntryOutput(recipe),
 			recipe.experience(),
 			recipe.processingTime(),
 			Optional.of(id)
@@ -103,7 +110,7 @@ public record CompressorDisplay(
 	}
 
 	@Override
-	public double getProcessingTime() {
+	public int getProcessingTime() {
 		return processingTime;
 	}
 }

@@ -1,39 +1,47 @@
 package eu.pintergabor.crusher.rei;
 
-import eu.pintergabor.crusher.screen.CrusherScreen;
+import java.text.DecimalFormat;
+import java.util.LinkedList;
+import java.util.List;
+
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
-
-import net.minecraft.resources.Identifier;
-
 import org.jspecify.annotations.NonNull;
 
-import java.util.LinkedList;
-import java.util.List;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 
 
 /**
- * Static methods of {@link CrusherCategory} and
+ * Static methods of {@link CrusherCategory} and {@link CompressorCategory}.
  */
-public final class ProcessingCategory {
+public interface ProcessingCategory {
 
-	private ProcessingCategory(){
-		// Static class
-	}
-
-	public static @NonNull List<Widget> setupDisplay(
+	/**
+	 * Similar to {@code DefaultCookingCategory.setupDisplay}.
+	 */
+	static @NonNull List<Widget> setupDisplay(
 		final @NonNull ProcessingDisplay display,
 		final @NonNull Rectangle bounds,
 		final @NonNull Identifier background,
 		final @NonNull Identifier litProgressSprite
 	) {
-		List<Widget> widgets = new LinkedList<>();
-		Point o = new Point(bounds.getCenterX() - 41, bounds.y + 10);
+		final List<Widget> widgets = new LinkedList<>();
+		final Point o = new Point(bounds.getCenterX() - 41, bounds.y + 10);
+		final DecimalFormat df = new DecimalFormat("###.##");
 		// Background.
 		widgets.add(Widgets.createRecipeBase(bounds));
 		widgets.add(Widgets.createResultSlotBackground(new Point(o.x + 61, o.y + 9)));
+		// XP and time.
+		widgets.add(Widgets.createLabel(new Point(bounds.x + bounds.width - 5, bounds.y + 5),
+				Component.translatable("category.rei.cooking.time&xp",
+					df.format(display.getExperience()),
+					df.format(display.getProcessingTime() / 20F)))
+			.noShadow()
+			.rightAligned()
+			.color(0xFF404040, 0xFFBBBBBB));
 		// The animated processing action.
 		widgets.add(new ProgressWidget(
 			new Rectangle(o.x + 2, o.y + 20, 14, 14),
@@ -54,7 +62,7 @@ public final class ProcessingCategory {
 		return widgets;
 	}
 
-	public static int getDisplayHeight() {
+	static int getDisplayHeight() {
 		return 49;
 	}
 }

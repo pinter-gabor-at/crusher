@@ -88,7 +88,7 @@ public final class ProgressWidget extends BurningFire {
 				176, 166
 			);
 		}
-		// Draw the prograss image
+		// Draw the prograss image.
 		graphics.blitSprite(
 			RenderPipelines.GUI_TEXTURED,
 			litProgressSprite,

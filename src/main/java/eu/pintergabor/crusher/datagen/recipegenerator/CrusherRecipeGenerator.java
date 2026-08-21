@@ -83,6 +83,7 @@ public final class CrusherRecipeGenerator {
 		generator.createRecipe(ItemTags.WOODEN_DOORS, 1, Items.STICK, 4);
 		generator.createRecipe(ItemTags.WOODEN_TRAPDOORS, 1, Items.STICK, 6);
 		generator.createRecipe(ItemTags.WOODEN_FENCES, 1, Items.STICK, 3);
+		generator.createRecipe(ItemTags.FENCE_GATES, 1, Items.STICK, 8);
 		generator.createRecipe(ItemTags.WOODEN_BUTTONS, 1, Items.STICK, 1);
 		generator.createRecipe(Items.CHISELED_BOOKSHELF, 1, Items.STICK, 18);
 		generator.createRecipe(Items.BOW, 1, Items.STICK, 3);
@@ -94,8 +95,6 @@ public final class CrusherRecipeGenerator {
 		generator.createRecipe(ModItemTagProvider.WOODEN_STAIRS, 1, Items.STICK, 3);
 		generator.createRecipe(ModItemTagProvider.WOODEN_PRESSURE_PLATES, 1, Items.STICK, 4);
 		generator.createRecipe(ModItemTagProvider.WOODEN_SIGNS, 1, Items.STICK, 4);
-		generator.createRecipe(ModItemTagProvider.WOODEN_FENCES, 1, Items.STICK, 3);
-		generator.createRecipe(ModItemTagProvider.WOODEN_FENCE_GATES, 1, Items.STICK, 8);
 		// 7 sticks => 3 ladders => 9 sticks.
 		// This allows the free generation of sticks, for those who discover it.
 		generator.createRecipe(Items.LADDER, 1, Items.STICK, 3);

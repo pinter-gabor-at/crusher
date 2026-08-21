@@ -79,16 +79,6 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 	public static final TagKey<Item> WOODEN_SIGNS = createCItemTag("signs/wood");
 
 	/**
-	 * Wooden fences.
-	 */
-	public static final TagKey<Item> WOODEN_FENCES = createCItemTag("fences/wood");
-
-	/**
-	 * Wooden fence gates.
-	 */
-	public static final TagKey<Item> WOODEN_FENCE_GATES = createCItemTag("fence_gates/wood");
-
-	/**
 	 * Copper blocks.
 	 */
 	public static final TagKey<Item> COPPER_BLOCKS = createCItemTag("storage_blocks/copper");
@@ -393,42 +383,6 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 	}
 
 	@SuppressWarnings({"unchecked", "RedundantSuppression"})
-	private void tagWoodenFences() {
-		final TagAppender<Item> tag = tag(WOODEN_FENCES);
-		tag.add(
-			BlockItemIds.OAK_FENCE.item(),
-			BlockItemIds.SPRUCE_FENCE.item(),
-			BlockItemIds.BIRCH_FENCE.item(),
-			BlockItemIds.JUNGLE_FENCE.item(),
-			BlockItemIds.ACACIA_FENCE.item(),
-			BlockItemIds.DARK_OAK_FENCE.item(),
-			BlockItemIds.MANGROVE_FENCE.item(),
-			BlockItemIds.CHERRY_FENCE.item(),
-			BlockItemIds.PALE_OAK_FENCE.item(),
-			BlockItemIds.BAMBOO_FENCE.item(),
-			BlockItemIds.CRIMSON_FENCE.item(),
-			BlockItemIds.WARPED_FENCE.item());
-	}
-
-	@SuppressWarnings({"unchecked", "RedundantSuppression"})
-	private void tagWoodenFenceGates() {
-		final TagAppender<Item> tag = tag(WOODEN_FENCE_GATES);
-		tag.add(
-			BlockItemIds.OAK_FENCE_GATE.item(),
-			BlockItemIds.SPRUCE_FENCE_GATE.item(),
-			BlockItemIds.BIRCH_FENCE_GATE.item(),
-			BlockItemIds.JUNGLE_FENCE_GATE.item(),
-			BlockItemIds.ACACIA_FENCE_GATE.item(),
-			BlockItemIds.DARK_OAK_FENCE_GATE.item(),
-			BlockItemIds.MANGROVE_FENCE_GATE.item(),
-			BlockItemIds.CHERRY_FENCE_GATE.item(),
-			BlockItemIds.PALE_OAK_FENCE_GATE.item(),
-			BlockItemIds.BAMBOO_FENCE_GATE.item(),
-			BlockItemIds.CRIMSON_FENCE_GATE.item(),
-			BlockItemIds.WARPED_FENCE_GATE.item());
-	}
-
-	@SuppressWarnings({"unchecked", "RedundantSuppression"})
 	private void tagAddWeatheringCopperCollection(
 		final @NonNull TagAppender<Item> tag,
 		final @NonNull WeatheringCopperCollection<BlockItemId> collection
@@ -514,8 +468,6 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 		tagWoodenSlabs();
 		tagWoodenPressurePlates();
 		tagWoodenSigns();
-		tagWoodenFences();
-		tagWoodenFenceGates();
 		tagCopperBlocks();
 		tagCutCopperBlocks();
 		tagChiseledCopperBlocks();

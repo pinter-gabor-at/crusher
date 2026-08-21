@@ -7,11 +7,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import eu.pintergabor.crusher.recipe.CrusherRecipe;
+import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
-import me.shedaniel.rei.api.common.util.EntryIngredients;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.NonNull;
@@ -31,7 +31,7 @@ public record CrusherDisplay(
 	Optional<Identifier> location
 ) implements ProcessingDisplay {
 
-	public static final MapCodec<CrusherDisplay> MAPCODEC =
+	public static final MapCodec<CrusherDisplay> MAP_CODEC =
 		RecordCodecBuilder.mapCodec(instance -> instance.group(
 			EntryIngredient.codec().fieldOf("input")
 				.forGetter(CrusherDisplay::input),
@@ -43,9 +43,10 @@ public record CrusherDisplay(
 			Codec.INT.fieldOf("processingtime")
 				.orElse(0)
 				.forGetter(CrusherDisplay::processingTime),
-			Identifier.CODEC.optionalFieldOf("location").forGetter(CrusherDisplay::location)
+			Identifier.CODEC.optionalFieldOf("location")
+				.forGetter(CrusherDisplay::location)
 		).apply(instance, CrusherDisplay::new));
-	public static final StreamCodec<RegistryFriendlyByteBuf, CrusherDisplay> STREAMCODEC =
+	public static final StreamCodec<RegistryFriendlyByteBuf, CrusherDisplay> STREAM_CODEC =
 		StreamCodec.composite(
 			EntryIngredient.streamCodec(), CrusherDisplay::input,
 			EntryIngredient.streamCodec(), CrusherDisplay::output,
@@ -54,16 +55,22 @@ public record CrusherDisplay(
 			ByteBufCodecs.optional(Identifier.STREAM_CODEC), CrusherDisplay::location,
 			CrusherDisplay::new);
 	public static final DisplaySerializer<CrusherDisplay>
-		SERIALIZER = DisplaySerializer.of(MAPCODEC, STREAMCODEC);
+		SERIALIZER = DisplaySerializer.of(MAP_CODEC, STREAM_CODEC);
 
 	public CrusherDisplay(@NonNull RecipeHolder<CrusherRecipe> entry) {
-		this(entry.id().identifier(), entry.value());
+		this(
+			entry.id().identifier(),
+			entry.value()
+		);
 	}
 
-	public CrusherDisplay(Identifier id, @NonNull CrusherRecipe recipe) {
+	public CrusherDisplay(
+		final @NonNull Identifier id,
+		final @NonNull AbstractProcessingRecipe recipe
+	) {
 		this(
-			EntryIngredients.ofIngredient(recipe.input()),
-			EntryIngredients.of(recipe.result().create()),
+			ProcessingDisplay.getEntryInput(recipe),
+			ProcessingDisplay.getEntryOutput(recipe),
 			recipe.experience(),
 			recipe.processingTime(),
 			Optional.of(id)
@@ -96,13 +103,14 @@ public record CrusherDisplay(
 	public @NonNull DisplaySerializer<? extends Display> getSerializer() {
 		return SERIALIZER;
 	}
+
 	@Override
 	public double getExperience() {
 		return experience;
 	}
 
 	@Override
-	public double getProcessingTime() {
+	public int getProcessingTime() {
 		return processingTime;
 	}
 }

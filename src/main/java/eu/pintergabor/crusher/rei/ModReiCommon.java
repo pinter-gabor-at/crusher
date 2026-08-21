@@ -10,7 +10,7 @@ import me.shedaniel.rei.api.common.registry.display.ServerDisplayRegistry;
 import org.jspecify.annotations.NonNull;
 
 
-public class ModReiCommon implements REICommonPlugin {
+public final class ModReiCommon implements REICommonPlugin {
 	public static final CategoryIdentifier<CrusherDisplay> CRUSHER =
 		CategoryIdentifier.of(Global.modName("crusher"));
 	public static final CategoryIdentifier<CompressorDisplay> COMPRESSOR =

@@ -11,7 +11,7 @@ import me.shedaniel.rei.api.common.util.EntryStacks;
 import org.jspecify.annotations.NonNull;
 
 
-public class ModReiClient implements REIClientPlugin {
+public final class ModReiClient implements REIClientPlugin {
 
 	@Override
 	public void registerCategories(@NonNull CategoryRegistry registry) {
