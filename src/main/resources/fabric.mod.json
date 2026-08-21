@@ -23,12 +23,18 @@
     ],
     "fabric-datagen": [
       "eu.pintergabor.crusher.ModDataGenerator"
+    ],
+    "jei_mod_plugin": [
+      "eu.pintergabor.crusher.jei.ModJeiPlugin"
     ]
   },
   "depends": {
     "java": ">=21",
-    "minecraft": "${minecraft_version}",
-    "fabricloader": "${loader_version}",
-    "fabric-api": "${fabric_version}"
+    "minecraft": "${minecraft_version_range}",
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": ">=${fabric_version}"
+  },
+  "recommends": {
+    "jei": ">=${jei_version}"
   }
 }

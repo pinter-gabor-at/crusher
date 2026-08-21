@@ -4,21 +4,31 @@ plugins {
 	id 'idea'
 }
 
-version = project.mod_version + "+fabric+mc" + project.minecraft_version
-group = project.mod_group
+version = mod_version + "+fabric+mc" + minecraft_version
+group = mod_group
 
 base {
 	archivesName = project.mod_id
 }
 
 loom {
-	accessWidenerPath = file("src/main/resources/${project.mod_group}.accesswidener")
+	accessWidenerPath = file("src/main/resources/${mod_group}.accesswidener")
 }
 
 repositories {
 	maven {
 		name = 'Fabric'
 		url = 'https://maven.fabricmc.net/'
+	}
+	maven {
+		// Location of the maven that hosts JEI files since January 2023.
+		name = "Jared's maven"
+		url = "https://maven.blamejared.com/"
+	}
+	maven {
+		// Location of a maven mirror for JEI files, as a fallback.
+		name = "ModMaven"
+		url = "https://modmaven.dev"
 	}
 }
 
@@ -30,11 +40,15 @@ fabricApi {
 
 dependencies {
 	// To change the versions see the gradle.properties file.
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	minecraft "com.mojang:minecraft:${minecraft_version}"
 	// Fabric loader.
-	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc:fabric-loader:${loader_version}"
 	// Fabric API.
-	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+	// Compile against the JEI API but do not include it at runtime.
+	compileOnly "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
+	// At runtime, use the full JEI jar for Fabric.
+	runtimeOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
 }
 
 idea {
@@ -47,13 +61,15 @@ idea {
 
 processResources {
 	filesMatching("fabric.mod.json") {
-		expand "mod_group": project.mod_group,
-			"mod_id": project.mod_id,
-			"mod_version": project.mod_version,
-			"version": project.version,
-			"minecraft_version": "~${project.minecraft_version}",
-			"loader_version": ">=${project.loader_version}",
-			"fabric_version": ">=${project.fabric_version}"
+		expand "mod_group": mod_group,
+			"mod_id": mod_id,
+			"mod_version": mod_version,
+			"version": version,
+			"minecraft_version": minecraft_version,
+			"minecraft_version_range": minecraft_version_range,
+			"loader_version": loader_version,
+			"fabric_version": fabric_version,
+			"jei_version": jei_version
 	}
 }
 
