@@ -1,0 +1,30 @@
+package eu.pintergabor.crusher.rei;
+
+import eu.pintergabor.crusher.Global;
+import eu.pintergabor.crusher.recipe.CompressorRecipe;
+import eu.pintergabor.crusher.recipe.CrusherRecipe;
+import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.display.DisplaySerializerRegistry;
+import me.shedaniel.rei.api.common.plugins.REICommonPlugin;
+import me.shedaniel.rei.api.common.registry.display.ServerDisplayRegistry;
+import org.jspecify.annotations.NonNull;
+
+
+public class ModReiCommon implements REICommonPlugin {
+	public static final CategoryIdentifier<CrusherDisplay> CRUSHER =
+		CategoryIdentifier.of(Global.modName("crusher"));
+	public static final CategoryIdentifier<CompressorDisplay> COMPRESSOR =
+		CategoryIdentifier.of(Global.modName("compressor"));
+
+	@Override
+	public void registerDisplaySerializer(@NonNull DisplaySerializerRegistry registry) {
+		registry.register(CRUSHER.getIdentifier(), CrusherDisplay.SERIALIZER);
+		registry.register(COMPRESSOR.getIdentifier(), CompressorDisplay.SERIALIZER);
+	}
+
+	@Override
+	public void registerDisplays(@NonNull ServerDisplayRegistry registry) {
+		registry.beginRecipeFiller(CrusherRecipe.class).fill(CrusherDisplay::new);
+		registry.beginRecipeFiller(CompressorRecipe.class).fill(CompressorDisplay::new);
+	}
+}
