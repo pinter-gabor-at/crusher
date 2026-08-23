@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_deepslate_coal_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:deepslate_coal_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:coal_from_crushing_deepslate_coal_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_deepslate_coal_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:coal_from_crushing_deepslate_coal_ore"
+    ]
+  }
+}

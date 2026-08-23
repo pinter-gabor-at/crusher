@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:compressing",
+  "experience": 0.1,
+  "ingredient": "minecraft:packed_mud",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "id": "minecraft:mud_bricks"
+  }
+}

@@ -2,7 +2,7 @@
   "type": "minecraft:compressing",
   "experience": 0.1,
   "ingredient": "minecraft:slime_ball",
-  "ingredient_count": 4,
+  "ingredient_count": 9,
   "processingtime": 100,
   "result": {
     "id": "minecraft:slime_block"

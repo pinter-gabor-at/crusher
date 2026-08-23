@@ -43,6 +43,8 @@ public final class CompressorRecipeGenerator {
 		generator.createRecipe(Items.DRIED_KELP, 9, Items.DRIED_KELP_BLOCK, 1);
 		generator.createRecipe(Items.KELP, 9, Items.DRIED_KELP_BLOCK, 1);
 		generator.createRecipe(Items.POINTED_DRIPSTONE, 4, Items.DRIPSTONE_BLOCK, 1);
+		generator.createRecipe(Items.SULFUR_SPIKE, 4, Items.SULFUR, 1);
+		generator.createRecipe(Items.SULFUR, 9, Items.POTENT_SULFUR, 1);
 		generator.createRecipe(Items.EMERALD, 9, Items.EMERALD_BLOCK, 1);
 		generator.createRecipe(Items.WHEAT, 9, Items.HAY_BLOCK, 1);
 		generator.createRecipe(Items.HONEYCOMB, 4, Items.HONEYCOMB_BLOCK, 1);
@@ -50,7 +52,7 @@ public final class CompressorRecipeGenerator {
 		generator.createRecipe(Items.MAGMA_CREAM, 4, Items.MAGMA_BLOCK, 1);
 		generator.createRecipe(Items.POPPED_CHORUS_FRUIT, 4, Items.PURPUR_BLOCK, 1);
 		generator.createRecipe(Items.RESIN_CLUMP, 9, Items.RESIN_BLOCK, 1);
-		generator.createRecipe(Items.SLIME_BALL, 4, Items.SLIME_BLOCK, 1);
+		generator.createRecipe(Items.SLIME_BALL, 9, Items.SLIME_BLOCK, 1);
 		generator.createRecipe(Items.SNOWBALL, 4, Items.SNOW_BLOCK, 1);
 		generator.createRecipe(Items.REDSTONE, 9, Items.REDSTONE_BLOCK, 1);
 		generator.createRecipe(Items.ICE, 9, Items.PACKED_ICE, 1);
@@ -58,6 +60,9 @@ public final class CompressorRecipeGenerator {
 		generator.createRecipe(Items.BONE_MEAL, 8, Items.BONE_BLOCK, 1);
 		generator.createRecipe(Items.SUGAR, 8, Items.HONEY_BLOCK, 1);
 		generator.createRecipe(Items.SNOW_BLOCK, 2, Items.ICE, 1);
+		// 8 flints => 1 quartz.
+		// This allows the generation of quartz before going into the Nether.
+		generator.createRecipe(Items.FLINT, 8, Items.QUARTZ, 1);
 		// Coal from logs and sticks.
 		generator.createRecipe(ItemTags.LOGS, 1, Items.CHARCOAL, 1);
 		generator.createRecipe(Items.STICK, 8, Items.CHARCOAL, 1);
@@ -67,28 +72,33 @@ public final class CompressorRecipeGenerator {
 		generator.createRecipe(Items.TNT, 1, Items.TNT, 1);
 		generator.createRecipe(Items.TNT_MINECART, 1, Items.TNT, 1);
 		generator.createRecipe(Items.DIAMOND_BLOCK, 1, Items.TNT, 1);
+		// Mud.
+		// Better than crafting, because it does not require wheat.
+		generator.createRecipe(Items.MUD, 1, Items.PACKED_MUD, 1);
+		generator.createRecipe(Items.PACKED_MUD, 1, Items.MUD_BRICKS, 1);
 		// Sponge.
 		generator.createRecipe(Items.WET_SPONGE, 1, Items.SPONGE, 1);
 		// String to wool.
 		generator.createRecipe(Items.STRING, 4, Items.WOOL.white(), 1);
+		// Cobweb to string.
+		generator.createRecipe(Items.COBWEB, 4, Items.STRING, 1);
 		// Copper from things made of copper.
 		generator.setParam(0.1F, 150);
-		// Copper from things made of copper.
+		generator.createRecipe(Items.COPPER_ORE, 1, Items.COPPER_INGOT, 4);
+		generator.createRecipe(Items.DEEPSLATE_COPPER_ORE, 1, Items.COPPER_INGOT, 1);
 		generator.createRecipe(Items.COPPER_CHEST, 1, Items.COPPER_INGOT, 8);
 		generator.createRecipe(Items.LIGHTNING_ROD, 1, Items.COPPER_INGOT, 3);
-		generator.createRecipe(Items.COPPER_BULB, 1, Items.COPPER_BLOCK.weathering().unaffected(), 3);
+		generator.createRecipe(Items.COPPER_BULB, 1, Items.COPPER_INGOT, 27);
+		generator.createRecipe(ModItemTagProvider.COPPER_GRATES, 1, Items.COPPER_INGOT, 9);
 		// 8 nuggets + 1 copper torch containing 1 nugget => 1 lantern => 1 ingot.
 		generator.createRecipe(Items.COPPER_LANTERN, 1, Items.COPPER_INGOT, 1);
-		// Using the stonecutter allows the free and very efficient generation of copper.
-		// For example:
-		// 9 ingots => 1 block => 4 cut blocks => 36 ingots.
-		generator.createRecipe(ModItemTagProvider.CUT_COPPER_BLOCKS, 1, Items.COPPER_BLOCK.weathering().unaffected(), 1);
-		generator.createRecipe(ModItemTagProvider.CHISELED_COPPER_BLOCKS, 1, Items.COPPER_BLOCK.weathering().unaffected(), 1);
-		generator.createRecipe(ModItemTagProvider.COPPER_STAIRS, 2, Items.COPPER_BLOCK.weathering().unaffected(), 3);
-		generator.createRecipe(ModItemTagProvider.COPPER_SLABS, 2, Items.COPPER_BLOCK.weathering().unaffected(), 1);
-		generator.createRecipe(ModItemTagProvider.COPPER_DOORS, 1, Items.COPPER_INGOT, 2);
-		generator.createRecipe(ModItemTagProvider.COPPER_TRAPDOORS, 1, Items.COPPER_INGOT, 4);
-		generator.createRecipe(ModItemTagProvider.COPPER_GRATES, 1, Items.COPPER_INGOT, 9);
+		// 9 ingots => 1 block => 4 cut blocks => 9 ingots.
+		generator.createRecipe(ModItemTagProvider.CUT_COPPER_BLOCKS, 4, Items.COPPER_INGOT, 9);
+		generator.createRecipe(ModItemTagProvider.CHISELED_COPPER_BLOCKS, 4, Items.COPPER_INGOT, 9);
+		// 9 ingots => 1 block => 4 cut blocks => 4 stairs => 8 ingots.
+		generator.createRecipe(ModItemTagProvider.COPPER_STAIRS, 1, Items.COPPER_INGOT, 2);
+		// 9 ingots => 1 block => 4 cut blocks => 8 slabs => 8 ingots.
+		generator.createRecipe(ModItemTagProvider.COPPER_SLABS, 1, Items.COPPER_INGOT, 1);
 		// Iron from things made of iron.
 		generator.createRecipe(ModItemTagProvider.BUCKETS, 1, Items.IRON_INGOT, 3);
 		generator.createRecipe(Items.SHEARS, 1, Items.IRON_INGOT, 2);
@@ -100,7 +110,6 @@ public final class CompressorRecipeGenerator {
 		generator.createRecipe(Items.IRON_HOE, 1, Items.IRON_INGOT, 2);
 		generator.createRecipe(Items.IRON_SHOVEL, 1, Items.IRON_INGOT, 1);
 		generator.createRecipe(Items.IRON_SWORD, 1, Items.IRON_INGOT, 2);
-		generator.createRecipe(Items.IRON_BLOCK, 1, Items.IRON_INGOT, 9);
 		generator.createRecipe(Items.IRON_HELMET, 1, Items.IRON_INGOT, 5);
 		generator.createRecipe(Items.IRON_CHESTPLATE, 1, Items.IRON_INGOT, 8);
 		generator.createRecipe(Items.IRON_LEGGINGS, 1, Items.IRON_INGOT, 7);
@@ -123,6 +132,7 @@ public final class CompressorRecipeGenerator {
 		generator.createRecipe(Items.HOPPER, 1, Items.IRON_INGOT, 5);
 		generator.createRecipe(Items.PISTON, 1, Items.IRON_INGOT, 1);
 		generator.createRecipe(Items.STICKY_PISTON, 1, Items.IRON_INGOT, 1);
+		generator.createRecipe(Items.FLINT_AND_STEEL, 1, Items.IRON_INGOT, 1);
 		// 8 nuggets + 1 torch => 1 lantern => 1 ingot => 9 nuggets.
 		// This allows the free generation of iron, for those who discover it.
 		generator.createRecipe(Items.LANTERN, 1, Items.IRON_INGOT, 1);
@@ -134,12 +144,14 @@ public final class CompressorRecipeGenerator {
 		generator.createRecipe(Items.IRON_BARS, 2, Items.IRON_INGOT, 1);
 		// Gold from things made of gold.
 		generator.setParam(0.1F, 200);
+		generator.createRecipe(Items.GOLD_ORE, 1, Items.GOLD_INGOT, 4);
+		generator.createRecipe(Items.DEEPSLATE_GOLD_ORE, 1, Items.GOLD_INGOT, 4);
+		generator.createRecipe(Items.NETHER_GOLD_ORE, 1, Items.GOLD_INGOT, 4);
 		generator.createRecipe(Items.GOLDEN_AXE, 1, Items.GOLD_INGOT, 3);
 		generator.createRecipe(Items.GOLDEN_PICKAXE, 1, Items.GOLD_INGOT, 3);
 		generator.createRecipe(Items.GOLDEN_HOE, 1, Items.GOLD_INGOT, 2);
 		generator.createRecipe(Items.GOLDEN_SHOVEL, 1, Items.GOLD_INGOT, 1);
 		generator.createRecipe(Items.GOLDEN_SWORD, 1, Items.GOLD_INGOT, 2);
-		generator.createRecipe(Items.GOLD_BLOCK, 1, Items.GOLD_INGOT, 9);
 		generator.createRecipe(Items.GOLDEN_HELMET, 1, Items.GOLD_INGOT, 5);
 		generator.createRecipe(Items.GOLDEN_CHESTPLATE, 1, Items.GOLD_INGOT, 8);
 		generator.createRecipe(Items.GOLDEN_LEGGINGS, 1, Items.GOLD_INGOT, 7);
@@ -150,5 +162,7 @@ public final class CompressorRecipeGenerator {
 		// 72 coals or charcoals => 8 coal blocks => 1 diamond.
 		generator.setParam(1.0F, 1000);
 		generator.createRecipe(Items.COAL_BLOCK, 8, Items.DIAMOND, 1);
+		// Emerald from gold blocks, but very slowly.
+		generator.createRecipe(Items.GOLD_BLOCK, 2, Items.EMERALD, 1);
 	}
 }

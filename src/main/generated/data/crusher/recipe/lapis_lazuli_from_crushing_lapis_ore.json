@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:lapis_ore",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "count": 32,
+    "id": "minecraft:lapis_lazuli"
+  }
+}

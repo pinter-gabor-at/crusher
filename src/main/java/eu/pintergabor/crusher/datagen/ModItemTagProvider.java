@@ -172,9 +172,9 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 			BlockItemIds.POLISHED_TUFF.item(),
 			BlockItemIds.POLISHED_DEEPSLATE.item(),
 			BlockItemIds.POLISHED_BLACKSTONE.item(),
+			BlockItemIds.CHISELED_POLISHED_BLACKSTONE.item(),
 			BlockItemIds.SMOOTH_STONE.item(),
 			BlockItemIds.SMOOTH_BASALT.item(),
-			BlockItemIds.SMOOTH_QUARTZ.item(),
 			BlockItemIds.CHISELED_TUFF.item(),
 			BlockItemIds.CHISELED_TUFF_BRICKS.item(),
 			BlockItemIds.CHISELED_DEEPSLATE.item(),
@@ -186,6 +186,7 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 			BlockItemIds.DIORITE_WALL.item(),
 			BlockItemIds.GRANITE_WALL.item(),
 			BlockItemIds.TUFF_WALL.item(),
+			BlockItemIds.TUFF_BRICKS.item(),
 			BlockItemIds.TUFF_BRICK_WALL.item(),
 			BlockItemIds.POLISHED_TUFF_WALL.item(),
 			BlockItemIds.POLISHED_DEEPSLATE_WALL.item(),
@@ -200,6 +201,7 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 			BlockItemIds.NETHER_BRICK_FENCE.item(),
 			BlockItemIds.NETHER_BRICK_WALL.item(),
 			BlockItemIds.NETHER_BRICKS.item(),
+			BlockItemIds.CHISELED_NETHER_BRICKS.item(),
 			BlockItemIds.DEEPSLATE.item(),
 			BlockItemIds.DEEPSLATE_BRICK_WALL.item(),
 			BlockItemIds.DEEPSLATE_BRICKS.item(),
@@ -207,7 +209,10 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 			BlockItemIds.DEEPSLATE_TILE_WALL.item(),
 			BlockItemIds.CRACKED_DEEPSLATE_TILES.item(),
 			BlockItemIds.INFESTED_DEEPSLATE.item(),
-			BlockItemIds.REINFORCED_DEEPSLATE.item());
+			BlockItemIds.REINFORCED_DEEPSLATE.item(),
+			ItemIds.FLINT,
+			BlockItemIds.OBSIDIAN.item(),
+			BlockItemIds.CRYING_OBSIDIAN.item());
 	}
 
 	@SuppressWarnings({"unchecked", "RedundantSuppression"})
@@ -232,6 +237,7 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 			BlockItemIds.POLISHED_DEEPSLATE_SLAB.item(),
 			BlockItemIds.POLISHED_BLACKSTONE_BRICK_SLAB.item(),
 			BlockItemIds.BLACKSTONE_SLAB.item(),
+			BlockItemIds.POLISHED_BLACKSTONE_SLAB.item(),
 			BlockItemIds.NETHER_BRICK_SLAB.item(),
 			BlockItemIds.DEEPSLATE_BRICK_SLAB.item(),
 			BlockItemIds.DEEPSLATE_TILE_SLAB.item());
@@ -269,6 +275,8 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 		final TagAppender<Item> tag = tag(SAND_SOURCES);
 		tag.add(
 			BlockItemIds.GRAVEL.item(),
+			BlockItemIds.SUSPICIOUS_GRAVEL.item(),
+			BlockItemIds.SUSPICIOUS_SAND.item(),
 			ItemIds.QUARTZ,
 			BlockItemIds.QUARTZ_BLOCK.item(),
 			BlockItemIds.QUARTZ_BRICKS.item(),
@@ -285,6 +293,9 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 	private void tagRedSandSources() {
 		final TagAppender<Item> tag = tag(RED_SAND_SOURCES);
 		tag.add(
+			BlockItemIds.BRICK_STAIRS.item(),
+			BlockItemIds.BRICK_WALL.item(),
+			BlockItemIds.BRICKS.item(),
 			BlockItemIds.RED_NETHER_BRICK_STAIRS.item(),
 			BlockItemIds.RED_NETHER_BRICK_WALL.item(),
 			BlockItemIds.RED_NETHER_BRICKS.item());
