@@ -353,6 +353,7 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
 			BlockItemIds.CHERRY_SLAB.item(),
 			BlockItemIds.PALE_OAK_SLAB.item(),
 			BlockItemIds.BAMBOO_SLAB.item(),
+			BlockItemIds.BAMBOO_MOSAIC_SLAB.item(),
 			BlockItemIds.CRIMSON_SLAB.item(),
 			BlockItemIds.WARPED_SLAB.item());
 	}
