@@ -23,9 +23,9 @@
     "minecraft:polished_tuff",
     "minecraft:polished_deepslate",
     "minecraft:polished_blackstone",
+    "minecraft:chiseled_polished_blackstone",
     "minecraft:smooth_stone",
     "minecraft:smooth_basalt",
-    "minecraft:smooth_quartz",
     "minecraft:chiseled_tuff",
     "minecraft:chiseled_tuff_bricks",
     "minecraft:chiseled_deepslate",
@@ -37,6 +37,7 @@
     "minecraft:diorite_wall",
     "minecraft:granite_wall",
     "minecraft:tuff_wall",
+    "minecraft:tuff_bricks",
     "minecraft:tuff_brick_wall",
     "minecraft:polished_tuff_wall",
     "minecraft:polished_deepslate_wall",
@@ -51,6 +52,7 @@
     "minecraft:nether_brick_fence",
     "minecraft:nether_brick_wall",
     "minecraft:nether_bricks",
+    "minecraft:chiseled_nether_bricks",
     "minecraft:deepslate",
     "minecraft:deepslate_brick_wall",
     "minecraft:deepslate_bricks",
@@ -58,6 +60,9 @@
     "minecraft:deepslate_tile_wall",
     "minecraft:cracked_deepslate_tiles",
     "minecraft:infested_deepslate",
-    "minecraft:reinforced_deepslate"
+    "minecraft:reinforced_deepslate",
+    "minecraft:flint",
+    "minecraft:obsidian",
+    "minecraft:crying_obsidian"
   ]
 }

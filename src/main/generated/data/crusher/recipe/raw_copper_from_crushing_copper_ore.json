@@ -5,6 +5,7 @@
   "ingredient_count": 1,
   "processingtime": 100,
   "result": {
+    "count": 4,
     "id": "minecraft:raw_copper"
   }
 }

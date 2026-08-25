@@ -8,8 +8,8 @@
     "Pintér Gábor <pinter.gabor@gmx.at>"
   ],
   "contact": {
-    "homepage": "https://pintergabor.eu/en/minecraft/mods/crusher/",
-    "sources": "https://gitlab.com/pintergabor/crusher"
+    "homepage": "https://pintergabor.eu/en/minecraft/mods/${mod_id}/",
+    "sources": "https://gitlab.com/pintergabor/${mod_id}"
   },
   "license": "MIT",
   "icon": "eu.pintergabor.crusher.icon.png",
@@ -23,12 +23,22 @@
     ],
     "fabric-datagen": [
       "eu.pintergabor.crusher.ModDataGenerator"
+    ],
+    "rei_common": [
+      "eu.pintergabor.crusher.rei.ModReiCommon"
+    ],
+    "rei_client": [
+      "eu.pintergabor.crusher.rei.ModReiClient"
     ]
   },
+  "accessWidener": "eu.pintergabor.crusher.classtweaker",
   "depends": {
-    "java": ">=21",
-    "minecraft": "${minecraft_version}",
-    "fabricloader": "${loader_version}",
-    "fabric-api": "${fabric_version}"
+    "java": ">=25",
+    "minecraft": "${minecraft_version_range}",
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": ">=${fabric_version}"
+  },
+  "recommends": {
+    "rei": ">=${rei_version}"
   }
 }

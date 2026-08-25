@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_prismarine_stairs": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:prismarine_stairs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:prismarine_from_crushing_prismarine_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_prismarine_stairs"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:prismarine_from_crushing_prismarine_stairs"
+    ]
+  }
+}

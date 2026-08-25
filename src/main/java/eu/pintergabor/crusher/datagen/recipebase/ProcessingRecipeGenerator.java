@@ -3,6 +3,7 @@ package eu.pintergabor.crusher.datagen.recipebase;
 import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.recipe.base.AbstractProcessingRecipe;
 import eu.pintergabor.crusher.recipe.base.ProcessingRecipeBuilder;
+
 import org.jspecify.annotations.NonNull;
 
 import net.minecraft.core.HolderLookup;

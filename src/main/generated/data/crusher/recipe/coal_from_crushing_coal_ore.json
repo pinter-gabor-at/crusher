@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:coal_ore",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "count": 4,
+    "id": "minecraft:coal"
+  }
+}
