@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_sulfur_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:sulfur_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:sulfur_from_crushing_sulfur_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sulfur_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:sulfur_from_crushing_sulfur_slab"
+    ]
+  }
+}

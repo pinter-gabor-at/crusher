@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_fence_gates": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:fence_gates"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "crusher:stick_from_crushing_fence_gates"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_fence_gates"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "crusher:stick_from_crushing_fence_gates"
+    ]
+  }
+}

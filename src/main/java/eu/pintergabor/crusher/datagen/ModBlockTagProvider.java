@@ -20,7 +20,7 @@ public final class ModBlockTagProvider extends BlockTagsProvider {
 	}
 
 	@Override
-	protected void addTags(HolderLookup.@NonNull Provider wrapperLookup) {
+	protected void addTags(final HolderLookup.@NonNull Provider registries) {
 		// Mineable with pickaxe.
 		tag(BlockTags.MINEABLE_WITH_PICKAXE)
 			.add(ModBlocks.CRUSHER_BLOCK.getKey())

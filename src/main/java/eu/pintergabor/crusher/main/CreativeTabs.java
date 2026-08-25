@@ -35,7 +35,7 @@ public final class CreativeTabs {
 	 */
 	public static void listener(BuildCreativeModeTabContentsEvent event) {
 		if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
-			add(event, ModBlocks.CRUSHER_ITEM, ModBlocks.COMPRESOR_ITEM);
+			add(event, ModBlocks.CRUSHER_ITEM, ModBlocks.COMPRESSOR_ITEM);
 		}
 	}
 }

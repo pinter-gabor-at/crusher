@@ -82,16 +82,6 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 	public static final TagKey<Item> WOODEN_SIGNS = createCItemTag("signs/wood");
 
 	/**
-	 * Wooden fences.
-	 */
-	public static final TagKey<Item> WOODEN_FENCES = createCItemTag("fences/wood");
-
-	/**
-	 * Wooden fence gates.
-	 */
-	public static final TagKey<Item> WOODEN_FENCE_GATES = createCItemTag("fence_gates/wood");
-
-	/**
 	 * Copper blocks.
 	 */
 	public static final TagKey<Item> COPPER_BLOCKS = createCItemTag("storage_blocks/copper");
@@ -187,9 +177,9 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 			BlockItemIds.POLISHED_TUFF.item(),
 			BlockItemIds.POLISHED_DEEPSLATE.item(),
 			BlockItemIds.POLISHED_BLACKSTONE.item(),
+			BlockItemIds.CHISELED_POLISHED_BLACKSTONE.item(),
 			BlockItemIds.SMOOTH_STONE.item(),
 			BlockItemIds.SMOOTH_BASALT.item(),
-			BlockItemIds.SMOOTH_QUARTZ.item(),
 			BlockItemIds.CHISELED_TUFF.item(),
 			BlockItemIds.CHISELED_TUFF_BRICKS.item(),
 			BlockItemIds.CHISELED_DEEPSLATE.item(),
@@ -201,6 +191,7 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 			BlockItemIds.DIORITE_WALL.item(),
 			BlockItemIds.GRANITE_WALL.item(),
 			BlockItemIds.TUFF_WALL.item(),
+			BlockItemIds.TUFF_BRICKS.item(),
 			BlockItemIds.TUFF_BRICK_WALL.item(),
 			BlockItemIds.POLISHED_TUFF_WALL.item(),
 			BlockItemIds.POLISHED_DEEPSLATE_WALL.item(),
@@ -215,6 +206,7 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 			BlockItemIds.NETHER_BRICK_FENCE.item(),
 			BlockItemIds.NETHER_BRICK_WALL.item(),
 			BlockItemIds.NETHER_BRICKS.item(),
+			BlockItemIds.CHISELED_NETHER_BRICKS.item(),
 			BlockItemIds.DEEPSLATE.item(),
 			BlockItemIds.DEEPSLATE_BRICK_WALL.item(),
 			BlockItemIds.DEEPSLATE_BRICKS.item(),
@@ -222,7 +214,10 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 			BlockItemIds.DEEPSLATE_TILE_WALL.item(),
 			BlockItemIds.CRACKED_DEEPSLATE_TILES.item(),
 			BlockItemIds.INFESTED_DEEPSLATE.item(),
-			BlockItemIds.REINFORCED_DEEPSLATE.item());
+			BlockItemIds.REINFORCED_DEEPSLATE.item(),
+			ItemIds.FLINT,
+			BlockItemIds.OBSIDIAN.item(),
+			BlockItemIds.CRYING_OBSIDIAN.item());
 	}
 
 	@SuppressWarnings({"unchecked", "RedundantSuppression"})
@@ -247,6 +242,7 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 			BlockItemIds.POLISHED_DEEPSLATE_SLAB.item(),
 			BlockItemIds.POLISHED_BLACKSTONE_BRICK_SLAB.item(),
 			BlockItemIds.BLACKSTONE_SLAB.item(),
+			BlockItemIds.POLISHED_BLACKSTONE_SLAB.item(),
 			BlockItemIds.NETHER_BRICK_SLAB.item(),
 			BlockItemIds.DEEPSLATE_BRICK_SLAB.item(),
 			BlockItemIds.DEEPSLATE_TILE_SLAB.item());
@@ -284,6 +280,8 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 		final TagAppender<Item> tag = tag(SAND_SOURCES);
 		tag.add(
 			BlockItemIds.GRAVEL.item(),
+			BlockItemIds.SUSPICIOUS_GRAVEL.item(),
+			BlockItemIds.SUSPICIOUS_SAND.item(),
 			ItemIds.QUARTZ,
 			BlockItemIds.QUARTZ_BLOCK.item(),
 			BlockItemIds.QUARTZ_BRICKS.item(),
@@ -300,6 +298,9 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 	private void tagRedSandSources() {
 		final TagAppender<Item> tag = tag(RED_SAND_SOURCES);
 		tag.add(
+			BlockItemIds.BRICK_STAIRS.item(),
+			BlockItemIds.BRICK_WALL.item(),
+			BlockItemIds.BRICKS.item(),
 			BlockItemIds.RED_NETHER_BRICK_STAIRS.item(),
 			BlockItemIds.RED_NETHER_BRICK_WALL.item(),
 			BlockItemIds.RED_NETHER_BRICKS.item());
@@ -399,42 +400,6 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 	}
 
 	@SuppressWarnings({"unchecked", "RedundantSuppression"})
-	private void tagWoodenFences() {
-		final TagAppender<Item> tag = tag(WOODEN_FENCES);
-		tag.add(
-			BlockItemIds.OAK_FENCE.item(),
-			BlockItemIds.SPRUCE_FENCE.item(),
-			BlockItemIds.BIRCH_FENCE.item(),
-			BlockItemIds.JUNGLE_FENCE.item(),
-			BlockItemIds.ACACIA_FENCE.item(),
-			BlockItemIds.DARK_OAK_FENCE.item(),
-			BlockItemIds.MANGROVE_FENCE.item(),
-			BlockItemIds.CHERRY_FENCE.item(),
-			BlockItemIds.PALE_OAK_FENCE.item(),
-			BlockItemIds.BAMBOO_FENCE.item(),
-			BlockItemIds.CRIMSON_FENCE.item(),
-			BlockItemIds.WARPED_FENCE.item());
-	}
-
-	@SuppressWarnings({"unchecked", "RedundantSuppression"})
-	private void tagWoodenFenceGates() {
-		final TagAppender<Item> tag = tag(WOODEN_FENCE_GATES);
-		tag.add(
-			BlockItemIds.OAK_FENCE_GATE.item(),
-			BlockItemIds.SPRUCE_FENCE_GATE.item(),
-			BlockItemIds.BIRCH_FENCE_GATE.item(),
-			BlockItemIds.JUNGLE_FENCE_GATE.item(),
-			BlockItemIds.ACACIA_FENCE_GATE.item(),
-			BlockItemIds.DARK_OAK_FENCE_GATE.item(),
-			BlockItemIds.MANGROVE_FENCE_GATE.item(),
-			BlockItemIds.CHERRY_FENCE_GATE.item(),
-			BlockItemIds.PALE_OAK_FENCE_GATE.item(),
-			BlockItemIds.BAMBOO_FENCE_GATE.item(),
-			BlockItemIds.CRIMSON_FENCE_GATE.item(),
-			BlockItemIds.WARPED_FENCE_GATE.item());
-	}
-
-	@SuppressWarnings({"unchecked", "RedundantSuppression"})
 	private void tagAddWeatheringCopperCollection(
 		final @NonNull TagAppender<Item> tag,
 		final @NonNull WeatheringCopperCollection<BlockItemId> collection
@@ -520,8 +485,6 @@ public final class ModItemTagProvider extends ItemTagsProvider {
 		tagWoodenSlabs();
 		tagWoodenPressurePlates();
 		tagWoodenSigns();
-		tagWoodenFences();
-		tagWoodenFenceGates();
 		tagCopperBlocks();
 		tagCutCopperBlocks();
 		tagChiseledCopperBlocks();

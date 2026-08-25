@@ -23,10 +23,10 @@ import net.minecraft.world.item.Items;
  */
 public class CrusherScreen extends AbstractProcessingScreen<CrusherMenu> {
 	// The entire GUI (176x166).
-	private static final Identifier TEXTURE =
+	public static final Identifier TEXTURE =
 		Global.modId("textures/gui/crusher_gui.png");
 	// The fire sprite in the middle (14x14) (textures/gui/sprites/...).
-	private static final Identifier LIT_PROGRESS_SPRITE =
+	public static final Identifier LIT_PROGRESS_SPRITE =
 		Global.modId("container/crusher/lit_progress");
 	// The arrow sprite on the right (24x16) (textures/gui/sprites/...).
 	private static final Identifier BURN_PROGRESS_SPRITE =

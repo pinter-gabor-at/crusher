@@ -4,15 +4,29 @@ plugins {
 	id 'idea'
 }
 
-version = project.mod_version + "+neo+mc" + project.minecraft_version
-group = project.mod_group
+version = mod_version + "+neo+mc" + minecraft_version
+group = mod_group
 
 base {
-	archivesName = project.mod_id
+	archivesName = mod_id
+}
+
+repositories {
+	maven {
+		name = 'REI and Cloth Config'
+		url = 'https://maven.shedaniel.me'
+	}
+}
+
+dependencies {
+	// Compile against the REI API but do not include it at runtime.
+	compileOnly("me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}")
+	// At runtime, use the full REI.
+	runtimeOnly("me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}")
 }
 
 neoForge {
-	version = project.neo_version
+	version = neo_version
 
 	// Run configurations.
 	runs {
@@ -31,12 +45,12 @@ neoForge {
 			// where to output the resulting resource,
 			// and where to look for existing resources.
 			//noinspection GroovyAssignabilityCheck
-			programArguments.addAll '--mod', project.mod_id, '--all',
+			programArguments.addAll '--mod', mod_id, '--all',
 				'--output', file('src/main/generated/').getAbsolutePath(),
 				'--existing', file('src/main/resources/').getAbsolutePath()
 		}
 
-		// Aplly to all the run configs above.
+		// Apply to all the run configs above.
 		configureEach {
 			// Set logging level.
 			logLevel = org.slf4j.event.Level.INFO
@@ -65,7 +79,8 @@ var generateModMetadata =
 			mod_group           	: mod_group,
 			mod_id              	: mod_id,
 			mod_version         	: mod_version,
-			version             	: version
+			version             	: version,
+			rei_version         	: rei_version
 		]
 		inputs.properties replaceProperties
 		expand replaceProperties

@@ -1,0 +1,11 @@
+{
+  "type": "crusher:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:purpur_slab",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "count": 4,
+    "id": "minecraft:purple_dye"
+  }
+}

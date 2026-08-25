@@ -2,7 +2,7 @@ package eu.pintergabor.crusher.datagen;
 
 import eu.pintergabor.crusher.Global;
 import eu.pintergabor.crusher.blocks.ModBlocks;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -22,8 +22,8 @@ public final class ModModelProvider extends ModelProvider {
 	 */
 	@Override
 	protected void registerModels(
-		@NotNull BlockModelGenerators blockModels,
-		@NotNull ItemModelGenerators itemModels
+		final @NonNull BlockModelGenerators blockModels,
+		final @NonNull ItemModelGenerators itemModels
 	) {
 		blockModels.createFurnace(ModBlocks.CRUSHER_BLOCK.get(),
 			TexturedModel.ORIENTABLE_ONLY_TOP);

@@ -1,7 +1,6 @@
 package eu.pintergabor.crusher.blocks;
 
 import eu.pintergabor.crusher.main.Main;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -22,7 +21,7 @@ public final class ModBlocks {
 	public static DeferredBlock<Block> COMPRESSOR_BLOCK;
 	// Items.
 	public static DeferredItem<BlockItem> CRUSHER_ITEM;
-	public static DeferredItem<BlockItem> COMPRESOR_ITEM;
+	public static DeferredItem<BlockItem> COMPRESSOR_ITEM;
 	// Entities.
 	public static DeferredHolder<BlockEntityType<?>, BlockEntityType<CrusherBlockEntity>> CRUSHER_ENTITY;
 	public static DeferredHolder<BlockEntityType<?>, BlockEntityType<CompressorBlockEntity>> COMPRESSOR_ENTITY;
@@ -60,7 +59,7 @@ public final class ModBlocks {
 	 */
 	private static void initItems() {
 		CRUSHER_ITEM = Main.ITEMS.registerSimpleBlockItem(CRUSHER_BLOCK);
-		COMPRESOR_ITEM = Main.ITEMS.registerSimpleBlockItem(COMPRESSOR_BLOCK);
+		COMPRESSOR_ITEM = Main.ITEMS.registerSimpleBlockItem(COMPRESSOR_BLOCK);
 	}
 
 	/**

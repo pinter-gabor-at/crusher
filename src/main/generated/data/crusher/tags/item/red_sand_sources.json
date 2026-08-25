@@ -1,5 +1,8 @@
 {
   "values": [
+    "minecraft:brick_stairs",
+    "minecraft:brick_wall",
+    "minecraft:bricks",
     "minecraft:red_nether_brick_stairs",
     "minecraft:red_nether_brick_wall",
     "minecraft:red_nether_bricks"

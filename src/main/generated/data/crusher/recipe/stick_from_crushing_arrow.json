@@ -1,0 +1,10 @@
+{
+  "type": "crusher:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:arrow",
+  "ingredient_count": 1,
+  "processingtime": 100,
+  "result": {
+    "id": "minecraft:stick"
+  }
+}

@@ -65,7 +65,7 @@ public class CompressorRecipe extends AbstractProcessingRecipe {
 
 	@Override
 	protected Item getProcessorItem() {
-		return ModBlocks.COMPRESOR_ITEM.get();
+		return ModBlocks.COMPRESSOR_ITEM.get();
 	}
 
 	@Override

@@ -57,7 +57,8 @@ public class CompressorBlockEntity extends AbstractProcessingBlockEntity {
 				worldPosition.getZ(),
 				8F,
 				false,
-				Level.ExplosionInteraction.TNT);
+				Level.ExplosionInteraction.TNT
+			);
 		}
 	}
 }

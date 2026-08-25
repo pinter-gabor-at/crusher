@@ -2,7 +2,7 @@ package eu.pintergabor.crusher.screen.base;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.recipebook.FurnaceRecipeBookComponent;
@@ -21,7 +21,7 @@ import net.minecraft.world.item.crafting.display.RecipeDisplay;
 /**
  * Similar to {@link FurnaceRecipeBookComponent}.
  */
-public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<@NotNull AbstractProcessingMenu> {
+public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<@NonNull AbstractProcessingMenu> {
 	private static final WidgetSprites FILTER_SPRITES = new WidgetSprites(
 		Identifier.withDefaultNamespace("recipe_book/furnace_filter_enabled"),
 		Identifier.withDefaultNamespace("recipe_book/furnace_filter_disabled"),
@@ -31,26 +31,28 @@ public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<@
 	private final Component recipeFilterName;
 
 	public AbstractProcessingRecipeBookComponent(
-		AbstractProcessingMenu menu, Component recipeFilterName, List<TabInfo> tabInfos
+		final @NonNull AbstractProcessingMenu menu,
+		final @NonNull Component recipeFilterName,
+		final @NonNull List<TabInfo> tabInfos
 	) {
 		super(menu, tabInfos);
 		this.recipeFilterName = recipeFilterName;
 	}
 
 	@Override
-	protected @NotNull WidgetSprites getFilterButtonTextures() {
+	protected @NonNull WidgetSprites getFilterButtonTextures() {
 		return FILTER_SPRITES;
 	}
 
 	@Override
-	protected boolean isCraftingSlot(@NotNull Slot slot) {
+	protected boolean isCraftingSlot(final @NonNull Slot slot) {
 		return 0 <= slot.index && slot.index <= 2;
 	}
 
 	protected void fillGhostRecipe(
-		@NotNull GhostSlots ghostSlots,
-		@NotNull RecipeDisplay display,
-		@NotNull ContextMap context
+		final @NonNull GhostSlots ghostSlots,
+		final @NonNull RecipeDisplay display,
+		final @NonNull ContextMap context
 	) {
 		if (ghostSlots instanceof ProcessingGhostSlots processingGhostSlots) {
 			processingGhostSlots.setResult(menu.getResultSlot(), context, display.result());
@@ -66,14 +68,14 @@ public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<@
 	}
 
 	@Override
-	protected @NotNull Component getRecipeFilterName() {
+	protected @NonNull Component getRecipeFilterName() {
 		return recipeFilterName;
 	}
 
 	@Override
 	protected void selectMatchingRecipes(
-		@NotNull RecipeCollection possibleRecipes,
-		@NotNull StackedItemContents contents
+		final @NonNull RecipeCollection possibleRecipes,
+		final @NonNull StackedItemContents contents
 	) {
 		possibleRecipes.selectRecipes(contents, recipeDisplay ->
 			recipeDisplay instanceof FurnaceRecipeDisplay);

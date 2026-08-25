@@ -1,0 +1,11 @@
+{
+  "type": "crusher:crushing",
+  "experience": 0.1,
+  "ingredient": "minecraft:resin_brick_slab",
+  "ingredient_count": 2,
+  "processingtime": 100,
+  "result": {
+    "count": 4,
+    "id": "minecraft:resin_brick"
+  }
+}
