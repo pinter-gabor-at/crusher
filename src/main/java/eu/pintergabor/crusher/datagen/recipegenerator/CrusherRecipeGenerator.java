@@ -500,7 +500,7 @@ public final class CrusherRecipeGenerator {
 		generator.createRecipe(Items.EMERALD_BLOCK, 1, Items.EMERALD, 9);
 		// Ender perl.
 		// 8 obsidians + 1 ender perl + 1 blaze powder => 1 ender chest => 2 ender perls.
-		// This allows the generation of redstone dust in a complicated and expensive way.
+		// This allows the generation of ender perl in a complicated and expensive way.
 		generator.createRecipe(Items.ENDER_CHEST, 1, Items.ENDER_PEARL, 2);
 		// Sand from sand fast. It creates experience.
 		generator.setParam(1.0F, 10);

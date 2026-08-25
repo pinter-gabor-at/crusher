@@ -246,6 +246,4 @@ public final class ProcessingUtils {
 		}
 		return changed;
 	}
-
-
 }

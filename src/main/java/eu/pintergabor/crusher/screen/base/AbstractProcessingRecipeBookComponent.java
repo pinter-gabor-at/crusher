@@ -17,6 +17,9 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.crafting.display.FurnaceRecipeDisplay;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 
+import static eu.pintergabor.crusher.blocks.base.StaticProcessingBlockEntity.SLOT_FUEL;
+import static eu.pintergabor.crusher.blocks.base.StaticProcessingBlockEntity.SLOT_INPUT;
+
 
 /**
  * Similar to {@link FurnaceRecipeBookComponent}.
@@ -55,13 +58,17 @@ public class AbstractProcessingRecipeBookComponent extends RecipeBookComponent<@
 		final @NonNull ContextMap context
 	) {
 		if (ghostSlots instanceof ProcessingGhostSlots processingGhostSlots) {
-			processingGhostSlots.setResult(menu.getResultSlot(), context, display.result());
+			final Slot resultSlot = menu.getResultSlot();
+			processingGhostSlots.setResult(resultSlot,
+				context, display.result());
 			if (display instanceof FurnaceRecipeDisplay furnaceRecipeDisplay) {
-				processingGhostSlots.setInput(menu.slots.get(0),
+				final Slot inputSlot = menu.slots.get(SLOT_INPUT);
+				processingGhostSlots.setInput(inputSlot,
 					context, furnaceRecipeDisplay.ingredient());
-				Slot slot = menu.slots.get(1);
-				if (slot.getItem().isEmpty()) {
-					processingGhostSlots.setInput(slot, context, furnaceRecipeDisplay.fuel());
+				final Slot fuelSlot = menu.slots.get(SLOT_FUEL);
+				if (fuelSlot.getItem().isEmpty()) {
+					processingGhostSlots.setInput(fuelSlot,
+						context, furnaceRecipeDisplay.fuel());
 				}
 			}
 		}

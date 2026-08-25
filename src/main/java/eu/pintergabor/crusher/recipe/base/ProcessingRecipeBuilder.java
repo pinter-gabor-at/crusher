@@ -31,12 +31,12 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 	private final AbstractProcessingRecipe.Factory<?> factory;
 
 	private ProcessingRecipeBuilder(
-		@NonNull Ingredient ingredient,
-		int ingredientCount,
-		@NonNull ItemStackTemplate result,
-		float experience,
-		int processingTime,
-		AbstractProcessingRecipe.@NonNull Factory<?> recipeFactory
+		final @NonNull Ingredient ingredient,
+		final int ingredientCount,
+		final @NonNull ItemStackTemplate result,
+		final float experience,
+		final int processingTime,
+		final AbstractProcessingRecipe.@NonNull Factory<?> recipeFactory
 	) {
 		advancementBuilder = new RecipeUnlockAdvancementBuilder();
 		this.ingredient = ingredient;
@@ -48,12 +48,12 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 	}
 
 	public static <T extends AbstractProcessingRecipe> @NonNull ProcessingRecipeBuilder create(
-		@NonNull Ingredient ingredient,
-		int ingregientCount,
-		@NonNull ItemStackTemplate output,
-		float experience,
-		int cookingTime,
-		AbstractProcessingRecipe.Factory<T> factory
+		final @NonNull Ingredient ingredient,
+		final int ingregientCount,
+		final @NonNull ItemStackTemplate output,
+		final float experience,
+		final int cookingTime,
+		final AbstractProcessingRecipe.Factory<T> factory
 	) {
 		return new ProcessingRecipeBuilder(
 			ingredient,
@@ -66,7 +66,7 @@ public class ProcessingRecipeBuilder implements RecipeBuilder {
 	}
 
 	public @NonNull ProcessingRecipeBuilder unlockedBy(
-		@NonNull String string, @NonNull Criterion<?> criterion
+		final @NonNull String string, @NonNull Criterion<?> criterion
 	) {
 		advancementBuilder.unlockedBy(string, criterion);
 		return this;

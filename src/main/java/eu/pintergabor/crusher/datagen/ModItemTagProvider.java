@@ -3,9 +3,6 @@ package eu.pintergabor.crusher.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import eu.pintergabor.crusher.Global;
-
-import net.minecraft.references.ItemIds;
-
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import org.jspecify.annotations.NonNull;
@@ -17,6 +14,7 @@ import net.minecraft.data.tags.TagAppender;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.references.BlockItemId;
 import net.minecraft.references.BlockItemIds;
+import net.minecraft.references.ItemIds;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
