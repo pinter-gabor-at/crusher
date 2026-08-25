@@ -18,6 +18,17 @@ It also works similar to a furnace, and even has a similar recipe:
 
 ![Compressor recipe](./images/compressor_recipe.png "Compressor recipe")
 
+Before you dismiss this mod as just another boring tech mod, check the recipes. 
+These machines are very efficient and sometimes can do almost magical things.
+The compressor can compress coal blocks to create diamonds, and gold to create emeralds.
+And even though the process is slow, and require large amounts of input materials, sometimes it is faster than mining for days on end. 
+The crusher can recover all valuable crafting ingredients from most items, even from used tools.
+And converting blocks to stairs and back again sometimes create extra blocks.
+Almost all materials that are scarce at the beginning of the game have some ways of replication by crushing, cutting, crafting and compressing some items made of those materials.
+Please install REI to see all the recipes.
+
+Making the crusher and compressor do seemingly meaningless tasks quickly and repeatedly, may be used to create experience faster than fighting armies of mobs.
+
 
 ## License
 
